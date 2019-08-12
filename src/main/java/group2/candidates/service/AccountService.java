@@ -19,6 +19,10 @@ public class AccountService {
         this.accountRepository = accountRepository;
     }
 
+    public Account findByUsername(String username) {
+        return accountRepository.findAccountByUsername(username);
+    }
+
     // @Autowired
     // public void setAuthorityRepository(AuthorityRepository authorityRepository) {
     //     this.authorityRepository = authorityRepository;
