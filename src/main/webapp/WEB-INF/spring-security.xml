@@ -14,8 +14,7 @@
     <beans:bean id="passwordEncoder"
           class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
     </beans:bean>
-    <cors/>
-    <csrf disabled="true"/>
+
     <authentication-manager>
         <authentication-provider
                 user-service-ref="myUserDetailsService" >
