@@ -5,9 +5,8 @@
     http://www.springframework.org/schema/beans/spring-beans.xsd
     http://www.springframework.org/schema/security
     http://www.springframework.org/schema/security/spring-security.xsd">
-
-<http use-expressions="true">
-        <intercept-url pattern="/event/public" access="permitAll()" />
+    <http use-expressions="true">
+        <intercept-url pattern="/**" access="permitAll()"/>
     </http>
     <csrf disabled="true"/>
     <cors/>
@@ -15,7 +14,7 @@
     <authentication-manager>
         <authentication-provider>
             <user-service>
-                <user name="khanh" password="12345" authorities="ROLE_USER" />
+                <user name="khanh" password="12345" authorities="ROLE_USER"/>
             </user-service>
         </authentication-provider>
     </authentication-manager>
