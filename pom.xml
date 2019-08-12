@@ -81,7 +81,7 @@
     <finalName>CandidateManagement</finalName>
     <!--    <pluginManagement>-->
       <plugins>
-        <!-- <plugin>
+        <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
           <executions>
@@ -125,7 +125,7 @@
               </configuration>
             </execution>
           </executions>
-        </plugin> -->
+        </plugin>
         <plugin>
           <artifactId>maven-resources-plugin</artifactId>
           <version>3.0.2</version>
