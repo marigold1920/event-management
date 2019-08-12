@@ -12,7 +12,7 @@
 		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/EventManagement?useUnicode=true" />
 		<property name="username" value="root" />
-		<property name="password" value="12345678" />
+		<property name="password" value="12345" />
 	</bean>
 
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
