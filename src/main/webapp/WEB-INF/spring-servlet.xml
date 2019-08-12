@@ -12,7 +12,15 @@
 		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/EventManagement?useUnicode=true" />
 		<property name="username" value="root" />
-		<property name="password" value="12345" />
+		<property name="password" value="P@2sword" />
+	</bean>
+
+	<bean name="dataSource1" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="org.postgresql.Driver"/>
+		<property name="url"
+				  value="jdbc:postgresql://ec2-174-129-229-106.compute-1.amazonaws.com:5432/dae741ea4mtkc0?useUnicode=true&amp;sslmode=require"/>
+		<property name="username" value="letielvzrtscbw"/>
+		<property name="password" value="72595931d93d49b4f3b978dba621c6196b4dd6ace810c0f48bc5b47d3c9052be"/>
 	</bean>
 
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
@@ -27,7 +35,7 @@
 	</bean>
 
 	<bean name="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="dataSource" ref="dataSource" />
+		<property name="dataSource" ref="dataSource1" />
 		<property name="packagesToScan" value="group2.candidates.model" />
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
@@ -39,6 +47,7 @@
 				<prop key="hibernate.current_session_context_class">thread</prop>
 				<prop key="hibernate.enable_lazy_load_no_trans">true</prop>
 				<prop key="hibernate.jdbc.batch_versioned_data">true</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
 			</props>
 		</property>
 	</bean>
@@ -46,7 +55,13 @@
 	<bean name="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
+	<mvc:cors>
 
+		<mvc:mapping path="/**"
+					 allowed-origins="*"
+					 allowed-methods="*"/>
+
+	</mvc:cors>
 	<mvc:annotation-driven />
 	<mvc:default-servlet-handler />
 </beans>

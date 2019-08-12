@@ -155,6 +155,8 @@
                         <detail>true</detail>
                         <verbose>true</verbose>
                         <release>11</release>
+                        <source>${maven.compiler.source}</source>
+                        <target>${maven.compiler.target}</target>
                     </configuration>
                 </plugin>
                 <plugin>
