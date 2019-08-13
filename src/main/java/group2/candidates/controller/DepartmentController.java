@@ -27,7 +27,7 @@ public class DepartmentController {
      * Load all departments
      * @return Collection<Department>
      */
-    @GetMapping(value = "departments", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @GetMapping(value = "departments", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public Collection<Department> loadAllDepartments() {
         
         return departmentService.loadAllDepartments();
