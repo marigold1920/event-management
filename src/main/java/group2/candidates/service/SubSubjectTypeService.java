@@ -27,6 +27,11 @@ public class SubSubjectTypeService {
 
         return repository.saveAndFlush(subSubjectType);
     }
+    
+    public Collection<SubSubjectType> getAllSubSubjectTypes() {
+
+        return repository.findAll();
+    }
 
     @Autowired
     public void setRepository(SubSubjectTypeRepository repository) {
