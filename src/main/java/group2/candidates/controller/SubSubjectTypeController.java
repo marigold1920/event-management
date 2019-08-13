@@ -17,7 +17,7 @@ public class SubSubjectTypeController {
 
     private SubSubjectTypeService subSubjectTypeService;
 
-    @GetMapping(value = "skills", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @GetMapping(value = "skills", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public Collection<SubSubjectType> loadAllSubSubjectTypes() {
 
         return subSubjectTypeService.loadAllSubSubjectTypes();

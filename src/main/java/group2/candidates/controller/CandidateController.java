@@ -16,7 +16,7 @@ public class CandidateController {
 
     private CandidateService candidateService;
 
-    @GetMapping(value = "candidates/{paginationIndex}", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @GetMapping(value = "candidates/{paginationIndex}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public Collection<Candidate> loadCandidates(@PathVariable int paginationIndex) {
         if (paginationIndex < 1) return new ArrayList<>();
 

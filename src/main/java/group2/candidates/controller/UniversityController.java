@@ -17,7 +17,7 @@ public class UniversityController {
 
     private UniversityService universityService;
 
-    @GetMapping(value = "universities", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @GetMapping(value = "universities", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public Collection<University> loadUniversities() {
 
         return universityService.loadUniversity();

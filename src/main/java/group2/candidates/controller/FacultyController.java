@@ -18,7 +18,7 @@ public class FacultyController {
 
     private FacultyService facultyService;
 
-    @GetMapping(value = "faculties", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @GetMapping(value = "faculties", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public Collection<Faculty> loadAllFaculties() {
 
         return facultyService.loadAllFaculties();
