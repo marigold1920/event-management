@@ -9,26 +9,26 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(name = "Account")
+@Table(name = "account")
 public class Account implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
     @Id
-    @Column(name = "Username", length = 50)
+    @Column(length = 50)
     private String username;
-    @Column(name = "Password", length = 50, nullable = false)
+    @Column(length = 50, nullable = false)
     private String password;
-    @Column(name = "FirstName", length = 50)
+    @Column(length = 50)
     private String firstName;
-    @Column(name = "LastName", length = 50)
+    @Column(length = 50)
     private String lastName;
-    @Column(name = "Enabled")
+    @Column
     private Integer enabled;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(
-            name = "Accounts_Roles",
-            joinColumns = @JoinColumn(name = "Username"),
-            inverseJoinColumns = @JoinColumn(name = "Roles_Id"))
+            name = "accounts_roles",
+            joinColumns = @JoinColumn(name = "username"),
+            inverseJoinColumns = @JoinColumn(name = "roles_id"))
     private List<Authority> authorities = new ArrayList<>();
 }

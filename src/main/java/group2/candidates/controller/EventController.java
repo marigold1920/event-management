@@ -4,6 +4,7 @@ import group2.candidates.adapter.EventAdapter;
 import group2.candidates.adapter.SectionAdapter;
 import group2.candidates.model.data.Event;
 import group2.candidates.service.*;
+import group2.candidates.tool.JsonParser;
 import group2.candidates.tool.PoolService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -75,11 +76,23 @@ public class EventController {
     }
 
     /**
+     *
+     * @param eventId
+     * @return
+     */
+    @GetMapping(value = "event", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    public Event getEventById(@Param("eventId") Integer eventId) {
+        var event = eventService.findEventByEventId(eventId).orElse(Event.builder().build());
+
+        return event;
+    }
+
+    /**
      * Load events, page size: 10
      * @param paginationIndex page number
      * @return Collection<Event>, will be converted to json by RestController
      */
-    @GetMapping(value = "events/{paginationIndex}", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @GetMapping(value = "events/{paginationIndex}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public Collection<Event> loadEvents(@PathVariable int paginationIndex) {
         if (paginationIndex < 1)
             return new ArrayList<>();

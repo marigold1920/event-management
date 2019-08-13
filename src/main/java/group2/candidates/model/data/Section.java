@@ -11,7 +11,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "Section")
+@Table(name = "section")
 public class Section implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -19,25 +19,25 @@ public class Section implements Serializable {
     @EmbeddedId @Setter private SectionPK sectionId;
 
     @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE }, fetch = FetchType.LAZY)
-    @JoinColumn(name = "EventId", insertable = false, updatable = false)
+    @JoinColumn(name = "eventid", insertable = false, updatable = false)
     private Event event;
 
     @Setter
     @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.DETACH }, fetch = FetchType.LAZY)
-    @JoinColumn(name = "CandidateId", insertable = false, updatable = false)
+    @JoinColumn(name = "candidateid", insertable = false, updatable = false)
     private Candidate candidate;
 
-    @Column(name = "ContractType") //ENUMERATION
+    @Column(name = "contracttype") //ENUMERATION
     private String contractType;
-    @Column(name = "CandidateStatus")
+    @Column(name = "candidatestatus")
     private String candidateStatus;
-    @Column(name = "FinalGrade")
+    @Column(name = "finalgrade")
     private String finalGrade;
-    @Column(name = "CompletionLevel")
+    @Column(name = "completionlevel")
     private String completionLevel;
-    @Column(name = "CertificatedId")
+    @Column(name = "certificatedid")
     private String certificatedId;
-    @Column(name = "Note")
+    @Column(name = "note")
     private String note;
 
     @PrePersist

@@ -48,6 +48,10 @@ public class SectionService {
        return  repository.saveAndFlush(section);
     }
 
+    Collection<Section> getAllSection(){
+        return repository.findAll();
+    }
+
     @Autowired
     public void setRepository(SectionRepository repository) {
         this.repository = repository;

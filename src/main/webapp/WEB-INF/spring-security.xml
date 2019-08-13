@@ -7,7 +7,7 @@
     http://www.springframework.org/schema/security/spring-security.xsd">
     <global-method-security pre-post-annotations="enabled" />
 
-    <http pattern="/**" security="none"/>
+    <http pattern="/**" security="none"></http>
 
     <beans:bean id="myUserDetailsService"
           class="group2.candidates.service.UserdetailsService"/>
@@ -16,9 +16,14 @@
     </beans:bean>
 
     <authentication-manager>
-        <authentication-provider
-                user-service-ref="myUserDetailsService" >
-            <password-encoder ref="passwordEncoder"></password-encoder>
+<!--        <authentication-provider-->
+<!--                user-service-ref="myUserDetailsService" >-->
+<!--            <password-encoder ref="passwordEncoder"></password-encoder>-->
+<!--        </authentication-provider>-->
+        <authentication-provider>
+            <user-service>
+                <user name="khanh" password="12345" authorities="ROLE_USER" />
+            </user-service>
         </authentication-provider>
     </authentication-manager>
 </beans:beans>

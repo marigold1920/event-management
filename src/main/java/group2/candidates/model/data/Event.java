@@ -14,13 +14,13 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "Event")
+@Table(name = "event")
 public class Event implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "EventId")
+    @Column(name = "eventid")
     @GenericGenerator(name = "generator", strategy = "increment")
     @GeneratedValue(generator = "generator")
     private Integer eventId;
@@ -29,60 +29,60 @@ public class Event implements Serializable {
     private Set<Section> candidates;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CampusLinkProgramCode", referencedColumnName = "Code")
+    @JoinColumn(name = "campuslinkprogramcode", referencedColumnName = "code")
     @Setter
     private CampusLinkProgram campusLinkProgram;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "SubSubjectTypeId")
+    @JoinColumn(name = "subsubjecttypeid")
     private SubSubjectType subSubjectType;
 
-    @Column(name = "CourseCode", unique = true)
+    @Column(name = "coursecode", unique = true)
     private String courseCode;
     @Transient private String courseName;
-    @Column(name = "BudgetCode")
+    @Column(name = "budgetcode")
     private String budgetCode;
-    @Column(name = "SubjectType")
+    @Column(name = "subjecttype")
     private String subjectType;
-    @Column(name = "FormatType")
+    @Column(name = "formattype")
     private String formatType;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Supplier", referencedColumnName = "UniversityId")
+    @JoinColumn(name = "supplier", referencedColumnName = "universityid")
     private University supplier;
 
-    @Column(name = "PlannedStartDate")
+    @Column(name = "plannedstartdate")
     private LocalDate plannedStartDate;
-    @Column(name = "PlannedEndDate")
+    @Column(name = "plannedenddate")
     private LocalDate plannedEndDate;
-    @Column(name = "PlannedExpense")
+    @Column(name = "plannedexpense")
     private String plannedExpense;
-    @Column(name = "ActualStartDate")
+    @Column(name = "actualstartdate")
     @Convert(converter = LocalDatePersistenceConverter.class)
     private LocalDate actualStartDate;
-    @Column(name = "ActualEndDate")
+    @Column(name = "actualenddate")
     @Convert(converter = LocalDatePersistenceConverter.class)
     private LocalDate actualEndDate;
-    @Column(name = "ActualLearningTime")
+    @Column(name = "actuallearningtime")
     private Integer actualLearningTime;
 
     @Transient private int actualNumberOfTrainees; //plannedNumberOfStudents - attend with status Canceled
     @Transient private int actualNumberOfEnrolled; //plannedNumberOfStudents - attend with status Drop-out
     @Transient private int numberOfCandidateCitified; //total of attend with status Passed
 
-    @Column(name = "ActualExpense")
+    @Column(name = "actualexpense")
     private String actualExpense;
-    @Column(name = "TrainingFeedBack")
+    @Column(name = "trainingfeedback")
     private String trainingFeedback;
-    @Column(name = "TrainingFeedBackTeacher")
+    @Column(name = "trainingfeedbackteacher")
     private String trainingFeedbackTeacher;
-    @Column(name = "TrainingFeedBackContent")
+    @Column(name = "trainingfeedbackcontent")
     private String trainingFeedbackContent;
-    @Column(name = "TrainingFeedBackOrganization")
+    @Column(name = "trainingfeedbackqrganization")
     private String trainingFeedbackOrganization;
-    @Column(name = "Note")
+    @Column(name = "note")
     private String note;
-    @Column(name = "EventStatus")
+    @Column(name = "eventstatus")
     private String eventStatus;
 
     @PrePersist

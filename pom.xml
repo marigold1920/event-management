@@ -70,25 +70,27 @@
             <scope>provided</scope>
         </dependency>
 
+
         <dependency>
-            <groupId>postgresql</groupId>
+            <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>9.1-901-1.jdbc4</version>
+            <version>42.2.5</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
-            <version>5.1.2.RELEASE</version>
+            <version>5.1.6.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
-            <version>5.1.2.RELEASE</version>
+            <version>5.1.6.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
-            <version>5.1.2.RELEASE</version>
+            <version>5.1.6.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -156,53 +158,53 @@
         <finalName>CandidateManagement</finalName>
 <!--        <pluginManagement>-->
             <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-dependency-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>copy</goal>
-                            </goals>
-                            <configuration>
-                                <artifactItems>
-                                    <artifactItem>
-                                        <groupId>com.github.jsimone</groupId>
-                                        <artifactId>webapp-runner</artifactId>
-                                        <version>9.0.20.0</version>
-                                        <destFileName>webapp-runner.jar</destFileName>
-                                    </artifactItem>
-                                </artifactItems>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-clean-plugin</artifactId>
-                    <version>3.1.0</version>
-                    <executions>
-                        <execution>
-                            <id>clean-jar-artifacts</id>
-                            <phase>install</phase>
-                            <goals>
-                                <goal>clean</goal>
-                            </goals>
-                            <configuration>
-                                <excludeDefaultDirectories>true</excludeDefaultDirectories>
-                                <filesets>
-                                    <fileset>
-                                        <directory>target</directory>
-                                        <excludes>
-                                            <exclude>*.war</exclude>
-                                            <exclude>dependency/*.jar</exclude>
-                                        </excludes>
-                                    </fileset>
-                                </filesets>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
+<!--                <plugin>-->
+<!--                    <groupId>org.apache.maven.plugins</groupId>-->
+<!--                    <artifactId>maven-dependency-plugin</artifactId>-->
+<!--                    <executions>-->
+<!--                        <execution>-->
+<!--                            <phase>package</phase>-->
+<!--                            <goals>-->
+<!--                                <goal>copy</goal>-->
+<!--                            </goals>-->
+<!--                            <configuration>-->
+<!--                                <artifactItems>-->
+<!--                                    <artifactItem>-->
+<!--                                        <groupId>com.github.jsimone</groupId>-->
+<!--                                        <artifactId>webapp-runner</artifactId>-->
+<!--                                        <version>9.0.20.0</version>-->
+<!--                                        <destFileName>webapp-runner.jar</destFileName>-->
+<!--                                    </artifactItem>-->
+<!--                                </artifactItems>-->
+<!--                            </configuration>-->
+<!--                        </execution>-->
+<!--                    </executions>-->
+<!--                </plugin>-->
+<!--                <plugin>-->
+<!--                    <artifactId>maven-clean-plugin</artifactId>-->
+<!--                    <version>3.1.0</version>-->
+<!--                    <executions>-->
+<!--                        <execution>-->
+<!--                            <id>clean-jar-artifacts</id>-->
+<!--                            <phase>install</phase>-->
+<!--                            <goals>-->
+<!--                                <goal>clean</goal>-->
+<!--                            </goals>-->
+<!--                            <configuration>-->
+<!--                                <excludeDefaultDirectories>true</excludeDefaultDirectories>-->
+<!--                                <filesets>-->
+<!--                                    <fileset>-->
+<!--                                        <directory>target</directory>-->
+<!--                                        <excludes>-->
+<!--                                            <exclude>*.war</exclude>-->
+<!--                                            <exclude>dependency/*.jar</exclude>-->
+<!--                                        </excludes>-->
+<!--                                    </fileset>-->
+<!--                                </filesets>-->
+<!--                            </configuration>-->
+<!--                        </execution>-->
+<!--                    </executions>-->
+<!--                </plugin>-->
                 <plugin>
                     <artifactId>maven-resources-plugin</artifactId>
                     <version>3.0.2</version>

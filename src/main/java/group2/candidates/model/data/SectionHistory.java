@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 @Entity
 @Data
-@Table(name = "SectionHistory")
+@Table(name = "sectionhistory")
 public class SectionHistory implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -18,21 +18,21 @@ public class SectionHistory implements Serializable {
     @Id
     @GenericGenerator(name = "generator", strategy = "increment")
     @GeneratedValue(generator = "generator")
-    @Column(name = "SectionHistoryId")
+    @Column(name = "sectionhistoryid")
     private Integer sectionHistoryId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
-        @JoinColumn(name = "CandidateId"),
-        @JoinColumn(name = "EventId")
+        @JoinColumn(name = "candidateid"),
+        @JoinColumn(name = "eventid")
     })
     private Section section;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "UpdatedBy", referencedColumnName = "Username")
+    @JoinColumn(name = "updatedby", referencedColumnName = "username")
     private Account updatedBy;
 
-    @Column(name = "UpdatedDate")
+    @Column(name = "updateddate")
     @Convert(converter = LocalDatePersistenceConverter.class)
     private LocalDate updatedDate;
 }

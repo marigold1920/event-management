@@ -15,28 +15,28 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 @Getter
-@Table(name = "Department")
+@Table(name = "department")
 public class Department implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "DepartmentId")
+    @Column(name = "departmentid")
     @GenericGenerator(name = "generator", strategy = "increment")
     @GeneratedValue(generator = "generator")
     private Integer departmentId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "FacultyId")
+    @JoinColumn(name = "facultyid")
     private Faculty faculty;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "UniversityId")
+    @JoinColumn(name = "universityid")
     private University university;
 
-    @Column(name = "CooperationStartDate")
+    @Column(name = "cooperationstartdate")
     // @Convert(converter = LocalDatePersistenceConverter.class)
     private String cooperationStartDate;
-    @Column(name = "Level")
+    @Column(name = "level")
     private Integer level;
 }

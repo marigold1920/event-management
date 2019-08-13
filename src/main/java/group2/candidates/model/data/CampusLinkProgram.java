@@ -7,16 +7,16 @@ import java.io.Serializable;
 
 @Entity
 @Data
-@Table(name = "CampusLinkProgram")
+@Table(name = "campuslinkprogram")
 public class CampusLinkProgram implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "Code", length = 50)
+    @Column(length = 50)
     private String code;
-    @Column(name = "Name", length = 50, nullable = false)
+    @Column(length = 50, nullable = false)
     private String name;
-    @Column(name = "LearningTime")
+    @Column
     private Integer learningTime;
 }

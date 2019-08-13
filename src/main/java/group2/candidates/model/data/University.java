@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "University")
+@Table(name = "university")
 public class University implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -20,15 +20,15 @@ public class University implements Serializable {
     @Id
     @GenericGenerator(name = "generator", strategy = "increment")
     @GeneratedValue(generator = "generator")
-    @Column(name = "UniversityId")
+    @Column(name = "universityid")
     private Integer universityId;
 
-    @Column(name = "HotKey")
+    @Column(name = "hotkey")
     private String uniHotKey;
-    @Column(name = "UniversityCode")
+    @Column(name = "universitycode")
     private String universityCode;
-    @Column(name = "UniversityName")
+    @Column(name = "universityname")
     private String universityName;
-    @Column(name = "Site")
+    @Column(name = "site")
     private String site;
 }
