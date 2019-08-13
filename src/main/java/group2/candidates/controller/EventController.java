@@ -141,6 +141,15 @@ public class EventController {
                 .saveEvent(eventAdapter.buildEvent(subSubjectTypeService, universityService, campusLinkProgramService));
     }
 
+//    @PutMapping(value = "events", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+//    public void updateEventInformation(@RequestBody String eventAdapter) {
+//        Objects.requireNonNull(eventAdapter);
+//        System.out.println(eventAdapter);
+//
+////        return eventService
+////                .saveEvent(eventAdapter.buildEvent(subSubjectTypeService, universityService, campusLinkProgramService));
+//    }
+
     @Autowired
     public void setEventService(EventService eventService) {
         this.eventService = eventService;

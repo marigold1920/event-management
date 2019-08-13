@@ -20,23 +20,23 @@ public class StatisticsController {
         this.statisticsService = statisticsService;
     }
 
-    @GetMapping(value = "subSubjectType", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @GetMapping(value = "subSubjectType", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public Map<String, Integer> reportSubSubjectType(){
         return statisticsService.reportSubsubjectType();
     }
 
-    @GetMapping(value = "campusLink", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @GetMapping(value = "campusLink", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public Map<String, Integer> reportCampusLink(){
         return statisticsService.reportCampusLinkProgram();
     }
 
-    @GetMapping(value = "event-status", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @GetMapping(value = "event-status", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public Map<String, Integer> reportEventStatus(){
         return statisticsService.reportEventStatus();
     }
 
-    @GetMapping(value = "section-status", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @GetMapping(value = "section-status", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public Map<String, Integer> reportSectionStatus(){
-        return statisticsService.reportSessionStatus();
+        return statisticsService.reportSectionStatus();
     }
 }

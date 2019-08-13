@@ -23,7 +23,7 @@ public class AccountController {
      * get all accounts
      * @return Set all accounts
      */
-    @GetMapping(value = "/accounts", produces = { "application/json;charset=UTF-8" })
+    @GetMapping(produces = { "application/json;charset=UTF-8" })
     public List<Account> getAllAccount(){
         return accountService.loadAllAccounts();
     }
@@ -31,10 +31,10 @@ public class AccountController {
     /**
      * Add a new account to system.
      * @param account the new account
-     * @return true if add success, otherwise return false
+     * @return Added account if add success, otherwise return null.
      */
-    @PostMapping(value = "/save", produces = { "application/json;**charset=UTF-8**"} )
-    public boolean saveAccount(@RequestBody Account account){
+    @PostMapping(produces = { "application/json;**charset=UTF-8**"} )
+    public Account saveAccount(@RequestBody Account account){
 
         return accountService.addAccount(account);
     }
@@ -42,9 +42,9 @@ public class AccountController {
     /**
      * Update the new account.
      * @param account the updated account.
-     * @return return the new account if update success, otherwise return false.
+     * @return Updated account if add success, otherwise return null.
      */
-    @PatchMapping(value ="/update", produces = { "application/json;**charset=UTF-8**"})
+    @PatchMapping(produces = { "application/json;**charset=UTF-8**"})
     public Account updateAccount(@RequestBody Account account){
         return accountService.updateAccount(account);
     }
@@ -52,20 +52,20 @@ public class AccountController {
     /**
      * Disable an account.
      * @param username the account's username.
-     * @return true if disable success, otherwise false.
+     * @return Disabled account if add success, otherwise return null.
      */
     @PatchMapping(value = "/disable/{username}")
-    public boolean disableAccount(@PathVariable("username") String username){
+    public Account disableAccount(@PathVariable("username") String username){
         return accountService.disableAccount(username);
     }
 
     /**
      * Enable an account
      * @param username the account's username
-     * @return true if enable success, otherwise false.
+     * @return Enabled account if add success, otherwise return null.
      */
     @PatchMapping(value = "/enable/{username}")
-    public boolean enableAccount(@PathVariable("username") String username){
+    public Account enableAccount(@PathVariable("username") String username){
         return accountService.enableAccount(username);
     }
 
@@ -73,10 +73,10 @@ public class AccountController {
      *
      * @param authoritiesID the array account's authority ids.
      * @param username the username.
-     * @return return true if update success, otherwise return false.
+     * @return Updated account if add success, otherwise return null.
      */
-    @PatchMapping(value = "/update-roles", produces = { "application/json;**charset=UTF-8**"} )
-    public boolean updateRoles(@RequestBody List<Authority> authoritiesID, @Param("username") String username){
+    @PatchMapping(value = "update-roles", produces = { "application/json;**charset=UTF-8**"} )
+    public Account updateRoles(@RequestBody List<Authority> authoritiesID, @Param("username") String username){
         return accountService.updateRole(username, authoritiesID);
     }
 }
