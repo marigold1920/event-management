@@ -1,5 +1,6 @@
 package group2.candidates.controller;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -38,7 +39,7 @@ public class DepartmentController {
      * @param departments collection of department after converting from json string
      * @return Collection<Department> after saving
      */
-    @PostMapping(value = "", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @PostMapping(value = "departments", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public Collection<Department> saveDepartments(@RequestBody Collection<DepartmentAdapter> departments) {
 
         return departments.stream()
