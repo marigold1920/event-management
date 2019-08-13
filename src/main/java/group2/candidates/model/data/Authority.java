@@ -20,8 +20,5 @@ public class Authority implements Serializable {
     private Integer authorityId;
     @Column(nullable = false, length = 50)
     private String userRole;
-//    @JsonIgnore
-//    @ManyToMany(mappedBy = "authoritys", fetch = FetchType.LAZY)
-//    private List<Account> Accounts = new ArrayList<>();
 }
 

@@ -4,7 +4,6 @@ import group2.candidates.adapter.EventAdapter;
 import group2.candidates.adapter.SectionAdapter;
 import group2.candidates.model.data.Event;
 import group2.candidates.service.*;
-import group2.candidates.tool.JsonParser;
 import group2.candidates.tool.PoolService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -140,15 +139,6 @@ public class EventController {
         return eventService
                 .saveEvent(eventAdapter.buildEvent(subSubjectTypeService, universityService, campusLinkProgramService));
     }
-
-//    @PutMapping(value = "events", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-//    public void updateEventInformation(@RequestBody String eventAdapter) {
-//        Objects.requireNonNull(eventAdapter);
-//        System.out.println(eventAdapter);
-//
-////        return eventService
-////                .saveEvent(eventAdapter.buildEvent(subSubjectTypeService, universityService, campusLinkProgramService));
-//    }
 
     @Autowired
     public void setEventService(EventService eventService) {

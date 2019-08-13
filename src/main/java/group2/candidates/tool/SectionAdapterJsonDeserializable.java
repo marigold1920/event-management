@@ -35,7 +35,7 @@ public class SectionAdapterJsonDeserializable implements JsonDeserializer<Sectio
                     .finalGrade((element = jsonObj.get(isExcel ? "Final grade" : "finalGrade")) == null ? null : element.getAsString())
                     .completionLevel((element = jsonObj.get(isExcel ? "Completion level" : "completionLevel")) == null ? null : element.getAsString())
                     .certificateId((element = jsonObj.get(isExcel ? "Certificate ID" : "certificateId")) == null ? null : element.getAsString())
-                    .updatedBy((element = jsonObj.get(isExcel ? "Updated by" : "updatedBy")) == null ? null : element.getAsString())
+                    // .updatedBy((element = jsonObj.get(isExcel ? "Updated by" : "updatedBy")) == null ? null : element.getAsString())
                     .note((element = jsonObj.get(isExcel ? "Note" : "note")) == null ? null : element.getAsString())
                     .contractType((element = jsonObj.get(isExcel ? "1st contract Type" : "contractType")) == null ? null : element.getAsString())
                 .build();
