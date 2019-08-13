@@ -20,48 +20,48 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "Candidate")
+@Table(name = "candidate")
 public class Candidate implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "CandidateId")
+    @Column
     private Integer candidateId;
     
     @OneToMany(mappedBy = "candidate", cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE })
     @Expose private Set<Section> events;
     
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE })
-    @JoinColumn(name = "DepartmentId")
+    @JoinColumn(name = "departmentId")
     @Setter
     private Department university;
     
-    @Column(name = "Account")
+    @Column
     private String account;
-    @Column(name = "NationalId")
+    @Column
     private String nationalId;
-     @Column(name = "Name")
+     @Column
      private String name;
     // @Convert(converter = LocalDatePersistenceConverter.class)
-    @Column(name = "DOB")
+    @Column
     private String dayOfBirth;
-    @Column(name = "Gender")
+    @Column
     private String gender;
-    @Column(name = "Email")
+    @Column
     private String email;
-    @Column(name = "Phone")
+    @Column
     private String phone;
-    @Column(name = "Facebook")
+    @Column
     private String facebook;
     // @Convert(converter = LocalDatePersistenceConverter.class)
-    @Column(name = "GraduationDate")
+    @Column
     private Integer graduationDate;
     @Convert(converter = LocalDatePersistenceConverter.class)
-    @Column(name = "FullTimeWorking")
+    @Column
     private LocalDate fullTimeWorking;
-    @Column(name = "Skill")
+    @Column
     private String skill;
-    @Column(name = "GPA")
+    @Column
     private Double gpa;
 }

@@ -19,20 +19,20 @@
     <context:component-scan base-package="group2.candidates"/>
     <jpa:repositories base-package="group2.candidates.repository"/>
 
-    <!--    <bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
-    <!--        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>-->
-    <!--        <property name="url" value="jdbc:mysql://localhost:3306/EventManagement?useUnicode=true"/>-->
-    <!--        <property name="username" value="root"/>-->
-    <!--        <property name="password" value="P@2sword"/>-->
-    <!--    </bean>-->
+        <bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+            <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="url" value="jdbc:mysql://localhost:3306/EventManagement?useUnicode=true"/>
+            <property name="username" value="root"/>
+            <property name="password" value="P@2sword"/>
+        </bean>
 
-    <bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.postgresql.Driver"/>
-        <property name="url"
-                  value="jdbc:postgresql://ec2-174-129-229-106.compute-1.amazonaws.com:5432/dae741ea4mtkc0?useUnicode=true&amp;sslmode=require"/>
-        <property name="username" value="letielvzrtscbw"/>
-        <property name="password" value="72595931d93d49b4f3b978dba621c6196b4dd6ace810c0f48bc5b47d3c9052be"/>
-    </bean>
+<!--    <bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+<!--        <property name="driverClassName" value="org.postgresql.Driver"/>-->
+<!--        <property name="url"-->
+<!--                  value="jdbc:postgresql://ec2-174-129-229-106.compute-1.amazonaws.com:5432/dae741ea4mtkc0?useUnicode=true&amp;sslmode=require"/>-->
+<!--        <property name="username" value="letielvzrtscbw"/>-->
+<!--        <property name="password" value="72595931d93d49b4f3b978dba621c6196b4dd6ace810c0f48bc5b47d3c9052be"/>-->
+<!--    </bean>-->
 
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
         <property name="messageConverters">
@@ -58,8 +58,8 @@
                 <prop key="hibernate.current_session_context_class">thread</prop>
                 <prop key="hibernate.enable_lazy_load_no_trans">true</prop>
                 <prop key="hibernate.jdbc.batch_versioned_data">true</prop>
-                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL10Dialect</prop>
-                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+                <prop key="hibernate.hbm2ddl.auto">create</prop>
                 <prop key="hibernate.show_sql">true</prop>
             </props>
         </property>

@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Embeddable
@@ -15,10 +12,11 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Data
 @Access(AccessType.FIELD)
+@Table(name = "sectionpk")
 public class SectionPK implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "EventId") private Integer eventId;
-    @Column(name = "CandidateId") private Integer candidateId;
+    @Column(name = "eventid") private Integer eventId;
+    @Column(name = "candidateid") private Integer candidateId;
 }

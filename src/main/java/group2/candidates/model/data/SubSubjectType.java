@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Entity
 @Data
-@Table(name = "SubSubjectType")
+@Table(name = "subsubjecttype")
 public class SubSubjectType implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -16,9 +16,9 @@ public class SubSubjectType implements Serializable {
     @Id
     @GenericGenerator(name = "generator", strategy = "increment")
     @GeneratedValue(generator = "generator")
-    @Column(name = "SubSubjectTypeId")
+    @Column(name = "subsubjecttypeid")
     private Integer subSubjectTypeId;
 
-    @Column(name = "SubSubjectTypeName")
+    @Column(name = "subsubjecttypename")
     private String subSubjectTypeName;
 }

@@ -8,17 +8,17 @@ import java.io.Serializable;
 
 @Data
 @Entity
-@Table(name = "Authority")
+@Table(name = "authority")
 public class Authority implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "AuthorityId")
+    @Column
     @GenericGenerator(name = "generator", strategy = "increment")
     @GeneratedValue(generator = "generator")
     private Integer authorityId;
-    @Column(name = "UserRole", nullable = false, length = 50)
+    @Column(nullable = false, length = 50)
     private String userRole;
 //    @JsonIgnore
 //    @ManyToMany(mappedBy = "authoritys", fetch = FetchType.LAZY)
