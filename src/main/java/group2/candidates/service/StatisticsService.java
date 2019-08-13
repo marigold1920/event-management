@@ -102,7 +102,7 @@ public class StatisticsService {
      * This function is used to report number of section's status.
      * @return a Map reported section's status.
      */
-    public Map<String, Integer> reportSessionStatus(){
+    public Map<String, Integer> reportSectionStatus(){
         var sectionList = sectionService.getAllSection();
         Map<String, Integer> result = new HashMap<>();
         for (Section section : sectionList) {

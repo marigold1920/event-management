@@ -23,15 +23,6 @@ public class AccountService {
         return accountRepository.findAccountByUsername(username);
     }
 
-    // @Autowired
-    // public void setAuthorityRepository(AuthorityRepository authorityRepository) {
-    //     this.authorityRepository = authorityRepository;
-    // }
-
-    /**
-     * Load all account from system.
-     * @return the list all accounts.
-     */
     public List<Account> loadAllAccounts(){
         return accountRepository.findAll();
     }
@@ -40,14 +31,13 @@ public class AccountService {
     /**
      * Add new account to system.
      * @param account the new account.
-     * @return if add success return true, otherwise return false.
+     * @return added account if enable success, otherwise return null.
      */
-    public boolean addAccount(Account account){
+    public Account addAccount(Account account){
         if(!accountRepository.findById(account.getUsername()).isPresent()){
-            accountRepository.saveAndFlush(account);
-            return true;
+            return accountRepository.saveAndFlush(account);
         }else{
-            return false;
+            return null;
         }
     }
 
@@ -55,7 +45,7 @@ public class AccountService {
     /**
      * Update a account.
      * @param account the new account
-     * @return the new account if update success otherwise null.
+     * @return updated account if update success, otherwise return null.
      */
     public Account updateAccount(Account account){
         if(accountRepository.findById(account.getUsername()).isPresent())
@@ -70,32 +60,32 @@ public class AccountService {
     /**
      * Disable account in system.
      * @param id the account's id
-     * @return true if disable success, otherwise return false;
+     * @return updated account if disable success, otherwise return null.
      */
-    public boolean disableAccount(String id){
+    public Account disableAccount(String id){
         var account = accountRepository.findById(id);
         if(account.isPresent()){
             account.get().setEnabled(0);
-            accountRepository.saveAndFlush(account.get());
-            return true;
+
+            return accountRepository.saveAndFlush(account.get());
         }else{
-            return false;
+            return null;
         }
     }
 
     /**
      * Enable account in system.
      * @param id the account's id
-     * @return true if enable success, otherwise return false;
+     * @return updated account if enable success, otherwise return null.
      */
-    public boolean enableAccount(String id){
+    public Account enableAccount(String id){
         var account = accountRepository.findById(id);
         if(account.isPresent()){
             account.get().setEnabled(1);
-            accountRepository.saveAndFlush(account.get());
-            return true;
+            return accountRepository.saveAndFlush(account.get());
+
         }else{
-            return false;
+            return null;
         }
     }
 
@@ -105,14 +95,13 @@ public class AccountService {
      * @param authorities the list new authorities
      * @return
      */
-    public boolean updateRole(String username, List<Authority> authorities){
+    public Account updateRole(String username, List<Authority> authorities){
         var account = accountRepository.findById(username);
         if(!account.isPresent()){
-            return false;
+            return null;
         }else{
             account.get().setAuthorities(authorities);
-            accountRepository.saveAndFlush(account.get());
-            return true;
+            return accountRepository.saveAndFlush(account.get());
         }
     }
 }
