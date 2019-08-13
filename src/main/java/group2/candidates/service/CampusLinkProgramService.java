@@ -1,5 +1,6 @@
 package group2.candidates.service;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,14 @@ public class CampusLinkProgramService  {
 
 		return repository.findProgramByName(courseName);
 	}
+	
+	/**
+     * get list all campus link program.
+     * @return the list of campus link program.
+     */
+	Collection<CampusLinkProgram> getAllCampusLinkProgram(){
+	    return repository.findAll();
+    }
 
     /**
      * @param repository the repository to set

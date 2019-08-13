@@ -81,4 +81,16 @@ public class EventService {
 
         return repository.changeEventStatusToCancelled(eventId);
     }
+    
+    /**
+     *  get all events
+     * @return list All events
+     */
+    public List<Event> getAllEvents(){
+        List<Event> list = repository.findAll();
+        for (Event e: list) {
+            System.out.println(e.getEventStatus());
+        }
+        return repository.findAll();
+    }
 }

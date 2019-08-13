@@ -1,5 +1,6 @@
 package group2.candidates.service;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,9 @@ public class UniversityService {
      * 
      * @param university
      */
-    public void saveUniversity(University university) {
-        repository.saveAndFlush(university);
+    public University saveUniversity(University university) {
+
+        return repository.saveAndFlush(university);
     }
 
     /**
@@ -37,5 +39,10 @@ public class UniversityService {
     @Autowired
     public void setRepository(UniversityRepository repository) {
         this.repository = repository;
+    }
+
+    public Collection<University> loadUniversity() {
+
+        return repository.findAll();
     }
 }
