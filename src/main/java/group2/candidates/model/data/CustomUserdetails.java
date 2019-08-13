@@ -9,6 +9,8 @@ import java.util.Collection;
 import java.util.List;
 
 public class CustomUserdetails implements UserDetails {
+
+    private static final long serialVersionUID = 1L;
     private Account account;
 
     public CustomUserdetails(Account account) {

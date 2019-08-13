@@ -35,7 +35,7 @@ public class SectionAdapter {
     private String finalGrade;
     private String completionLevel;
     private String certificateId;
-    private String updatedBy;
+    // private String updatedBy;
     // private LocalDate updatedDate; //GENERATION
     private String note;
     private String contractType;

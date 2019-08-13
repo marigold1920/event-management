@@ -13,8 +13,7 @@
        http://www.springframework.org/schema/mvc
        https://www.springframework.org/schema/mvc/spring-mvc.xsd
        http://www.springframework.org/schema/security
-       http://www.springframework.org/schema/security/spring-security.xsd
-">
+       http://www.springframework.org/schema/security/spring-security.xsd">
 
     <context:component-scan base-package="group2.candidates"/>
     <jpa:repositories base-package="group2.candidates.repository"/>
@@ -23,7 +22,7 @@
             <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
             <property name="url" value="jdbc:mysql://localhost:3306/EventManagement?useUnicode=true"/>
             <property name="username" value="root"/>
-            <property name="password" value="P@2sword"/>
+            <property name="password" value="`12345678"/>
         </bean>
 
 <!--    <bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
