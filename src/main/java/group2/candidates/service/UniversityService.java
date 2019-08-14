@@ -1,6 +1,8 @@
 package group2.candidates.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,21 @@ public class UniversityService {
     public University saveUniversity(University university) {
 
         return repository.saveAndFlush(university);
+    }
+
+    /**
+     * Get all university name in system.
+     * @return the list of university's name
+     */
+    public Collection<String> getAllUniversityName(){
+        List<String> universityNameList = new ArrayList<>();
+        List<University> universities = repository.findAll();
+        for (University university: universities) {
+            if(university.getUniversityName() != null) {
+                universityNameList.add(university.getUniversityName());
+            }
+        }
+        return universityNameList;
     }
 
     /**
