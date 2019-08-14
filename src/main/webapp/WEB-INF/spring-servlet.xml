@@ -15,12 +15,12 @@
     <context:component-scan base-package="group2.candidates"/>
     <jpa:repositories base-package="group2.candidates.repository"/>
 
-        <!--<bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-            <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
-            <property name="url" value="jdbc:mysql://localhost:3306/EventManagement?useUnicode=true"/>
-            <property name="username" value="root"/>
-            <property name="password" value="P@2sword"/>
-        </bean>-->
+<!--        <bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+<!--            <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>-->
+<!--            <property name="url" value="jdbc:mysql://localhost:3306/EventManagement?useUnicode=true"/>-->
+<!--            <property name="username" value="root"/>-->
+<!--            <property name="password" value="12345678"/>-->
+<!--        </bean>-->
 
     <bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.postgresql.Driver"/>
@@ -55,6 +55,7 @@
                 <prop key="hibernate.enable_lazy_load_no_trans">true</prop>
                 <prop key="hibernate.jdbc.batch_versioned_data">true</prop>
                 <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL10Dialect</prop>
+<!--                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</prop>-->
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
                 <prop key="hibernate.show_sql">true</prop>
             </props>

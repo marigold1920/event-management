@@ -27,11 +27,21 @@ public class CampusLinkProgramService  {
 	    return repository.findAll();
     }
 
+    public CampusLinkProgram saveCampusLinkProgram(CampusLinkProgram campusLinkProgram) {
+
+        return repository.saveAndFlush(campusLinkProgram);
+    }
+
     /**
      * @param repository the repository to set
      */
     @Autowired
     public void setRepository(CampusLinkProgramRepository repository) {
         this.repository = repository;
+    }
+
+    public Collection<CampusLinkProgram> loadCampusLinkPrograms() {
+
+        return repository.findAll();
     }
 }

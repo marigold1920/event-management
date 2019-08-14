@@ -14,7 +14,7 @@ public class DepartmentJsonSerializable implements JsonSerializer<Department> {
 	@Override
 	public JsonElement serialize(Department department, Type type, JsonSerializationContext context) {
         JsonObject jsonObj = new JsonObject();
-        jsonObj.addProperty("property", department.getDepartmentId());
+        jsonObj.addProperty("departmentId", department.getDepartmentId());
         jsonObj.addProperty("universityCode", department.getUniversity().getUniversityCode());
         jsonObj.addProperty("universityName", department.getUniversity().getUniversityName());
         jsonObj.addProperty("facultyCode", department.getFaculty().getFacultyCode());
