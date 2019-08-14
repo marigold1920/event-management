@@ -3,24 +3,28 @@ package group2.candidates.security;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-
+    private static final Logger log = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
     private final AuthenticationManager authenticationManager;
 
     private Properties env = new Properties();
@@ -40,22 +44,45 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         setFilterProcessesUrl(this.env.getProperty("AUTH_LOGIN_URL"));
     }
 
+    /**
+     * remember to send username and password in raw text and with only one line
+     * username go first, then password.
+     * Use & to separate the username and password
+     * format: username&password
+     * @param request
+     * @param response
+     * @return Authentication
+     * @throws AuthenticationException
+     */
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        String username = null;
+        String password = null;
+
+        try {
+            String body = request.getReader().lines().collect(Collectors.joining(";"));
+            logger.debug(body);
+            String[] usernamepassword = body.split("&");
+            username = usernamepassword[0];
+            password = usernamepassword[1];
+        } catch (IOException e) {
+            logger.fatal("Cannot not read the body of request", e);
+            throw new ArithmeticException("Cannot not read the body of request");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            logger.fatal("Not enought information");
+            throw new ArithmeticException("Not enought information");
+        }
         logger.debug("jwt authentication is invoked");
         logger.debug(username);
         logger.debug(password);
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
         logger.debug(authenticationManager.toString());
         return authenticationManager.authenticate(token);
-        //return this.getAuthenticationManager().authenticate(token);
     }
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) {
-        User account = (User) authResult.getPrincipal();
+        UserDetails account = (UserDetails) authResult.getPrincipal();
         System.out.println("user dd" + account.toString());
         List<String> authorities = account.getAuthorities()
                 .stream()

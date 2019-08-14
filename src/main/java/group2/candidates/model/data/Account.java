@@ -17,18 +17,19 @@ public class Account implements Serializable {
     @Id
     @Column(length = 50)
     private String username;
-    @Column(length = 50, nullable = false)
+    @Column(length = 60, nullable = false)
     private String password;
     @Column(length = 50)
     private String firstName;
     @Column(length = 50)
     private String lastName;
     @Column
-    private Integer enabled;
+    private boolean enabled;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "accounts_roles",
             joinColumns = @JoinColumn(name = "username"),
             inverseJoinColumns = @JoinColumn(name = "roles_id"))
     private List<Authority> authorities = new ArrayList<>();
+
 }
