@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -83,8 +84,8 @@ public class EventService {
     }
     
     /**
-     *  get all events
-     * @return list All events
+     *  get all events.
+     * @return list All events.
      */
     public List<Event> getAllEvents(){
         List<Event> list = repository.findAll();
@@ -92,5 +93,50 @@ public class EventService {
             System.out.println(e.getEventStatus());
         }
         return repository.findAll();
+    }
+
+    /**
+     * get all planning events.
+     * @return list of planning event.
+     */
+    public Collection<Event> getAllPlanningEvents(){
+        return repository.findPlanningEvents();
+    }
+
+    /**
+     * get all event in a particular month and year.
+     * @param month is the month.
+     * @param year is the year.
+     * @return all of event in that month and that year.
+     */
+    public Collection<Event> getAllEventsInMonth(String month, String year){
+        List<Event> eventList = repository.findAll();
+        List<Event> eventInMonthList = new ArrayList<>();
+        for (Event event : eventList) {
+            if(event.getPlannedStartDate().toString().contains(year + "-" + month)
+            || event.getPlannedEndDate().toString().contains(year + "-" + month)){
+                eventInMonthList.add(event);
+            }
+        }
+        return eventInMonthList;
+    }
+
+    /**
+     * get all events in a particular week.
+     * @param startDate the start date of the week.
+     * @param endDate the end date of the week.
+     * @return list of all events in that week.
+     */
+    public Collection<Event> getAllEventsInWeek(String startDate, String endDate){
+        List<Event> eventList = repository.findAll();
+        List<Event> eventInMonthList = new ArrayList<>();
+        for (Event event : eventList) {
+            if(event.getPlannedStartDate().toString().compareTo(startDate) <= 0
+                    || event.getPlannedEndDate().toString().compareTo(startDate) >= 0){
+                eventInMonthList.add(event);
+            }
+        }
+        return eventInMonthList;
+
     }
 }

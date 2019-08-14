@@ -33,6 +33,11 @@ public class UniversityController {
             .collect(Collectors.toList());
     }
 
+    @GetMapping(value = "universities-name", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    public Collection<String> getAllUniversityName(){
+        return universityService.getAllUniversityName();
+    }
+
     @Autowired
     public void setUniversityService(UniversityService universityService) {
         this.universityService = universityService;
