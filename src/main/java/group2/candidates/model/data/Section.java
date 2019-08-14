@@ -18,12 +18,12 @@ public class Section implements Serializable {
 
     @EmbeddedId @Setter private SectionPK sectionId;
 
-    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE }, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = { CascadeType.MERGE }, fetch = FetchType.LAZY)
     @JoinColumn(name = "eventid", insertable = false, updatable = false)
     private Event event;
 
     @Setter
-    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.DETACH }, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = { CascadeType.MERGE }, fetch = FetchType.LAZY)
     @JoinColumn(name = "candidateid", insertable = false, updatable = false)
     private Candidate candidate;
 

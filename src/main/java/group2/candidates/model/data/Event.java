@@ -52,8 +52,10 @@ public class Event implements Serializable {
     private University supplier;
 
     @Column(name = "plannedstartdate")
+    @Convert(converter = LocalDatePersistenceConverter.class)
     private LocalDate plannedStartDate;
     @Column(name = "plannedenddate")
+    @Convert(converter = LocalDatePersistenceConverter.class)
     private LocalDate plannedEndDate;
     @Column(name = "plannedexpense")
     private String plannedExpense;
@@ -78,7 +80,7 @@ public class Event implements Serializable {
     private String trainingFeedbackTeacher;
     @Column(name = "trainingfeedbackcontent")
     private String trainingFeedbackContent;
-    @Column(name = "trainingfeedbackqrganization")
+    @Column(name = "trainingfeedbackorganization")
     private String trainingFeedbackOrganization;
     @Column(name = "note")
     private String note;

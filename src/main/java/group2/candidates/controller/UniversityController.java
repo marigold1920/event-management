@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -17,7 +18,7 @@ public class UniversityController {
 
     private UniversityService universityService;
 
-    @GetMapping(value = "universities", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @GetMapping(value = "universities", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public Collection<University> loadUniversities() {
 
         return universityService.loadUniversity();
