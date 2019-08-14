@@ -27,18 +27,6 @@ public class SectionService {
     }
 
     /**
-     * Find section by using section id
-     * @param eventId id of event, a part of section's composite key
-     * @param candidateId id of candidates, a part of section's composite key
-     * @return Optional<Section>, crapper of null or section object
-     */
-    // public Optional<Section> findSectionBySectionId(String eventId, String candidateId) {
-    //     var sectionPK = new SectionPK(eventId, candidateId);
-
-    //     return repository.findById(sectionPK);
-    // }
-
-    /**
      * Save section to database
      * Use for Insert or Update section
      * @param section section

@@ -3,7 +3,7 @@ package group2.candidates.builder;
 import group2.candidates.model.data.Candidate;
 import group2.candidates.model.data.Department;
 import group2.candidates.model.data.Section;
-import group2.candidates.model.data.SectionPK;
+import group2.candidates.tool.PoolService;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -30,7 +30,7 @@ public class SectionCandidateBuilder extends SectionBuilder {
      * @param gpa gpa
      * @return SectionCandidateBuilder
      */
-    public SectionCandidateBuilder attend(String account, String nationalId, String name, String dob, String gender,
+    public SectionCandidateBuilder attend(PoolService pool, String account, String nationalId, String name, String dob, String gender,
                                           String email, String phone, String facebook, Integer universityGraduationDate, LocalDate fullTimeWorking, double gpa) {
         var candidate = Candidate.builder()
                 .candidateId(Objects.hash(name, email))
@@ -45,9 +45,10 @@ public class SectionCandidateBuilder extends SectionBuilder {
                 .gpa(gpa)
                 .graduationDate(universityGraduationDate)
                 .fullTimeWorking(fullTimeWorking)
+                .no(pool.getOrder())
                 .build();
         section.setCandidate(candidate);
-        section.setSectionId(new SectionPK(section.getEvent().getEventId(), candidate.getCandidateId()));
+
         return this;
     }
 

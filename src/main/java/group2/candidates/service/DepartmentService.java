@@ -24,6 +24,16 @@ public class DepartmentService {
     }
 
     /**
+     * Use to find an university by using university name
+     * @param universityName Name of university
+     * @param facultyName name of faculty
+     */
+    public Optional<Department> findDepartmentByNameAndFacultyName(String universityName, String facultyName) {
+
+        return repository.findDepartmentByNameAndFacultyName(universityName, facultyName);
+    }
+
+    /**
      * Use to save department
      * Formula: insert and update
      * @param department department to save

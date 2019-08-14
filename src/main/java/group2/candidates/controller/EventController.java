@@ -37,10 +37,11 @@ public class EventController {
      */
     @PostMapping(value = "sections", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public void saveCandidatesOfEventFromExcelFile(@RequestBody Collection<SectionAdapter> sectionAdapters) {
-        sectionAdapters.stream().collect(Collectors.groupingBy(SectionAdapter::getCourseCode, Collectors.toList()))
+        sectionAdapters.parallelStream().collect(Collectors.groupingBy(SectionAdapter::getCourseCode, Collectors.toList()))
                 .forEach((k, v) -> eventService.findEventByCourseCode(k).ifPresent(e -> {
                     e.getCandidates().addAll(
-                            v.stream().map(ca -> ca.buildSection(e, departmentService)).collect(Collectors.toList()));
+                            v.stream().map(ca -> ca.buildSection(e, departmentService)).collect(Collectors.toList())
+                    );
                     eventService.saveEvent(e);
                 }));
         pool.destroy();
@@ -81,9 +82,8 @@ public class EventController {
      */
     @GetMapping(value = "event", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public Event getEventById(@Param("eventId") Integer eventId) {
-        var event = eventService.findEventByEventId(eventId).orElse(Event.builder().build());
 
-        return event;
+        return eventService.findEventByEventId(eventId).orElse(Event.builder().build());
     }
 
     /**

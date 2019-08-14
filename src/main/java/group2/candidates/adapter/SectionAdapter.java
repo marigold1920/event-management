@@ -47,7 +47,7 @@ public class SectionAdapter {
                 .section()
                     .join(event, status, finalGrade, completionLevel, certificateId, note, contractType)
                 .candidate()
-                    .attend(account, nationalId, name, dob, gender,
+                    .attend(pool, account, nationalId, name, dob, gender,
                                         email, phone, facebook, universityGraduationDate, fullTimeWorking, gpa)
                     .department(department)
                 .build();

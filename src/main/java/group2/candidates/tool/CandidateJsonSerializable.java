@@ -14,9 +14,12 @@ public class CandidateJsonSerializable implements JsonSerializer<Candidate> {
 	@Override
 	public JsonElement serialize(Candidate  candidate, Type type, JsonSerializationContext context) {
         JsonObject jsonObj = new JsonObject();
+
         jsonObj.addProperty("candidateId", candidate.getCandidateId());
-        jsonObj.addProperty("university", candidate.getUniversity().getUniversity().getUniversityName());
+        jsonObj.addProperty("universityName", candidate.getUniversity().getUniversity().getUniversityName());
+        jsonObj.addProperty("facultyName", candidate.getUniversity().getFaculty().getName());
         jsonObj.addProperty("account", candidate.getAccount());
+        jsonObj.addProperty("email", candidate.getEmail());
         jsonObj.addProperty("nationalId", candidate.getNationalId());
         jsonObj.addProperty("name", candidate.getName());
         jsonObj.addProperty("dayOfBirth", candidate.getDayOfBirth());

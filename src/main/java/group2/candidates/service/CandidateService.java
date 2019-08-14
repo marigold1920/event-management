@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class CandidateService {
@@ -22,6 +23,11 @@ public class CandidateService {
     public Collection<Candidate> loadCandidates(int paginationIndex) {
 
         return repository.findAll(PageRequest.of(paginationIndex - 1, 10)).getContent();
+    }
+
+    public Optional<Candidate> findCandidateById(Integer candidateId) {
+
+        return repository.findById(candidateId);
     }
 
     /**

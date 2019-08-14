@@ -8,7 +8,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 
 import group2.candidates.model.data.Section;
-import group2.candidates.model.data.SectionPK;
 
 public class SectionJsonDeserializable implements JsonDeserializer<Section> {
 
@@ -19,8 +18,7 @@ public class SectionJsonDeserializable implements JsonDeserializer<Section> {
         JsonElement jsonElement;
 
          return Section.builder()
-                                        .sectionId(new SectionPK((jsonElement = jsonObj.get("eventId")) == null ? null : jsonElement.getAsInt(),
-                                                                                                  (jsonElement = jsonObj.get("candidateId")) == null ? null : jsonElement.getAsInt()))
+                                        .sectionId((jsonElement = jsonObj.get("sectionId")) == null ? null : jsonElement.getAsInt())
                                         .contractType((jsonElement = jsonObj.get("contractType")) == null ? null : jsonElement.getAsString())
                                         .candidateStatus((jsonElement = jsonObj.get("candidateStatus")) == null ? null : jsonElement.getAsString())
                                         .finalGrade((jsonElement = jsonObj.get("finalGrade")) == null ? null : jsonElement.getAsString())
