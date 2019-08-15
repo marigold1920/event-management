@@ -25,7 +25,4 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
 
     @Query("select e from Event e where e.courseCode = ?1")
 	Optional<Event> findEventByCourseCode(String courseCode);
-
-    @Query("SELECT e FROM Event e WHERE e.eventStatus = 'Planning' ORDER BY e.plannedStartDate ASC")
-    Collection<Event> findPlanningEvents();
 }

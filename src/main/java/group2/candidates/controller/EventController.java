@@ -140,17 +140,17 @@ public class EventController {
                 .saveEvent(eventAdapter.buildEvent(subSubjectTypeService, universityService, campusLinkProgramService));
     }
 
-    @GetMapping(value = "events/planning", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-    public Collection<Event> getAllPlanningEvents(){
-        return eventService.getAllPlanningEvents();
+    @GetMapping(value = "events/recent", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    public Collection<Event> getRecentEvents(){
+        return eventService.getRecentEvents();
     }
 
-    @GetMapping(value = "events/{year}/{month}", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @GetMapping(value = "events-month/{year}/{month}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public Collection<Event> getALlEventsInMonth(@PathVariable("year") String year, @PathVariable("month") String month){
-        return eventService.getAllEventsInMonth(month, year);
+        return eventService.getAllEventsInMonth(year, month);
     }
 
-    @GetMapping(value = "events/{start-date}/{end-date}", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    @GetMapping(value = "events-week/{start-date}/{end-date}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public Collection<Event> getAllEventInWeek(@PathVariable("start-date") String startDate, @PathVariable("end-date") String endDate){
         return eventService.getAllEventsInWeek(startDate, endDate);
     }
