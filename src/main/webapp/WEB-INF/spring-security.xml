@@ -37,6 +37,6 @@
         <csrf disabled="true"/>
         <custom-filter ref="myAuthenticationFilter" before="FORM_LOGIN_FILTER"/>
         <custom-filter ref="myAuthorizationFilter" before="ANONYMOUS_FILTER"/>
-        <intercept-url pattern="/account/**" access="hasRole('ROLE_ADMIN')"/>
+        <!--<intercept-url pattern="/account/**" access="hasRole('ROLE_ADMIN')"/>-->
     </http>
 </beans:beans>

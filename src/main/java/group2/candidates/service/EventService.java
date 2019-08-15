@@ -105,8 +105,7 @@ public class EventService {
         LocalDate firstDate = LocalDate.of(year, month,1);
         LocalDate lastDate = null;
         if(month != 12) {
-            firstDate = LocalDate.of(year, month + 1, 1);
-
+            lastDate = LocalDate.of(year, month + 1, 1);
         }else{
             lastDate = LocalDate.of(year + 1, 1, 1);
         }
