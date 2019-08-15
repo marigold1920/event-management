@@ -146,14 +146,14 @@ public class EventController {
         int year = LocalDate.now().getYear();
         int month = LocalDate.now().getMonthValue();
         LocalDate firstDate = LocalDate.of(year, month,1);
-        LocalDate lastDate = getLastDateOfMonth(year, month);
+        LocalDate lastDate = getFirstDateOfNextMonth(year, month);
         return eventService.getAllEventsInMonth(firstDate, lastDate);
     }
 
     @GetMapping(value = "events-month/{year}/{month}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public Collection<Event> getALlEventsInMonth(@PathVariable("year") int year, @PathVariable("month") int month){
         LocalDate firstDate = LocalDate.of(year, month,1);
-        LocalDate lastDate = getLastDateOfMonth(year, month);
+        LocalDate lastDate = getFirstDateOfNextMonth(year, month);
         return eventService.getAllEventsInMonth(firstDate, lastDate);
     }
 
@@ -172,12 +172,23 @@ public class EventController {
     }
 
 
+    /**
+     * The function is used to parse a String date to LocalDate
+     * @param dateStr String date
+     * @return LocalDate
+     */
     private LocalDate parseStringToLocalDate(String dateStr){
         String[] date = dateStr.split("-");
         return LocalDate.of(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]));
     }
 
-    private LocalDate getLastDateOfMonth(int year, int month){
+    /**
+     * Get the first date of next month.
+     * @param year the year of date.
+     * @param month the month of date.
+     * @return the first date of month.
+     */
+    private LocalDate getFirstDateOfNextMonth(int year, int month){
         LocalDate lastDate = null;
         if(month != 12) {
             lastDate = LocalDate.of(year, month + 1, 1);
