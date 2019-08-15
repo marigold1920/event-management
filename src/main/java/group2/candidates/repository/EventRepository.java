@@ -2,6 +2,7 @@ package group2.candidates.repository;
 
 import group2.candidates.model.data.Event;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -25,4 +26,13 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
 
     @Query("select e from Event e where e.courseCode = ?1")
 	Optional<Event> findEventByCourseCode(String courseCode);
+
+    @Query("SELECT e FROM Event e WHERE e.actualStartDate >= :first and e.actualStartDate < :last" +
+            " OR e.actualEndDate >= :first and e.actualEndDate < :last" +
+            " OR e.actualStartDate < :first AND e.actualEndDate > :last")
+    Collection<Event> findEventsInMonth(@Param("first") LocalDate firstDate, @Param("last") LocalDate lastDate);
+    @Query("SELECT e FROM Event e WHERE e.actualStartDate >= :first AND e.actualStartDate < :last" +
+            " OR e.actualEndDate >= :first AND e.actualEndDate <= :last" +
+            " OR e.actualStartDate < :first AND e.actualEndDate > :last")
+    Collection<Event> findEventsInWeek(@Param("first") LocalDate firstDate, @Param("last") LocalDate lastDate);
 }

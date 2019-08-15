@@ -36,19 +36,6 @@ public class CampusLinkProgramService  {
     }
 
     /**
-     * get all courses name in system.
-     * @return list of courses name.
-     */
-    public Collection<String> getAllCourseName(){
-        List<String> listCourseName = new ArrayList<>();
-        List<CampusLinkProgram> CampusLinkProgram = repository.findAll();
-        for (CampusLinkProgram campusLinkProgram: CampusLinkProgram) {
-            listCourseName.add(campusLinkProgram.getName());
-        }
-        return listCourseName;
-    }
-
-    /**
      * @param repository the repository to set
      */
     @Autowired
