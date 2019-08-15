@@ -29,5 +29,8 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
 
     @Query("SELECT e FROM Event e WHERE e.actualStartDate >= :first and e.actualStartDate < :last" +
             " OR e.actualEndDate >= :first and e.actualEndDate < :last")
-    Collection<Event> findEventsInRangeDate(@Param("first") LocalDate firstDate, @Param("last") LocalDate lastDate);
+    Collection<Event> findEventsInMonth(@Param("first") LocalDate firstDate, @Param("last") LocalDate lastDate);
+    @Query("SELECT e FROM Event e WHERE e.actualStartDate >= :first and e.actualStartDate < :last" +
+            " OR e.actualEndDate >= :first and e.actualEndDate <= :last")
+    Collection<Event> findEventsInWeek(@Param("first") LocalDate firstDate, @Param("last") LocalDate lastDate);
 }

@@ -35,11 +35,11 @@ public class SubSubjectTypeService {
         return repository.findAll();
     }
 
-    public Collection<String> getAllSubSubjectTypeName(){
+    public Collection<SubSubjectType> getAllSubSubjectTypeName(){
         List<SubSubjectType> subSubjectTypeList = repository.findAll();
-        List<String> subSubjectTypeNameList = new ArrayList<>();
+        List<SubSubjectType> subSubjectTypeNameList = new ArrayList<>();
         for (SubSubjectType subSubjectType: subSubjectTypeList) {
-            subSubjectTypeNameList.add(subSubjectType.getSubSubjectTypeName());
+            subSubjectTypeNameList.add(subSubjectType);
         }
 
         return subSubjectTypeNameList;

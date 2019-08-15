@@ -39,12 +39,12 @@ public class UniversityService {
      * Get all university name in system.
      * @return the list of university's name
      */
-    public Collection<String> getAllUniversityName(){
-        List<String> universityNameList = new ArrayList<>();
+    public Collection<University> getAllUniversityName(){
+        List<University> universityNameList = new ArrayList<>();
         List<University> universities = repository.findAll();
         for (University university: universities) {
             if(university.getUniversityName() != null) {
-                universityNameList.add(university.getUniversityName());
+                universityNameList.add(university);
             }
         }
         return universityNameList;

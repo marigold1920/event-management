@@ -98,9 +98,19 @@ public class EventService {
 
         int year = LocalDate.now().getYear();
         int month = LocalDate.now().getMonthValue();
+        return getEvents(year, month);
+    }
+
+    private Collection<Event> getEvents(int year, int month) {
         LocalDate firstDate = LocalDate.of(year, month,1);
-        LocalDate lastDate = LocalDate.of(year, month+1, 1);
-        Collection<Event> eventList = repository.findEventsInRangeDate(firstDate, lastDate);
+        LocalDate lastDate = null;
+        if(month != 12) {
+            firstDate = LocalDate.of(year, month + 1, 1);
+
+        }else{
+            lastDate = LocalDate.of(year + 1, 1, 1);
+        }
+        Collection<Event> eventList = repository.findEventsInMonth(firstDate, lastDate);
         return eventList;
     }
 
@@ -111,10 +121,7 @@ public class EventService {
      * @return all of event in that month and that year.
      */
     public Collection<Event> getAllEventsInMonth(int year, int month){
-        LocalDate firstDate = LocalDate.of(year, month,1);
-        LocalDate lastDate = LocalDate.of(year, month+1, 1);
-        Collection<Event> eventList = repository.findEventsInRangeDate(firstDate, lastDate);
-        return eventList;
+        return getEvents(year, month);
     }
 
     /**
@@ -128,7 +135,7 @@ public class EventService {
         String[] end = endDate.split("-");
         LocalDate startLocalDate = LocalDate.of(Integer.parseInt(start[0]), Integer.parseInt(start[1]), Integer.parseInt(start[2]));
         LocalDate endLocalDate = LocalDate.of(Integer.parseInt(end[0]), Integer.parseInt(end[1]), Integer.parseInt(end[2]));
-        Collection<Event> eventList = repository.findEventsInRangeDate(startLocalDate , endLocalDate);
+        Collection<Event> eventList = repository.findEventsInWeek(startLocalDate , endLocalDate);
         return eventList;
 
     }
