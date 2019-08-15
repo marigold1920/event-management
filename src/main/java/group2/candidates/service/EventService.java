@@ -90,37 +90,15 @@ public class EventService {
         return repository.findAll();
     }
 
-    /**
-     * get all events in this month.
-     * @return list of planning event.
-     */
-    public Collection<Event> getRecentEvents(){
-
-        int year = LocalDate.now().getYear();
-        int month = LocalDate.now().getMonthValue();
-        return getEvents(year, month);
-    }
-
-    private Collection<Event> getEvents(int year, int month) {
-        LocalDate firstDate = LocalDate.of(year, month,1);
-        LocalDate lastDate = null;
-        if(month != 12) {
-            lastDate = LocalDate.of(year, month + 1, 1);
-        }else{
-            lastDate = LocalDate.of(year + 1, 1, 1);
-        }
-        Collection<Event> eventList = repository.findEventsInMonth(firstDate, lastDate);
-        return eventList;
-    }
 
     /**
-     * get all event in a particular month and year.
-     * @param month is the month.
-     * @param year is the year.
-     * @return all of event in that month and that year.
+     * get all event in a particular month.
+     * @param firstDate the first date of the month.
+     * @param lastDate the first date of the next month(it's used to get the range of the particular month).
+     * @return
      */
-    public Collection<Event> getAllEventsInMonth(int year, int month){
-        return getEvents(year, month);
+    public Collection<Event> getAllEventsInMonth(LocalDate firstDate, LocalDate lastDate){
+        return repository.findEventsInMonth(firstDate, lastDate);
     }
 
     /**
@@ -129,13 +107,25 @@ public class EventService {
      * @param endDate the end date of the week.
      * @return list of all events in that week.
      */
-    public Collection<Event> getAllEventsInWeek(String startDate, String endDate){
-        String[] start = startDate.split("-");
-        String[] end = endDate.split("-");
-        LocalDate startLocalDate = LocalDate.of(Integer.parseInt(start[0]), Integer.parseInt(start[1]), Integer.parseInt(start[2]));
-        LocalDate endLocalDate = LocalDate.of(Integer.parseInt(end[0]), Integer.parseInt(end[1]), Integer.parseInt(end[2]));
-        Collection<Event> eventList = repository.findEventsInWeek(startLocalDate , endLocalDate);
-        return eventList;
+    public Collection<Event> getAllEventsInWeek(LocalDate startDate, LocalDate endDate){
+            return repository.findEventsInWeek(startDate , endDate);
+    }
 
+    /**
+     * get all event of a supplier in a range of date.
+     * @param startDate the start date of range.
+     * @param endDate the end date of range.
+     * @param supplierId the university Id.
+     * @return
+     */
+    public Collection<Event> getEventInRangOfUniversity(LocalDate startDate, LocalDate endDate, Integer supplierId){
+        Collection<Event> eventList = repository.findEventsInWeek(startDate , endDate);
+        List<Event> resultList = new ArrayList<>();
+        for (Event event: eventList) {
+            if(event.getSupplier().getUniversityId() == supplierId){
+                resultList.add(event);
+            }
+        }
+        return resultList;
     }
 }
