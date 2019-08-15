@@ -2,6 +2,7 @@ package group2.candidates.service;
 
 import group2.candidates.model.data.Event;
 import group2.candidates.repository.EventRepository;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -89,35 +90,18 @@ public class EventService {
         return repository.findAll();
     }
 
-    private List<Event> getEventInMonth(String year_month, List<Event> events){
-        List<Event> eventListResult = new ArrayList<>();
-        for (Event event : events) {
-            if(event.getPlannedStartDate().toString().contains(year_month)
-                    || event.getPlannedEndDate().toString().contains(year_month)
-                    || event.getActualStartDate().toString().contains(year_month)
-                    || event.getActualEndDate().toString().contains(year_month)){
-                eventListResult.add(event);
-            }
-        }
-        return eventListResult;
-    }
-
     /**
-     * get all planning events.
+     * get all events in this month.
      * @return list of planning event.
      */
     public Collection<Event> getRecentEvents(){
+
         int year = LocalDate.now().getYear();
         int month = LocalDate.now().getMonthValue();
-        String year_month =  year + "-";
-        if(month > 9){
-            year_month+= month;
-        }else{
-            year_month+= "0" + month;
-        }
-        List<Event> eventList = repository.findAll();
-        System.out.println(year_month);
-        return getEventInMonth(year_month, eventList);
+        LocalDate firstDate = LocalDate.of(year, month,1);
+        LocalDate lastDate = LocalDate.of(year, month+1, 1);
+        Collection<Event> eventList = repository.findEventsInRangeDate(firstDate, lastDate);
+        return eventList;
     }
 
     /**
@@ -126,15 +110,11 @@ public class EventService {
      * @param year is the year.
      * @return all of event in that month and that year.
      */
-    public Collection<Event> getAllEventsInMonth(String year, String month){
-        String year_month =  year + "-";
-        if(month.length() > 1){
-            year_month+= month;
-        }else{
-            year_month+= "0" + month;
-        }
-        List<Event> eventList = repository.findAll();
-        return getEventInMonth(year_month, eventList);
+    public Collection<Event> getAllEventsInMonth(int year, int month){
+        LocalDate firstDate = LocalDate.of(year, month,1);
+        LocalDate lastDate = LocalDate.of(year, month+1, 1);
+        Collection<Event> eventList = repository.findEventsInRangeDate(firstDate, lastDate);
+        return eventList;
     }
 
     /**
@@ -144,17 +124,12 @@ public class EventService {
      * @return list of all events in that week.
      */
     public Collection<Event> getAllEventsInWeek(String startDate, String endDate){
-        List<Event> eventList = repository.findAll();
-        List<Event> eventInMonthList = new ArrayList<>();
-        for (Event event : eventList) {
-            if((event.getPlannedStartDate().toString().compareTo(endDate) <= 0
-                    && event.getPlannedStartDate().toString().compareTo(startDate) >= 0)
-            || (event.getActualStartDate().toString().compareTo(endDate) <= 0
-                    && event.getActualStartDate().toString().compareTo(startDate) >= 0)) {
-                eventInMonthList.add(event);
-            }
-        }
-        return eventInMonthList;
+        String[] start = startDate.split("-");
+        String[] end = endDate.split("-");
+        LocalDate startLocalDate = LocalDate.of(Integer.parseInt(start[0]), Integer.parseInt(start[1]), Integer.parseInt(start[2]));
+        LocalDate endLocalDate = LocalDate.of(Integer.parseInt(end[0]), Integer.parseInt(end[1]), Integer.parseInt(end[2]));
+        Collection<Event> eventList = repository.findEventsInRangeDate(startLocalDate , endLocalDate);
+        return eventList;
 
     }
 }

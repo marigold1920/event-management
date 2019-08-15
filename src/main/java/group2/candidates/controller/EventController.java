@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -146,7 +147,7 @@ public class EventController {
     }
 
     @GetMapping(value = "events-month/{year}/{month}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-    public Collection<Event> getALlEventsInMonth(@PathVariable("year") String year, @PathVariable("month") String month){
+    public Collection<Event> getALlEventsInMonth(@PathVariable("year") int year, @PathVariable("month") int month){
         return eventService.getAllEventsInMonth(year, month);
     }
 
