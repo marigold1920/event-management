@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class SectionAdapter {
-    private PoolService pool;
+    private PoolService pool = PoolService.getPoolService();
 
     private String nationalId;
     private String account;

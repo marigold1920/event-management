@@ -5,25 +5,38 @@
     http://www.springframework.org/schema/beans/spring-beans.xsd
     http://www.springframework.org/schema/security
     http://www.springframework.org/schema/security/spring-security.xsd">
-    <global-method-security pre-post-annotations="enabled" />
-
-    <http pattern="/**" security="none"></http>
 
     <beans:bean id="myUserDetailsService"
-          class="group2.candidates.service.UserdetailsService"/>
+                class="group2.candidates.service.UserdetailsService"/>
     <beans:bean id="passwordEncoder"
-          class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+                class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+        <beans:constructor-arg value="12"/>
     </beans:bean>
 
-    <authentication-manager>
-<!--        <authentication-provider-->
-<!--                user-service-ref="myUserDetailsService" >-->
-<!--            <password-encoder ref="passwordEncoder"></password-encoder>-->
-<!--        </authentication-provider>-->
-        <authentication-provider>
-            <user-service>
-                <user name="khanh" password="12345" authorities="ROLE_USER" />
-            </user-service>
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider user-service-ref="myUserDetailsService">
+            <password-encoder ref="passwordEncoder"/>
         </authentication-provider>
     </authentication-manager>
+    <user-service id="userDetailsManager">
+        <user name="admin" password="$2a$12$gmFXC74IRBODfkGcWhVUGelfT7hb3yeObUe.swjwMhAuwqRwv6Ori"
+              authorities="ROLE_ADMIN"/>
+        <user name="user" password="$2a$12$gmFXC74IRBODfkGcWhVUGelfT7hb3yeObUe.swjwMhAuwqRwv6Ori"
+              authorities="ROLE_USER"/>
+    </user-service>
+
+    <beans:bean id="restAuthenticationEntryPoint" class="group2.candidates.security.RestAuthenticationEntryPoint"/>
+    <beans:bean id="myAuthenticationFilter" class="group2.candidates.security.JwtAuthenticationFilter">
+        <beans:constructor-arg name="authenticationManager" ref="authenticationManager"/>
+    </beans:bean>
+    <beans:bean id="myAuthorizationFilter" class="group2.candidates.security.JwtAuthorizationFilter">
+        <beans:constructor-arg name="authenticationManager" ref="authenticationManager"/>
+    </beans:bean>
+    <http pattern="/**" create-session="stateless" entry-point-ref="restAuthenticationEntryPoint">
+        <cors/>
+        <csrf disabled="true"/>
+        <custom-filter ref="myAuthenticationFilter" before="FORM_LOGIN_FILTER"/>
+        <custom-filter ref="myAuthorizationFilter" before="ANONYMOUS_FILTER"/>
+        <intercept-url pattern="/account/**" access="hasRole('ROLE_ADMIN')"/>
+    </http>
 </beans:beans>

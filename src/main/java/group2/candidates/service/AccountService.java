@@ -20,7 +20,7 @@ public class AccountService {
     }
 
     public Account findByUsername(String username) {
-        return accountRepository.findAccountByUsername(username);
+        return accountRepository.findAccountByUsername(username).orElseThrow();
     }
 
     public List<Account> loadAllAccounts(){
@@ -65,7 +65,7 @@ public class AccountService {
     public Account disableAccount(String id){
         var account = accountRepository.findById(id);
         if(account.isPresent()){
-            account.get().setEnabled(0);
+            account.get().setEnabled(false);
 
             return accountRepository.saveAndFlush(account.get());
         }else{
@@ -81,7 +81,7 @@ public class AccountService {
     public Account enableAccount(String id){
         var account = accountRepository.findById(id);
         if(account.isPresent()){
-            account.get().setEnabled(1);
+            account.get().setEnabled(true);
             return accountRepository.saveAndFlush(account.get());
 
         }else{

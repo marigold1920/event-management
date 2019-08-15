@@ -55,7 +55,7 @@ public class EventController {
     @PostMapping(value = "events", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public Collection<Integer> saveEventsFromExcelFile(@RequestBody Collection<EventAdapter> eventAdapters) {
 
-                return eventAdapters.stream()
+        return eventAdapters.stream()
                 .map(e -> e.buildEvent(subSubjectTypeService, universityService, campusLinkProgramService))
                 .map(eventService::saveEvent)
                 .map(Event::getEventId)
@@ -76,9 +76,9 @@ public class EventController {
     }
 
     /**
-     *
-     * @param eventId
-     * @return
+     * Get event by using event id
+     * @param eventId id of event
+     * @return Event
      */
     @GetMapping(value = "event", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public Event getEventById(@Param("eventId") Integer eventId) {
@@ -138,6 +138,21 @@ public class EventController {
 
         return eventService
                 .saveEvent(eventAdapter.buildEvent(subSubjectTypeService, universityService, campusLinkProgramService));
+    }
+
+    @GetMapping(value = "events/planning", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    public Collection<Event> getAllPlanningEvents(){
+        return eventService.getAllPlanningEvents();
+    }
+
+    @GetMapping(value = "events/{year}/{month}", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    public Collection<Event> getALlEventsInMonth(@PathVariable("year") String year, @PathVariable("month") String month){
+        return eventService.getAllEventsInMonth(month, year);
+    }
+
+    @GetMapping(value = "events/{start-date}/{end-date}", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    public Collection<Event> getAllEventInWeek(@PathVariable("start-date") String startDate, @PathVariable("end-date") String endDate){
+        return eventService.getAllEventsInWeek(startDate, endDate);
     }
 
     @Autowired

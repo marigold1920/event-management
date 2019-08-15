@@ -5,7 +5,9 @@ import group2.candidates.repository.SubSubjectTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -31,6 +33,16 @@ public class SubSubjectTypeService {
     public Collection<SubSubjectType> getAllSubSubjectTypes() {
 
         return repository.findAll();
+    }
+
+    public Collection<String> getAllSubSubjectTypeName(){
+        List<SubSubjectType> subSubjectTypeList = repository.findAll();
+        List<String> subSubjectTypeNameList = new ArrayList<>();
+        for (SubSubjectType subSubjectType: subSubjectTypeList) {
+            subSubjectTypeNameList.add(subSubjectType.getSubSubjectTypeName());
+        }
+
+        return subSubjectTypeNameList;
     }
 
     @Autowired

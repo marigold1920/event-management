@@ -31,7 +31,6 @@ public final class JsonParser {
                     .registerTypeAdapter(Event.class, new EventJsonSerializable())
                     .registerTypeAdapter(Section.class, new SectionJsonSerializable())
                     .registerTypeAdapter(Section.class, new SectionJsonDeserializable())
-                   .registerTypeAdapter(SectionAdapter.class, new SectionAdapterJsonDeserializable())
                     .registerTypeAdapter(LocalDate.class, new LocalDateConverter())
                 .create();
     }
