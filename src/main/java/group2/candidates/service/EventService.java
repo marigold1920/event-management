@@ -6,10 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.*;
 
 @Service
 public class EventService {
@@ -88,19 +86,38 @@ public class EventService {
      * @return list All events.
      */
     public List<Event> getAllEvents(){
-        List<Event> list = repository.findAll();
-        for (Event e: list) {
-            System.out.println(e.getEventStatus());
-        }
         return repository.findAll();
+    }
+
+    private List<Event> getEventInMonth(String year_month, List<Event> events){
+        List<Event> eventListResult = new ArrayList<>();
+        for (Event event : events) {
+            if(event.getPlannedStartDate().toString().contains(year_month)
+                    || event.getPlannedEndDate().toString().contains(year_month)
+                    || event.getActualStartDate().toString().contains(year_month)
+                    || event.getActualEndDate().toString().contains(year_month)){
+                eventListResult.add(event);
+            }
+        }
+        return eventListResult;
     }
 
     /**
      * get all planning events.
      * @return list of planning event.
      */
-    public Collection<Event> getAllPlanningEvents(){
-        return repository.findPlanningEvents();
+    public Collection<Event> getRecentEvents(){
+        int year = LocalDate.now().getYear();
+        int month = LocalDate.now().getMonthValue();
+        String year_month =  year + "-";
+        if(month > 9){
+            year_month+= month;
+        }else{
+            year_month+= "0" + month;
+        }
+        List<Event> eventList = repository.findAll();
+        System.out.println(year_month);
+        return getEventInMonth(year_month, eventList);
     }
 
     /**
@@ -109,16 +126,15 @@ public class EventService {
      * @param year is the year.
      * @return all of event in that month and that year.
      */
-    public Collection<Event> getAllEventsInMonth(String month, String year){
-        List<Event> eventList = repository.findAll();
-        List<Event> eventInMonthList = new ArrayList<>();
-        for (Event event : eventList) {
-            if(event.getPlannedStartDate().toString().contains(year + "-" + month)
-            || event.getPlannedEndDate().toString().contains(year + "-" + month)){
-                eventInMonthList.add(event);
-            }
+    public Collection<Event> getAllEventsInMonth(String year, String month){
+        String year_month =  year + "-";
+        if(month.length() > 1){
+            year_month+= month;
+        }else{
+            year_month+= "0" + month;
         }
-        return eventInMonthList;
+        List<Event> eventList = repository.findAll();
+        return getEventInMonth(year_month, eventList);
     }
 
     /**
@@ -131,8 +147,10 @@ public class EventService {
         List<Event> eventList = repository.findAll();
         List<Event> eventInMonthList = new ArrayList<>();
         for (Event event : eventList) {
-            if(event.getPlannedStartDate().toString().compareTo(startDate) <= 0
-                    || event.getPlannedEndDate().toString().compareTo(startDate) >= 0){
+            if((event.getPlannedStartDate().toString().compareTo(endDate) <= 0
+                    && event.getPlannedStartDate().toString().compareTo(startDate) >= 0)
+            || (event.getActualStartDate().toString().compareTo(endDate) <= 0
+                    && event.getActualStartDate().toString().compareTo(startDate) >= 0)) {
                 eventInMonthList.add(event);
             }
         }
