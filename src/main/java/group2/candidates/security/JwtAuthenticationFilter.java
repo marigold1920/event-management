@@ -105,7 +105,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         response.addHeader(env.getProperty("TOKEN_HEADER"), env.getProperty("TOKEN_PREFIX") + " " + token);
         //response.addHeader("Access-Control-Allow-Origin", "*");
-        response.addHeader("Access-Control-Expose-Headers", "*");
+        response.addHeader("Access-Control-Expose-Headers", "Authorization");
         
     }
 
