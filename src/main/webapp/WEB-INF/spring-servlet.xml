@@ -80,7 +80,7 @@
         <mvc:mapping path="/**"
                      allowed-origins="*"
                      allowed-methods="*"
-                     exposed-headers="authorization"
+                     exposed-headers="authorization, Authorization"
                      />
     </mvc:cors>
     <mvc:annotation-driven/>
