@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -143,17 +144,58 @@ public class EventController {
 
     @GetMapping(value = "events/recent", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public Collection<Event> getRecentEvents(){
-        return eventService.getRecentEvents();
+        int year = LocalDate.now().getYear();
+        int month = LocalDate.now().getMonthValue();
+        LocalDate firstDate = LocalDate.of(year, month,1);
+        LocalDate lastDate = getFirstDateOfNextMonth(year, month);
+        return eventService.getAllEventsInMonth(firstDate, lastDate);
     }
 
     @GetMapping(value = "events-month/{year}/{month}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public Collection<Event> getALlEventsInMonth(@PathVariable("year") int year, @PathVariable("month") int month){
-        return eventService.getAllEventsInMonth(year, month);
+        LocalDate firstDate = LocalDate.of(year, month,1);
+        LocalDate lastDate = getFirstDateOfNextMonth(year, month);
+        return eventService.getAllEventsInMonth(firstDate, lastDate);
     }
 
     @GetMapping(value = "events-week/{start-date}/{end-date}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public Collection<Event> getAllEventInWeek(@PathVariable("start-date") String startDate, @PathVariable("end-date") String endDate){
-        return eventService.getAllEventsInWeek(startDate, endDate);
+        LocalDate startLocalDate = parseStringToLocalDate(startDate);
+        LocalDate endLocalDate = parseStringToLocalDate(endDate);
+        return eventService.getAllEventsInWeek(startLocalDate, endLocalDate);
+    }
+
+    @GetMapping(value = "events-university/{university-code}/{start-date}/{end-date}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    public Collection<Event> getUniversityEventsInRange(@PathVariable("university-code") Integer university,@PathVariable("start-date") String startDate, @PathVariable("end-date") String endDate){
+        LocalDate startLocalDate = parseStringToLocalDate(startDate);
+        LocalDate endLocalDate = parseStringToLocalDate(endDate);
+        return eventService.getEventInRangOfUniversity(startLocalDate, endLocalDate, university);
+    }
+
+
+    /**
+     * The function is used to parse a String date to LocalDate
+     * @param dateStr String date
+     * @return LocalDate
+     */
+    private LocalDate parseStringToLocalDate(String dateStr){
+        return LocalDate.parse(dateStr);
+    }
+
+    /**
+     * Get the first date of next month.
+     * @param year the year of date.
+     * @param month the month of date.
+     * @return the first date of month.
+     */
+    private LocalDate getFirstDateOfNextMonth(int year, int month){
+        LocalDate lastDate = null;
+        if(month != 12) {
+            lastDate = LocalDate.of(year, month + 1, 1);
+        }else{
+            lastDate = LocalDate.of(year + 1, 1, 1);
+        }
+        return lastDate;
     }
 
     @Autowired

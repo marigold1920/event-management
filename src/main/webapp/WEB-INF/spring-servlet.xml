@@ -76,6 +76,7 @@
     </bean>
 
     <mvc:cors>
+        <mvc:mapping path="/authenticate" allowed-methods="POST" allowed-origins="*"/>
         <mvc:mapping path="/**"
                      allowed-origins="*"
                      allowed-methods="*"/>

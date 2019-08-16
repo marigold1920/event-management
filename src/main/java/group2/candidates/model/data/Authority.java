@@ -20,5 +20,9 @@ public class Authority implements Serializable {
     private Integer authorityId;
     @Column(nullable = false, length = 50)
     private String userRole;
+
+    public Authority(String userRole) {
+        this.userRole = userRole;
+    }
 }
 
