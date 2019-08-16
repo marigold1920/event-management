@@ -18,6 +18,7 @@
             <password-encoder ref="passwordEncoder"/>
         </authentication-provider>
     </authentication-manager>
+
     <user-service id="userDetailsManager">
         <user name="admin" password="$2a$12$gmFXC74IRBODfkGcWhVUGelfT7hb3yeObUe.swjwMhAuwqRwv6Ori"
               authorities="ROLE_ADMIN"/>
@@ -32,11 +33,13 @@
     <beans:bean id="myAuthorizationFilter" class="group2.candidates.security.JwtAuthorizationFilter">
         <beans:constructor-arg name="authenticationManager" ref="authenticationManager"/>
     </beans:bean>
-    <http pattern="/**" create-session="stateless" entry-point-ref="restAuthenticationEntryPoint">
+    <http create-session="stateless" entry-point-ref="restAuthenticationEntryPoint" >
         <cors/>
         <csrf disabled="true"/>
-        <custom-filter ref="myAuthenticationFilter" before="FORM_LOGIN_FILTER"/>
-        <custom-filter ref="myAuthorizationFilter" before="ANONYMOUS_FILTER"/>
-        <intercept-url pattern="/authenticate" access="permitAll()"/>
+        <custom-filter ref="myAuthenticationFilter" before="BASIC_AUTH_FILTER"/>
+        <custom-filter ref="myAuthorizationFilter" after="BASIC_AUTH_FILTER"/>
+        <intercept-url pattern="/authenticate" access="permitAll()" method="POST"/>
+        <intercept-url pattern="/**" access="permitAll()"/>
+
     </http>
 </beans:beans>
