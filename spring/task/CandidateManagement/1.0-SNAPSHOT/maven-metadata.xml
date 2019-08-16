@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>spring.task</groupId>
+  <artifactId>CandidateManagement</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <timestamp>20190815.083519</timestamp>
+      <buildNumber>4</buildNumber>
+    </snapshot>
+    <lastUpdated>20190815083519</lastUpdated>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>war</extension>
+        <value>1.0-20190815.083519-4</value>
+        <updated>20190815083519</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>1.0-20190815.083519-4</value>
+        <updated>20190815083519</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+</metadata>

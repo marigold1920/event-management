@@ -28,9 +28,9 @@ public class Event implements Serializable {
     @OneToMany(mappedBy = "event", cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE })
     private Set<Section> candidates;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "campuslinkprogramcode", referencedColumnName = "code")
-    @Setter
     private CampusLinkProgram campusLinkProgram;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -131,7 +131,7 @@ public class Event implements Serializable {
         var current = LocalDate.now();
 
         if (current.isAfter(actualEndDate) || current.equals(actualEndDate)) {
-            eventStatus = "Finish";
+            eventStatus = "Done";
             return;
         }
 

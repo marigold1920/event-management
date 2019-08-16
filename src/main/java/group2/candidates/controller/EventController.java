@@ -10,10 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -37,14 +34,14 @@ public class EventController {
      */
     @PostMapping(value = "sections", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public void saveCandidatesOfEventFromExcelFile(@RequestBody Collection<SectionAdapter> sectionAdapters) {
-        sectionAdapters.parallelStream().collect(Collectors.groupingBy(SectionAdapter::getCourseCode, Collectors.toList()))
-                .forEach((k, v) -> eventService.findEventByCourseCode(k).ifPresent(e -> {
-                    e.getCandidates().addAll(
-                            v.stream().map(ca -> ca.buildSection(e, departmentService)).collect(Collectors.toList())
-                    );
-                    eventService.saveEvent(e);
-                }));
-        pool.destroy();
+         sectionAdapters.stream().collect(Collectors.groupingBy(SectionAdapter::getCourseCode, Collectors.toList()))
+                 .forEach((k, v) -> eventService.findEventByCourseCode(k).ifPresent(e -> {
+                     e.getCandidates().addAll(
+                             v.stream().map(ca -> ca.buildSection(e, departmentService)).collect(Collectors.toList())
+                     );
+                     eventService.saveEvent(e);
+                 }));
+         pool.destroy();
     }
 
     /**
@@ -60,6 +57,7 @@ public class EventController {
                 .map(eventService::saveEvent)
                 .map(Event::getEventId)
                 .collect(Collectors.toList());
+//        return new ArrayList<>();
     }
 
     /**
@@ -141,17 +139,20 @@ public class EventController {
     }
 
     @GetMapping(value = "events/recent", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-    public Collection<Event> getRecentEvents(){
+    public Collection<Event> getRecentEvents() {
+
         return eventService.getRecentEvents();
     }
 
     @GetMapping(value = "events-month/{year}/{month}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-    public Collection<Event> getALlEventsInMonth(@PathVariable("year") String year, @PathVariable("month") String month){
+    public Collection<Event> getALlEventsInMonth(@PathVariable("year") String year, @PathVariable("month") String month) {
+
         return eventService.getAllEventsInMonth(year, month);
     }
 
     @GetMapping(value = "events-week/{start-date}/{end-date}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-    public Collection<Event> getAllEventInWeek(@PathVariable("start-date") String startDate, @PathVariable("end-date") String endDate){
+    public Collection<Event> getAllEventInWeek(@PathVariable("start-date") String startDate, @PathVariable("end-date") String endDate) {
+
         return eventService.getAllEventsInWeek(startDate, endDate);
     }
 

@@ -1,6 +1,6 @@
 package group2.candidates.model.data;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Data
+@Getter
 @NoArgsConstructor
 @Table(name = "university")
 public class University implements Serializable {

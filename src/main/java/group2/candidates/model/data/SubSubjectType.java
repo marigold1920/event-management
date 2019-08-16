@@ -1,13 +1,14 @@
 package group2.candidates.model.data;
 
-import lombok.Data;
+import lombok.Getter;
+
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Data
+@Getter
 @Table(name = "subsubjecttype")
 public class SubSubjectType implements Serializable {
 

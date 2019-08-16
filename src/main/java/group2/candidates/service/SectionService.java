@@ -36,8 +36,39 @@ public class SectionService {
        return  repository.saveAndFlush(section);
     }
 
+    /**
+     * Update information of candidate when he/she joins in a event
+     * @param section information for update, transfer as object
+     * @return Section after  update
+     */
+    public Section updateSection(Section section) {
+        repository.updateTrainingInformation(section.getContractType(), section.getCandidateStatus(),
+                section.getFinalGrade(), section.getCompletionLevel(), section.getCertificatedId(), section.getNote(), section.getSectionId());
+
+        return findSectionById(section.getSectionId());
+    }
+
+    /**
+     * Find section by using id
+     * @param sectionId id of section
+     * @return Section
+     */
+    public Section findSectionById(Integer sectionId) {
+
+        return repository.findById(sectionId).orElseThrow(IllegalArgumentException::new);
+    }
+
     Collection<Section> getAllSection(){
         return repository.findAll();
+    }
+
+    public Section deleteSection(Integer sectionId) {
+        var section = repository.findById(sectionId).orElseThrow(IllegalArgumentException::new);
+        var status = section.getEvent().getEventStatus();
+        if (status.equals("Cancel") || status.equals("Done")) throw new IllegalArgumentException();
+        section.setCandidateStatus(status.equals("Planning") ? "Cancel" : "Drop-out");
+
+        return saveSection(section);
     }
 
     @Autowired

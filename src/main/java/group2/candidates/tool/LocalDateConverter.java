@@ -24,8 +24,8 @@ public class LocalDateConverter implements JsonDeserializer<LocalDate>, JsonSeri
     }
 
     public static LocalDate serializable(JsonElement element) {
-       var formatter = DateTimeFormatter.ofPattern("d-MMM-yyyy");
-        //var formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
+//       var formatter = DateTimeFormatter.ofPattern("d-MMM-yyyy");
+        var formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
         return LocalDate.parse(element.getAsString(), formatter);
     }
 }

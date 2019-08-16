@@ -30,6 +30,7 @@ public class SectionJsonSerializable implements JsonSerializer<Section> {
             jsonObj.addProperty("university", candidate.getUniversity().getUniversity().getUniversityName());
             jsonObj.addProperty("gender", candidate.getGender());
         }
+        jsonObj.addProperty("isChosen", false);
 
         return jsonObj;
 	}

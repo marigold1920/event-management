@@ -23,7 +23,13 @@ public class SectionController {
     @PutMapping(value = "sections", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public Section updateTrainingInformationOfCandidate(@RequestBody Section section) {
 
-        return sectionService.saveSection(section);
+        return sectionService.updateSection(section);
+    }
+
+    @PutMapping(value = "section", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    public Section deleteSection(@Param("sectionId") Integer sectionId) {
+
+        return sectionService.deleteSection(sectionId);
     }
 
     @Autowired

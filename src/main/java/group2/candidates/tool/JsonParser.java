@@ -3,7 +3,6 @@ package group2.candidates.tool;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import group2.candidates.adapter.EventAdapter;
-import group2.candidates.adapter.SectionAdapter;
 import group2.candidates.model.data.Candidate;
 import group2.candidates.model.data.Department;
 import group2.candidates.model.data.Event;

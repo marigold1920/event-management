@@ -5,7 +5,6 @@ import java.util.Map;
 
 import group2.candidates.model.data.Department;
 import group2.candidates.service.DepartmentService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class PoolService {
     private static PoolService poolService;

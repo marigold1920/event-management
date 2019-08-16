@@ -32,6 +32,7 @@ public class CandidateJsonSerializable implements JsonSerializer<Candidate> {
         }
         jsonObj.addProperty("skill", candidate.getSkill());
         jsonObj.addProperty("gpa", candidate.getGpa());
+        jsonObj.addProperty("isChosen", false);
 
         return jsonObj;
 	}

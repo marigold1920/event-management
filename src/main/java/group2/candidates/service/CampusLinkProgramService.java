@@ -1,6 +1,5 @@
 package group2.candidates.service;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

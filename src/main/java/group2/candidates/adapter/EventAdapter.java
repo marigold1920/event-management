@@ -69,8 +69,10 @@ public class EventAdapter {
                     .actualLearningTime(actualLearningTime)
                     .actualExpense(actualExpense)
                     .trainingFeedback(trainingFeedback)
+                    .trainingFeedbackContent(trainingFeedbackContent)
                     .trainingFeedbackTeacher(trainingFeedbackTeacher)
                     .trainingFeedbackOrganization(trainingFeedbackOrganization)
+                    .note(note)
                     .eventStatus(eventStatus == null ? "" : eventStatus)
                 .build();
     }

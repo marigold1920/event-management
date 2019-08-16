@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -29,6 +29,7 @@ public class Candidate implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
     @JoinColumn(name = "departmentId")
+    @Setter
     private Department university;
 
     @Column(name = "account")

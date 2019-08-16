@@ -33,6 +33,7 @@ public class Section implements Serializable {
     @Column(name = "contracttype") //ENUMERATION
     private String contractType;
     @Column(name = "candidatestatus")
+    @Setter
     private String candidateStatus;
     @Column(name = "finalgrade")
     private String finalGrade;

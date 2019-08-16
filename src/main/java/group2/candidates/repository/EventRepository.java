@@ -2,7 +2,6 @@ package group2.candidates.repository;
 
 import group2.candidates.model.data.Event;
 
-import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;

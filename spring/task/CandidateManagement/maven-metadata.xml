@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>spring.task</groupId>
+  <artifactId>CandidateManagement</artifactId>
+  <versioning>
+    <versions>
+      <version>1.0-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20190815083520</lastUpdated>
+  </versioning>
+</metadata>
