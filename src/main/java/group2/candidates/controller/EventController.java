@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -178,8 +179,7 @@ public class EventController {
      * @return LocalDate
      */
     private LocalDate parseStringToLocalDate(String dateStr){
-        String[] date = dateStr.split("-");
-        return LocalDate.of(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]));
+        return LocalDate.parse(dateStr);
     }
 
     /**
