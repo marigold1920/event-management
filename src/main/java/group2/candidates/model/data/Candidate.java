@@ -2,6 +2,7 @@ package group2.candidates.model.data;
 
 import group2.candidates.tool.LocalDatePersistenceConverter;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -19,17 +20,18 @@ public class Candidate implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Setter
     @Column(name = "candidateid")
+    @GenericGenerator(name = "generator", strategy = "increment")
+    @GeneratedValue(generator = "generator")
     private Integer candidateId;
 
     @Setter
     @OneToMany(mappedBy = "candidate", cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE })
     private Set<Section> events;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
     @JoinColumn(name = "departmentId")
-    @Setter
     private Department university;
 
     @Column(name = "account")
@@ -59,9 +61,9 @@ public class Candidate implements Serializable {
     private String skill;
     @Column(name = "gpa")
     private Double gpa;
-    @Setter
-    @Column(name = "no")
-    private Integer no;
-    @Transient private String universityName;
-    @Transient private String facultyName;
+
+    public boolean isAttendEvent(String courseCode) {
+
+        return events.stream().filter(s -> s.getEvent().getCourseCode().equals(courseCode)).findFirst().isPresent();
+    }
 }

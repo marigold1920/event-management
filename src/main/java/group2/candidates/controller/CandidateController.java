@@ -38,20 +38,19 @@ public class CandidateController {
         Arrays.asList(candidateId).forEach(candidateService::deleteCandidate);
     }
 
-    @PutMapping(value = "candidates", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-    public void updateCandidateInformation(@RequestBody Candidate candidate) {
-        candidateService.findCandidateById(candidate.getCandidateId()).ifPresent(c -> {
-            candidate.setEvents(c.getEvents());
-            candidate.setNo(c.getNo());
-            candidate.getEvents().forEach(section -> section.setCandidate(candidate));
-            candidate.setCandidateId(Objects.hash(candidate.getName(), candidate.getEmail()));
-            candidate.setUniversity(departmentService.findDepartmentByNameAndFacultyName(
-                    candidate.getUniversityName(), candidate.getFacultyName()
-            ).orElseThrow(() -> new IllegalArgumentException("Can't be found University base on provided Information")));
-            candidateService.deleteCandidate(c.getCandidateId());
-            candidateService.saveCandidate(candidate);
-        });
-    }
+//    @PutMapping(value = "candidates", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+//    public void updateCandidateInformation(@RequestBody Candidate candidate) {
+//        candidateService.findCandidateById(candidate.getCandidateId()).ifPresent(c -> {
+//            candidate.setEvents(c.getEvents());
+//            candidate.getEvents().forEach(section -> section.setCandidate(candidate));
+//            candidate.setCandidateId(Objects.hash(candidate.getName(), candidate.getEmail()));
+//            candidate.setUniversity(departmentService.findDepartmentByNameAndFacultyName(
+//                    candidate.getUniversityName(), candidate.getFacultyName()
+//            ).orElseThrow(() -> new IllegalArgumentException("Can't be found University base on provided Information")));
+//            candidateService.deleteCandidate(c.getCandidateId());
+//            candidateService.saveCandidate(candidate);
+//        });
+//    }
 
     @Autowired
     public void setCandidateService(CandidateService candidateService) {

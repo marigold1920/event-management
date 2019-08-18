@@ -30,6 +30,16 @@ public class EventService {
    }
 
     /**
+     * Find all events by using course code
+     * @param codes Collection of course codes
+     * @return Collection<Event> matches with course codes
+     */
+   public Collection<Event> findAllByCourseCode(Collection<String> codes) {
+
+       return repository.findAllByCourseCode(codes);
+   }
+
+    /**
      * Find Event by eventId
      * @param eventId id of event
      * @return Optional<Event>
@@ -89,52 +99,15 @@ public class EventService {
         return repository.findAll();
     }
 
-    private List<Event> getEventInMonth(String year_month, List<Event> events){
-        List<Event> eventListResult = new ArrayList<>();
-        for (Event event : events) {
-            if(event.getPlannedStartDate().toString().contains(year_month)
-                    || event.getPlannedEndDate().toString().contains(year_month)
-                    || event.getActualStartDate().toString().contains(year_month)
-                    || event.getActualEndDate().toString().contains(year_month)){
-                eventListResult.add(event);
-            }
-        }
-        return eventListResult;
-    }
 
     /**
-     * get all planning events.
-     * @return list of planning event.
+     * get all event in a particular month.
+     * @param firstDate the first date of the month.
+     * @param lastDate the first date of the next month(it's used to get the range of the particular month).
+     * @return
      */
-    public Collection<Event> getRecentEvents(){
-        int year = LocalDate.now().getYear();
-        int month = LocalDate.now().getMonthValue();
-        String year_month =  year + "-";
-        if(month > 9){
-            year_month+= month;
-        }else{
-            year_month+= "0" + month;
-        }
-        List<Event> eventList = repository.findAll();
-        System.out.println(year_month);
-        return getEventInMonth(year_month, eventList);
-    }
-
-    /**
-     * get all event in a particular month and year.
-     * @param month is the month.
-     * @param year is the year.
-     * @return all of event in that month and that year.
-     */
-    public Collection<Event> getAllEventsInMonth(String year, String month){
-        String year_month =  year + "-";
-        if(month.length() > 1){
-            year_month+= month;
-        }else{
-            year_month+= "0" + month;
-        }
-        List<Event> eventList = repository.findAll();
-        return getEventInMonth(year_month, eventList);
+    public Collection<Event> getAllEventsInMonth(LocalDate firstDate, LocalDate lastDate){
+        return repository.findEventsInMonth(firstDate, lastDate);
     }
 
     /**
@@ -143,18 +116,25 @@ public class EventService {
      * @param endDate the end date of the week.
      * @return list of all events in that week.
      */
-    public Collection<Event> getAllEventsInWeek(String startDate, String endDate){
-        List<Event> eventList = repository.findAll();
-        List<Event> eventInMonthList = new ArrayList<>();
-        for (Event event : eventList) {
-            if((event.getPlannedStartDate().toString().compareTo(endDate) <= 0
-                    && event.getPlannedStartDate().toString().compareTo(startDate) >= 0)
-            || (event.getActualStartDate().toString().compareTo(endDate) <= 0
-                    && event.getActualStartDate().toString().compareTo(startDate) >= 0)) {
-                eventInMonthList.add(event);
+    public Collection<Event> getAllEventsInWeek(LocalDate startDate, LocalDate endDate){
+            return repository.findEventsInWeek(startDate , endDate);
+    }
+
+    /**
+     * get all event of a supplier in a range of date.
+     * @param startDate the start date of range.
+     * @param endDate the end date of range.
+     * @param supplierId the university Id.
+     * @return
+     */
+    public Collection<Event> getEventInRangOfUniversity(LocalDate startDate, LocalDate endDate, Integer supplierId){
+        Collection<Event> eventList = repository.findEventsInWeek(startDate , endDate);
+        List<Event> resultList = new ArrayList<>();
+        for (Event event: eventList) {
+            if(event.getSupplier().getUniversityId() == supplierId){
+                resultList.add(event);
             }
         }
-        return eventInMonthList;
-
+        return resultList;
     }
 }

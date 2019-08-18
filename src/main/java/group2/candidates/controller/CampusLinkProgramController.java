@@ -31,11 +31,6 @@ public class CampusLinkProgramController {
                         .collect(Collectors.toList());
     }
 
-    @GetMapping(value = "programs-name", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-    public Collection<String> getAllCoursesName(){
-        return campusLinkProgramService.getAllCourseName();
-    }
-
     @Autowired
     public void setCampusLinkProgramService(CampusLinkProgramService campusLinkProgramService) {
         this.campusLinkProgramService = campusLinkProgramService;

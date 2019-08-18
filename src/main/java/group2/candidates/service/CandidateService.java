@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,6 +29,12 @@ public class CandidateService {
     public Optional<Candidate> findCandidateById(Integer candidateId) {
 
         return repository.findById(candidateId);
+    }
+
+
+    public Collection<Candidate> findAllByEmail(List<String> emails) {
+
+        return repository.findAllByEmail(emails);
     }
 
     /**

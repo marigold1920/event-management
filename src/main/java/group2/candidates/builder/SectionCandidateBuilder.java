@@ -1,5 +1,6 @@
 package group2.candidates.builder;
 
+import group2.candidates.common.SectionResponseEntity;
 import group2.candidates.model.data.Candidate;
 import group2.candidates.model.data.Department;
 import group2.candidates.model.data.Section;
@@ -30,30 +31,43 @@ public class SectionCandidateBuilder extends SectionBuilder {
      * @param gpa gpa
      * @return SectionCandidateBuilder
      */
-    public SectionCandidateBuilder attend(PoolService pool, String account, String nationalId, String name, String dob, String gender,
+    public SectionCandidateBuilder attend(SectionResponseEntity sectionResponseEntity, PoolService pool, String account, String nationalId, String name, String dob, String gender,
                                           String email, String phone, String facebook, Integer universityGraduationDate, LocalDate fullTimeWorking, double gpa) {
-        var candidate = Candidate.builder()
-                .candidateId(Objects.hash(name, email))
-                .account(account)
-                .nationalId(nationalId)
-                .name(name)
-                .dayOfBirth(dob)
-                .email(email)
-                .gender(gender)
-                .phone(phone)
-                .facebook(facebook)
-                .gpa(gpa)
-                .graduationDate(universityGraduationDate)
-                .fullTimeWorking(fullTimeWorking)
-                .no(pool.getOrder())
-                .build();
-        section.setCandidate(candidate);
+        pool.getCandidate(email).ifPresentOrElse(c -> {
+            if (!c.getName().equals(name)) {
+                sectionResponseEntity.addErrors("Duplicate email: " + email + ", owner: " + c.getName() + "!");
+                setValid(false);
+            } else {
+                var courseCode = section.getEvent().getCourseCode();
+                if (c.isAttendEvent(courseCode)) {
+                    sectionResponseEntity.addErrors(name + " has already attended in event " + courseCode);
+                    setValid(false);
+                } else {
+                    section.setCandidate(c);
+                }
+            }
+        }, () -> {
+            var candidate = Candidate.builder()
+                    .account(account)
+                    .nationalId(nationalId)
+                    .name(name)
+                    .dayOfBirth(dob)
+                    .email(email)
+                    .gender(gender)
+                    .phone(phone)
+                    .facebook(facebook)
+                    .gpa(gpa)
+                    .graduationDate(universityGraduationDate)
+                    .fullTimeWorking(fullTimeWorking)
+                    .build();
+            section.setCandidate(candidate);
+        });
 
         return this;
     }
 
     public SectionCandidateBuilder department(Department department) {
-        this.section.getCandidate().setUniversity(department);
+        if (section.getCandidate() != null) this.section.getCandidate().setUniversity(department);
 
         return this;
     }

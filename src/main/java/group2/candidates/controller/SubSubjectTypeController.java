@@ -31,10 +31,6 @@ public class SubSubjectTypeController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping(value = "subSubjectTypeNames", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-    public Collection<String> getAllSubjectTypeName(){
-        return subSubjectTypeService.getAllSubSubjectTypeName();
-    }
     @Autowired
     public void setSubSubjectTypeService(SubSubjectTypeService subSubjectTypeService) {
         this.subSubjectTypeService = subSubjectTypeService;
