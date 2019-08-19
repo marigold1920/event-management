@@ -63,11 +63,13 @@ public class EventBuilder {
      * Set course code for event
      * @return EventBuilder
      */
-    public EventBuilder courseCode(ResponseObject responseObject, EventService eventService) {
-        var year  = event.getPlannedStartDate().getYear() % 100;
+    public EventBuilder courseCode(ResponseObject responseObject, EventService eventService, boolean update) {
+        if (update) return this;
 
+        var year  = event.getPlannedStartDate().getYear() % 100;
         var courseCode = String.join("_", event.getSupplier().getUniversityCode(), event.getCampusLinkProgram().getCode(),
                 event.getSubSubjectType().getSubSubjectTypeName(), event.getSupplier().getSite() + year);
+
         if (eventService.checkCourseCodeOfEvent(courseCode, event.getPlannedStartDate(), event.getPlannedEndDate())) {
             responseObject.addErrors(String.format("Event type: %s,  Supplier: %s, SubSubjectType: %s, from: %s, to: %s had already existed in system!",
                     event.getCampusLinkProgram().getName(), event.getSupplier().getUniversityName(), event.getSubSubjectType().getSubSubjectTypeName(), event.getPlannedStartDate(), event.getPlannedEndDate()));
