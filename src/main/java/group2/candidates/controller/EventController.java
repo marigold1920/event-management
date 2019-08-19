@@ -72,6 +72,7 @@ public class EventController {
                     var section = sectionAdapter.buildSection(e, departmentService, responseObj);
                     if (section != null) sectionService.saveSection(section);
                 }, () -> responseObj.addErrors("System was not found Event with Course Code: " + sectionAdapter.getCourseCode()));
+        pool.destroy();
 
         return responseObj.setStatus();
     }
@@ -89,7 +90,7 @@ public class EventController {
         pool.instantiationSuppliers(universityService.loadUniversity());
 
         responseObj.addIdentifiedData(eventAdapters.stream()
-                .map(e -> e.buildEvent(responseObj))
+                .map(e -> e.buildEvent(responseObj, eventService))
                 .filter(Objects::nonNull)
                 .map(eventService::saveEvent)
                 .map(Event::getEventId)
@@ -109,7 +110,7 @@ public class EventController {
         var responseObj = new ResponseObject();
 
         return eventService.saveEvent(
-                eventAdapter.buildEvent(responseObj))
+                eventAdapter.buildEvent(responseObj, eventService))
                 .getEventId();
     }
 
@@ -171,12 +172,13 @@ public class EventController {
      * @return Event after updating
      */
     @PutMapping(value = "events", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-    public Event updateEventInformation(@RequestBody EventAdapter eventAdapter) {
+    public ResponseObject updateEventInformation(@RequestBody EventAdapter eventAdapter) {
         Objects.requireNonNull(eventAdapter);
-        var resposeObj = new ResponseObject();
+        var responseObj = new ResponseObject();
 
-        return eventService
-                .saveEvent(eventAdapter.buildEvent(resposeObj));
+        eventService.saveEvent(eventAdapter.buildEvent(responseObj, eventService));
+
+        return responseObj;
     }
        
     @GetMapping(value = "events/recent", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })

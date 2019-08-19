@@ -15,9 +15,9 @@ public class SectionController {
     private SectionService sectionService;
 
     @GetMapping(value = "sections/{paginationIndex}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-    public Collection<Section> loadSections(@Param("eventId") Integer eventId, @PathVariable int paginationIndex) {
+    public Collection<Section> loadSections(@PathVariable int paginationIndex) {
 
-        return sectionService.loadSectionsOfAnEvent(eventId, paginationIndex);
+        return sectionService.loadSections(paginationIndex);
     }
 
     @PutMapping(value = "sections", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })

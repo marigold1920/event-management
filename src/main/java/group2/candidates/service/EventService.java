@@ -20,6 +20,16 @@ public class EventService {
     }
 
     /**
+     * Count number of event in year
+     * @param year year: include 2 last numbers of year
+     * @return number of events in year
+     */
+    public int countEventOfYear(int year) {
+
+        return repository.countEventOfYear(year);
+    }
+
+    /**
      * Find event by courseCode
      * @param courseCode course code of event
      * @return Optional<Event>
@@ -47,6 +57,18 @@ public class EventService {
     public Optional<Event> findEventByEventId(int eventId) {
 
         return repository.findById(eventId);
+    }
+
+    /**
+     * Check course code of event is valid
+     * @param courseCode course code of event
+     * @param plannedStartDate start date of event
+     * @param plannedEndDate end date of event
+     * @return boolean event is already stored in system
+     */
+    public boolean checkCourseCodeOfEvent(String courseCode, LocalDate plannedStartDate, LocalDate plannedEndDate) {
+
+        return repository.checkCourseCodeOfEvent(courseCode, plannedStartDate, plannedEndDate).isPresent();
     }
 
     /**

@@ -2,6 +2,7 @@ package group2.candidates.builder;
 
 import group2.candidates.common.ResponseObject;
 import group2.candidates.model.data.Event;
+import group2.candidates.service.EventService;
 import group2.candidates.tool.PoolService;
 import lombok.Getter;
 import lombok.Setter;
@@ -58,5 +59,28 @@ public class EventBuilder {
         return this;
     }
 
-    public Event build() { return event; }
+    /**
+     * Set course code for event
+     * @return EventBuilder
+     */
+    public EventBuilder courseCode(ResponseObject responseObject, EventService eventService) {
+        var year  = event.getPlannedStartDate().getYear() % 100;
+
+        var courseCode = String.join("_", event.getSupplier().getUniversityCode(), event.getCampusLinkProgram().getCode(),
+                event.getSubSubjectType().getSubSubjectTypeName(), event.getSupplier().getSite() + year);
+        if (eventService.checkCourseCodeOfEvent(courseCode, event.getPlannedStartDate(), event.getPlannedEndDate())) {
+            responseObject.addErrors(String.format("Event type: %s,  Supplier: %s, SubSubjectType: %s, from: %s, to: %s had already existed in system!",
+                    event.getCampusLinkProgram().getName(), event.getSupplier().getUniversityName(), event.getSubSubjectType().getSubSubjectTypeName(), event.getPlannedStartDate(), event.getPlannedEndDate()));
+            setValid(false);
+        } else {
+            courseCode += String.format("_%03d", eventService.countEventOfYear(year) + 1);
+            event.setCourseCode(courseCode);
+        }
+
+        return this;
+    }
+
+    public Event build() {
+        return event;
+    }
 }

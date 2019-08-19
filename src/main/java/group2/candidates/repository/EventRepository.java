@@ -39,4 +39,10 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
             " OR e.actualEndDate >= :first AND e.actualEndDate <= :last" +
             " OR e.actualStartDate < :first AND e.actualEndDate > :last")
     Collection<Event> findEventsInWeek(@Param("first") LocalDate firstDate, @Param("last") LocalDate lastDate);
+
+    @Query("select e from Event e where e.courseCode like concat('%', :courseCode, '%') and e.plannedStartDate >= :plannedStartDate and e.plannedEndDate <= :plannedEndDate")
+    Optional<Event> checkCourseCodeOfEvent(@Param("courseCode") String courseCode, @Param("plannedStartDate") LocalDate plannedStartDate, @Param("plannedEndDate") LocalDate plannedEndDate);
+
+    @Query("select count(e) from Event e where e.courseCode like concat('%', :year, '%')")
+    int countEventOfYear(@Param("year") int year);
 }

@@ -25,7 +25,7 @@ public final class JsonParser {
         return new GsonBuilder()
                     .setPrettyPrinting()
                     .registerTypeAdapter(Department.class, new DepartmentJsonSerializable())
-                    .registerTypeAdapter(EventAdapter.class, new EventAdapterDeserializable())
+//                    .registerTypeAdapter(EventAdapter.class, new EventAdapterDeserializable())
                     .registerTypeAdapter(Candidate.class, new CandidateJsonSerializable())
                     .registerTypeAdapter(Event.class, new EventJsonSerializable())
                     .registerTypeAdapter(Section.class, new SectionJsonSerializable())
