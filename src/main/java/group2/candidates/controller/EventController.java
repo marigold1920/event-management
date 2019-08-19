@@ -180,11 +180,11 @@ public class EventController {
         pool.instantiationSuppliers(universityService.loadUniversity());
 
         if (eventAdapter.isChangeYear()) {
-            System.out.println("TRUE");
-        } else {
-            var event = eventAdapter.buildEvent(responseObj, eventService);
-            if (event != null) eventService.saveEvent(event);
+            eventAdapter.setUpdate(false);
+            eventAdapter.setEventId(null);
         }
+        var event = eventAdapter.buildEvent(responseObj, eventService);
+         if (event != null) eventService.saveEvent(event);
         pool.destroy();
 
         return responseObj.setStatus();
