@@ -175,10 +175,19 @@ public class EventController {
     public ResponseObject updateEventInformation(@RequestBody EventAdapter eventAdapter) {
         Objects.requireNonNull(eventAdapter);
         var responseObj = new ResponseObject();
+        pool.instantiationCampusLinkPrograms(campusLinkProgramService.loadCampusLinkPrograms());
+        pool.instantiationSubSubjectTypes(subSubjectTypeService.loadAllSubSubjectTypes());
+        pool.instantiationSuppliers(universityService.loadUniversity());
 
-        eventService.saveEvent(eventAdapter.buildEvent(responseObj, eventService));
+        if (eventAdapter.isChangeYear()) {
+            System.out.println("TRUE");
+        } else {
+            var event = eventAdapter.buildEvent(responseObj, eventService);
+            if (event != null) eventService.saveEvent(event);
+        }
+        pool.destroy();
 
-        return responseObj;
+        return responseObj.setStatus();
     }
        
     @GetMapping(value = "events/recent", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })

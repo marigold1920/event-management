@@ -38,6 +38,8 @@ public class EventAdapter {
     private LocalDate updatedDate; //TIME UPDATE
     private String eventStatus;
     private String note;
+    private boolean update;
+    private boolean changeYear;
 
     /**
      * Serializable Json process: Json Object to EventAdapter --> Event
@@ -49,13 +51,13 @@ public class EventAdapter {
     public Event buildEvent(ResponseObject responseObject, EventService eventService) {
         var builder = new EventBuilder()
                 .event()
-                    .information(eventId, plannedExpense, budgetCode, subjectType, formatType, plannedStartDate, plannedEndDate,
+                    .information(eventId, courseCode, plannedExpense, budgetCode, subjectType, formatType, plannedStartDate, plannedEndDate,
                             actualStartDate, actualEndDate, actualLearningTime, actualExpense, trainingFeedback, trainingFeedbackContent,
                             trainingFeedbackTeacher, trainingFeedbackOrganization, note, eventStatus)
                 .campusLinkProgram(courseName, responseObject)
                 .supplier(supplier, responseObject)
                 .subSubjectType(subSubjectType, responseObject)
-                .courseCode(responseObject, eventService);
+                .courseCode(responseObject, eventService, update);
 
         return builder.isValid() ? builder.build() : null;
     }
