@@ -4,6 +4,7 @@ import group2.candidates.model.data.Account;
 import group2.candidates.model.data.Authority;
 import group2.candidates.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
