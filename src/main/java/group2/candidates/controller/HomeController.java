@@ -13,8 +13,8 @@ public class HomeController {
     private CampusLinkProgramService campusLinkProgramService;
 
     @Autowired
-    public CampusLinkProgramService getCampusLinkProgramService() {
-        return campusLinkProgramService;
+    public void setCampusLinkProgramService(CampusLinkProgramService campusLinkProgramService) {
+        this.campusLinkProgramService = campusLinkProgramService;
     }
 
     @GetMapping("/")
