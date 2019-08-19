@@ -15,15 +15,12 @@ public class SectionService {
 
     /**
      * Load all Sections of an Event by event id
-     * @param eventId id of event
      * @param paginationIndex page number
      * @return Stream<Section>
      */
-    public Collection<Section> loadSectionsOfAnEvent(Integer eventId, int paginationIndex) {
+    public Collection<Section> loadSections(int paginationIndex) {
 
-        return repository
-                .loadSectionOfAnEvent(eventId, PageRequest.of(paginationIndex - 1, 10))
-                .getContent();
+        return repository.findAll(PageRequest.of(paginationIndex - 1, 10)).getContent();
     }
 
     /**

@@ -3,6 +3,7 @@ package group2.candidates.adapter;
 import group2.candidates.builder.EventBuilder;
 import group2.candidates.common.ResponseObject;
 import group2.candidates.model.data.Event;
+import group2.candidates.service.EventService;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,8 +16,8 @@ import java.time.LocalDate;
 public class EventAdapter {
 
     private Integer eventId;
-    private String courseCode;
     private String courseName; //CAMPUS LINK
+    private String courseCode;
     private String subjectType;
     private String subSubjectType; //SUB SUBJECT TYPE OBJECT
     private String plannedExpense;
@@ -45,15 +46,16 @@ public class EventAdapter {
      * Call after creating EventAdapter
      * @return Event
      */
-    public Event buildEvent(ResponseObject responseObject) {
+    public Event buildEvent(ResponseObject responseObject, EventService eventService) {
         var builder = new EventBuilder()
                 .event()
-                    .information(eventId, courseCode, plannedExpense, budgetCode, subjectType, formatType, plannedStartDate, plannedEndDate,
+                    .information(eventId, plannedExpense, budgetCode, subjectType, formatType, plannedStartDate, plannedEndDate,
                             actualStartDate, actualEndDate, actualLearningTime, actualExpense, trainingFeedback, trainingFeedbackContent,
                             trainingFeedbackTeacher, trainingFeedbackOrganization, note, eventStatus)
                 .campusLinkProgram(courseName, responseObject)
                 .supplier(supplier, responseObject)
-                .subSubjectType(subSubjectType, responseObject);
+                .subSubjectType(subSubjectType, responseObject)
+                .courseCode(responseObject, eventService);
 
         return builder.isValid() ? builder.build() : null;
     }

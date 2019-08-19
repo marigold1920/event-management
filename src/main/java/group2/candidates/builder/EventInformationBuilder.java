@@ -10,12 +10,11 @@ public class EventInformationBuilder extends EventBuilder {
         this.event = event;
     }
 
-    public EventInformationBuilder information(Integer eventId, String courseCode, String plannedExpense, String budgetCode, String subjectType, String formatType, LocalDate plannedStartDate,
+    public EventInformationBuilder information(Integer eventId, String plannedExpense, String budgetCode, String subjectType, String formatType, LocalDate plannedStartDate,
                                                LocalDate plannedEndDate, LocalDate actualStartDate, LocalDate actualEndDate, Integer actualLearningTime, String actualExpense, String trainingFeedback,
                                                String trainingFeedbackContent, String trainingFeedbackTeacher, String trainingFeedbackOrganization, String note, String eventStatus) {
         event = Event.builder()
                 .eventId(eventId)
-                .courseCode(courseCode)
                 .plannedExpense(plannedExpense)
                 .budgetCode(budgetCode)
                 .subjectType(subjectType)
