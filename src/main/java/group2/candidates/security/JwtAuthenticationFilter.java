@@ -35,8 +35,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         this.setAuthenticationManager(authenticationManager);
         this.env.setProperty("JWT_SECRET", "8y/B?E(H+MbQeThWmYq3t6w9z$C&F)J@NcRfUjXn2r4u7x!A%D*G-KaPdSgVkYp3");
         this.env.setProperty("AUTH_LOGIN_URL", "/authenticate");
-        this.env.setProperty("TOKEN_PREFIX", "Bearer");
-        this.env.setProperty("TOKEN_HEADER", "Authorization");
+        this.env.setProperty("TOKEN_PREFIX", "bearer");
+        this.env.setProperty("TOKEN_HEADER", "authorization");
         this.env.setProperty("TOKEN_AUDIENCE", "Event-Candidate-Management-Client");
         this.env.setProperty("TOKEN_ISSUER", "Event-Candidate-Management-API");
         this.env.setProperty("TOKEN_TYPE", "JWT");
@@ -105,6 +105,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         response.addHeader(env.getProperty("TOKEN_HEADER"), env.getProperty("TOKEN_PREFIX") + " " + token);
         response.addHeader("Access-Control-Expose-Headers", "Authorization");
+        //response.addHeader("Access-Control-Allow-Origin", "*");
     }
 
 
