@@ -14,15 +14,14 @@
     <context:property-placeholder location="classpath*:datasource.properties"/>
     <context:component-scan base-package="group2.candidates"/>
     <jpa:repositories base-package="group2.candidates.repository"/>
-
-    <bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="${mysql.driverClassName}"/>
-        <property name="url" value="${mysql.url}"/>
-        <property name="username" value="${mysql.username}"/>
-        <property name="password" value="${mysql.password}"/>
-    </bean>
-
     <!--
+        <bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+            <property name="driverClassName" value="${mysql.driverClassName}"/>
+            <property name="url" value="${mysql.url}"/>
+            <property name="username" value="${mysql.username}"/>
+            <property name="password" value="${mysql.password}"/>
+        </bean>
+    -->
     <bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.postgresql.Driver"/>
         <property name="url"
@@ -33,13 +32,12 @@
     -->
 
     <!--
-    <bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.postgresql.Driver"/>
-        <property name="url"
-                  value="${postgres.uri}"/>
-    </bean>
+        <bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+            <property name="driverClassName" value="org.postgresql.Driver"/>
+            <property name="url"
+                      value="${postgres.uri}"/>
+        </bean>
     -->
-
 
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
         <property name="messageConverters">
@@ -65,10 +63,9 @@
                 <prop key="hibernate.current_session_context_class">thread</prop>
                 <prop key="hibernate.enable_lazy_load_no_trans">true</prop>
                 <prop key="hibernate.jdbc.batch_versioned_data">true</prop>
-<!--                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL10Dialect</prop>-->
-                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</prop>
-                <prop key="hibernate.hbm2ddl.auto">create</prop>
-                <prop key="hibernate.hbm2ddl.auto">create</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL10Dialect</prop>
+                <!--<prop key="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</prop>-->
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
                 <prop key="hibernate.show_sql">true</prop>
             </props>
 
@@ -82,7 +79,9 @@
         <mvc:mapping path="/authenticate" allowed-methods="POST" allowed-origins="*"/>
         <mvc:mapping path="/**"
                      allowed-origins="*"
-                     allowed-methods="*"/>
+                     allowed-methods="*"
+                     exposed-headers="authorization, Authorization"
+        />
     </mvc:cors>
     <mvc:annotation-driven/>
     <mvc:default-servlet-handler/>
