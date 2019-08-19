@@ -5,12 +5,17 @@ import group2.candidates.model.data.Authority;
 import group2.candidates.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("account")
@@ -27,6 +32,19 @@ public class AccountController {
         this.bCryptPasswordEncoder = passwordEncoder;
     }
 
+    @GetMapping("/{username}")
+    public Account getMyAccount(@PathVariable("username") String username) {
+        Authentication token = SecurityContextHolder.getContext().getAuthentication();
+        //String username = (String) token.getPrincipal();
+        Account account = null;
+        try {
+            if (username != null)
+                account = accountService.findByUsername(username);
+        } catch (NoSuchElementException e) {
+            System.out.println(e);
+        }
+        return account;
+    }
     /**
      * get all accounts
      *
