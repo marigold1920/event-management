@@ -2,7 +2,6 @@ package group2.candidates.service;
 
 import group2.candidates.model.data.Event;
 import group2.candidates.repository.EventRepository;
-import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -21,6 +20,16 @@ public class EventService {
     }
 
     /**
+     * Count number of event in year
+     * @param year year: include 2 last numbers of year
+     * @return number of events in year
+     */
+    public int countEventOfYear(int year) {
+
+        return repository.countEventOfYear(year);
+    }
+
+    /**
      * Find event by courseCode
      * @param courseCode course code of event
      * @return Optional<Event>
@@ -31,6 +40,16 @@ public class EventService {
    }
 
     /**
+     * Find all events by using course code
+     * @param codes Collection of course codes
+     * @return Collection<Event> matches with course codes
+     */
+   public Collection<Event> findAllByCourseCode(Collection<String> codes) {
+
+       return repository.findAllByCourseCode(codes);
+   }
+
+    /**
      * Find Event by eventId
      * @param eventId id of event
      * @return Optional<Event>
@@ -38,6 +57,18 @@ public class EventService {
     public Optional<Event> findEventByEventId(int eventId) {
 
         return repository.findById(eventId);
+    }
+
+    /**
+     * Check course code of event is valid
+     * @param courseCode course code of event
+     * @param plannedStartDate start date of event
+     * @param plannedEndDate end date of event
+     * @return boolean event is already stored in system
+     */
+    public boolean checkCourseCodeOfEvent(String courseCode, LocalDate plannedStartDate, LocalDate plannedEndDate) {
+
+        return repository.checkCourseCodeOfEvent(courseCode, plannedStartDate, plannedEndDate).isPresent();
     }
 
     /**

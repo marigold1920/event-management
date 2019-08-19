@@ -14,7 +14,7 @@ public class SectionJsonSerializable implements JsonSerializer<Section> {
 	public JsonElement serialize(Section section, Type type, JsonSerializationContext context) {
         JsonObject jsonObj = new JsonObject();
 
-        jsonObj.addProperty("eventId", section.getSectionId().getEventId());
+        jsonObj.addProperty("sectionId", section.getSectionId());
         jsonObj.addProperty("contractType", section.getContractType());
         jsonObj.addProperty("candidateStatus", section.getCandidateStatus());
         jsonObj.addProperty("finalGrade", section.getFinalGrade());
@@ -30,6 +30,7 @@ public class SectionJsonSerializable implements JsonSerializer<Section> {
             jsonObj.addProperty("university", candidate.getUniversity().getUniversity().getUniversityName());
             jsonObj.addProperty("gender", candidate.getGender());
         }
+        jsonObj.addProperty("isChosen", false);
 
         return jsonObj;
 	}

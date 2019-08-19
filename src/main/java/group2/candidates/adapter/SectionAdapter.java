@@ -1,6 +1,7 @@
 package group2.candidates.adapter;
 
 import group2.candidates.builder.SectionBuilder;
+import group2.candidates.common.ResponseObject;
 import group2.candidates.model.data.Event;
 import group2.candidates.model.data.Section;
 import group2.candidates.service.DepartmentService;
@@ -13,7 +14,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class SectionAdapter {
-    private PoolService pool;
+    private PoolService pool = PoolService.getPoolService();
 
     private String nationalId;
     private String account;
@@ -22,7 +23,7 @@ public class SectionAdapter {
     private String facultyCode;
     private String dob;
     private String gender;
-    private String email;
+    @Getter private String email;
     private String phone;
     private String facebook;
     private Integer universityGraduationDate;
@@ -40,16 +41,22 @@ public class SectionAdapter {
     private String note;
     private String contractType;
 
-    public Section buildSection(Event event, DepartmentService departmentService) {
+    public Section buildSection(Event event, DepartmentService departmentService, ResponseObject responseObject) {
         var department = pool.getDepartment(universityName, facultyCode, departmentService);
 
-        return new SectionBuilder()
+        if (department == null) {
+            responseObject.addErrors("System was not found " + universityName + " with " + facultyCode + "!");
+            return null;
+        }
+
+        var builder =  new SectionBuilder()
                 .section()
                     .join(event, status, finalGrade, completionLevel, certificateId, note, contractType)
                 .candidate()
-                    .attend(account, nationalId, name, dob, gender,
+                    .attend(responseObject, pool, account, nationalId, name, dob, gender,
                                         email, phone, facebook, universityGraduationDate, fullTimeWorking, gpa)
-                    .department(department)
-                .build();
+                    .department(department);
+
+        return builder.isValid() ? builder.build() : null;
     }
 }

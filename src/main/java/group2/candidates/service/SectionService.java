@@ -15,28 +15,13 @@ public class SectionService {
 
     /**
      * Load all Sections of an Event by event id
-     * @param eventId id of event
      * @param paginationIndex page number
      * @return Stream<Section>
      */
-    public Collection<Section> loadSectionsOfAnEvent(Integer eventId, int paginationIndex) {
+    public Collection<Section> loadSections(int paginationIndex) {
 
-        return repository
-                .loadSectionOfAnEvent(eventId, PageRequest.of(paginationIndex - 1, 10))
-                .getContent();
+        return repository.findAll(PageRequest.of(paginationIndex - 1, 10)).getContent();
     }
-
-    /**
-     * Find section by using section id
-     * @param eventId id of event, a part of section's composite key
-     * @param candidateId id of candidates, a part of section's composite key
-     * @return Optional<Section>, crapper of null or section object
-     */
-    // public Optional<Section> findSectionBySectionId(String eventId, String candidateId) {
-    //     var sectionPK = new SectionPK(eventId, candidateId);
-
-    //     return repository.findById(sectionPK);
-    // }
 
     /**
      * Save section to database
@@ -48,8 +33,39 @@ public class SectionService {
        return  repository.saveAndFlush(section);
     }
 
+    /**
+     * Update information of candidate when he/she joins in a event
+     * @param section information for update, transfer as object
+     * @return Section after  update
+     */
+    public Section updateSection(Section section) {
+        repository.updateTrainingInformation(section.getContractType(), section.getCandidateStatus(),
+                section.getFinalGrade(), section.getCompletionLevel(), section.getCertificatedId(), section.getNote(), section.getSectionId());
+
+        return findSectionById(section.getSectionId());
+    }
+
+    /**
+     * Find section by using id
+     * @param sectionId id of section
+     * @return Section
+     */
+    public Section findSectionById(Integer sectionId) {
+
+        return repository.findById(sectionId).orElseThrow(IllegalArgumentException::new);
+    }
+
     Collection<Section> getAllSection(){
         return repository.findAll();
+    }
+
+    public Section deleteSection(Integer sectionId) {
+        var section = repository.findById(sectionId).orElseThrow(IllegalArgumentException::new);
+        var status = section.getEvent().getEventStatus();
+        if (status.equals("Cancel") || status.equals("Done")) throw new IllegalArgumentException();
+        section.setCandidateStatus(status.equals("Planning") ? "Cancel" : "Drop-out");
+
+        return saveSection(section);
     }
 
     @Autowired

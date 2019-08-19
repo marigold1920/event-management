@@ -1,7 +1,7 @@
 package group2.candidates.service;
 
 import group2.candidates.model.data.Account;
-import group2.candidates.model.data.CustomUserdetails;
+import group2.candidates.model.data.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,7 +17,7 @@ public class UserdetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Account account = accountService.findByUsername(username);
         System.out.println(account.toString());
-        UserDetails userDetails = new CustomUserdetails(account);
+        UserDetails userDetails = new CustomUserDetails(account);
         System.out.println(userDetails.toString());
         return userDetails;
     }

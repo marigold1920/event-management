@@ -1,9 +1,6 @@
 package group2.candidates.model.data;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import org.hibernate.annotations.GenericGenerator;
 

@@ -1,16 +1,10 @@
 package group2.candidates.model.data;
 
 import group2.candidates.tool.LocalDatePersistenceConverter;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-
-import com.google.gson.annotations.Expose;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Set;
@@ -26,42 +20,48 @@ public class Candidate implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column
+    @Column(name = "candidateid")
     private Integer candidateId;
-    
-    @OneToMany(mappedBy = "candidate", cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE })
-    @Expose private Set<Section> events;
-    
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE })
-    @JoinColumn(name = "departmentId")
+
     @Setter
+    @OneToMany(mappedBy = "candidate", cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE })
+    private Set<Section> events;
+
+    @Setter
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
+    @JoinColumn(name = "departmentId")
     private Department university;
-    
-    @Column
+
+    @Column(name = "account")
     private String account;
-    @Column
+    @Column(name = "nationalId")
     private String nationalId;
-     @Column
+    @Column(name = "name")
      private String name;
+    @Column(name = "dayOfBirth")
     // @Convert(converter = LocalDatePersistenceConverter.class)
-    @Column
     private String dayOfBirth;
-    @Column
+    @Column(name = "gender")
     private String gender;
-    @Column
+    @Column(name = "email")
     private String email;
-    @Column
+    @Column(name = "phone")
     private String phone;
-    @Column
+    @Column(name = "facebook")
     private String facebook;
+    @Column(name = "graduationDate")
     // @Convert(converter = LocalDatePersistenceConverter.class)
-    @Column
     private Integer graduationDate;
+    @Column(name = "fullTimeWorking")
     @Convert(converter = LocalDatePersistenceConverter.class)
-    @Column
     private LocalDate fullTimeWorking;
-    @Column
+    @Column(name = "skill")
     private String skill;
-    @Column
+    @Column(name = "gpa")
     private Double gpa;
+
+    public boolean isAttendEvent(String courseCode) {
+
+        return events.stream().filter(s -> s.getEvent().getCourseCode().equals(courseCode)).findFirst().isPresent();
+    }
 }

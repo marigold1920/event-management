@@ -20,6 +20,9 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
     @Query("select e from Event  e where e.courseCode like concat('%', :keySearch, '%')")
     Page<Event> searchEventByName(@Param("keySearch") String keySearch, Pageable pageable);
 
+    @Query("select e from Event e where e.courseCode in :codes")
+    Collection<Event> findAllByCourseCode(@Param("codes") Iterable<String> codes);
+
     @Modifying
     @Query("update Event set eventStatus = 'Cancel' where eventId = ?1")
     Integer changeEventStatusToCancelled(int eventId);
@@ -31,8 +34,15 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
             " OR e.actualEndDate >= :first and e.actualEndDate < :last" +
             " OR e.actualStartDate < :first AND e.actualEndDate > :last")
     Collection<Event> findEventsInMonth(@Param("first") LocalDate firstDate, @Param("last") LocalDate lastDate);
+    
     @Query("SELECT e FROM Event e WHERE e.actualStartDate >= :first AND e.actualStartDate < :last" +
             " OR e.actualEndDate >= :first AND e.actualEndDate <= :last" +
             " OR e.actualStartDate < :first AND e.actualEndDate > :last")
     Collection<Event> findEventsInWeek(@Param("first") LocalDate firstDate, @Param("last") LocalDate lastDate);
+
+    @Query("select e from Event e where e.courseCode like concat('%', :courseCode, '%') and e.plannedStartDate >= :plannedStartDate and e.plannedEndDate <= :plannedEndDate")
+    Optional<Event> checkCourseCodeOfEvent(@Param("courseCode") String courseCode, @Param("plannedStartDate") LocalDate plannedStartDate, @Param("plannedEndDate") LocalDate plannedEndDate);
+
+    @Query("select count(e) from Event e where e.courseCode like concat('%', :year, '%')")
+    int countEventOfYear(@Param("year") int year);
 }

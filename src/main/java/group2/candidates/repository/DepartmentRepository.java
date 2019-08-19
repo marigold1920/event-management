@@ -13,4 +13,7 @@ public interface DepartmentRepository extends JpaRepository<Department, Integer>
 
     @Query("select d from Department d where d.university.universityName = ?1 and d.faculty.facultyCode = ?2")
 	Optional<Department> findDepartmentByNameAndFacultyCode(String universityName, String facultyCode);
+
+    @Query("select d from Department d where d.university.universityName = ?1 and d.faculty.name = ?2")
+	Optional<Department> findDepartmentByNameAndFacultyName(String universityName, String facultyName);
 }

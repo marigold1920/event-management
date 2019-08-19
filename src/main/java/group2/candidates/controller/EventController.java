@@ -2,7 +2,9 @@ package group2.candidates.controller;
 
 import group2.candidates.adapter.EventAdapter;
 import group2.candidates.adapter.SectionAdapter;
+import group2.candidates.common.ResponseObject;
 import group2.candidates.model.data.Event;
+import group2.candidates.model.data.Section;
 import group2.candidates.service.*;
 import group2.candidates.tool.PoolService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -28,6 +29,8 @@ public class EventController {
     private UniversityService universityService;
     private CampusLinkProgramService campusLinkProgramService;
     private DepartmentService departmentService;
+    private CandidateService candidateService;
+    private SectionService sectionService;
 
     /**
      * Use to save all candidates of event(s)
@@ -38,14 +41,40 @@ public class EventController {
      * @see SectionAdapter
      */
     @PostMapping(value = "sections", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-    public void saveCandidatesOfEventFromExcelFile(@RequestBody Collection<SectionAdapter> sectionAdapters) {
+    public ResponseObject saveCandidatesOfEventFromExcelFile(@RequestBody Collection<SectionAdapter> sectionAdapters) {
+        var responseObj = new ResponseObject();
+        pool.instantiationCandidates(candidateService.findAllByEmail(sectionAdapters.stream()
+                  .map(SectionAdapter::getEmail)
+                  .collect(Collectors.toList())
+        ));
+        pool.instantiationEvents(eventService.findAllByCourseCode(sectionAdapters.stream()
+                .map(SectionAdapter::getCourseCode)
+                .collect(Collectors.toList())
+        ));
+
         sectionAdapters.stream().collect(Collectors.groupingBy(SectionAdapter::getCourseCode, Collectors.toList()))
-                .forEach((k, v) -> eventService.findEventByCourseCode(k).ifPresent(e -> {
-                    e.getCandidates().addAll(
-                            v.stream().map(ca -> ca.buildSection(e, departmentService)).collect(Collectors.toList()));
-                    eventService.saveEvent(e);
-                }));
+                  .forEach((k, v) -> pool.getEvent(k).ifPresentOrElse(e -> {
+                      e.getCandidates().addAll(v.stream().map(ca -> ca.buildSection(e, departmentService, responseObj)).filter(Objects::nonNull).collect(Collectors.toList()));
+                      responseObj.addIdentifiedData(eventService.saveEvent(e).getCandidates().stream().map(Section::getSectionId).collect(Collectors.toList()));
+                  }, () -> responseObj.addErrors("System was not found Event with Course Code: " + k)));
+          pool.destroy();
+
+          return responseObj.setStatus();
+    }
+
+    @PostMapping(value = "section", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    public ResponseObject saveCandidateOfEventFromManual(@RequestBody SectionAdapter sectionAdapter) {
+        var responseObj = new ResponseObject();
+        pool.instantiationCandidate(candidateService.findCandidateByEmail(sectionAdapter.getEmail()));
+
+        eventService.findEventByCourseCode(sectionAdapter.getCourseCode())
+                .ifPresentOrElse(e -> {
+                    var section = sectionAdapter.buildSection(e, departmentService, responseObj);
+                    if (section != null) sectionService.saveSection(section);
+                }, () -> responseObj.addErrors("System was not found Event with Course Code: " + sectionAdapter.getCourseCode()));
         pool.destroy();
+
+        return responseObj.setStatus();
     }
 
     /**
@@ -54,13 +83,21 @@ public class EventController {
      * @return Collection<Integer> after saving, all event must be returned eventId
      */
     @PostMapping(value = "events", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-    public Collection<Integer> saveEventsFromExcelFile(@RequestBody Collection<EventAdapter> eventAdapters) {
+    public ResponseObject saveEventsFromExcelFile(@RequestBody Collection<EventAdapter> eventAdapters) {
+        var responseObj = new ResponseObject();
+        pool.instantiationCampusLinkPrograms(campusLinkProgramService.loadCampusLinkPrograms());
+        pool.instantiationSubSubjectTypes(subSubjectTypeService.loadAllSubSubjectTypes());
+        pool.instantiationSuppliers(universityService.loadUniversity());
 
-        return eventAdapters.stream()
-                .map(e -> e.buildEvent(subSubjectTypeService, universityService, campusLinkProgramService))
+        responseObj.addIdentifiedData(eventAdapters.stream()
+                .map(e -> e.buildEvent(responseObj, eventService))
+                .filter(Objects::nonNull)
                 .map(eventService::saveEvent)
                 .map(Event::getEventId)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
+        pool.destroy();
+
+        return responseObj.setStatus();
     }
 
     /**
@@ -70,22 +107,22 @@ public class EventController {
      */
     @PostMapping(value = "event", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public Integer saveEventFromManual(@RequestBody EventAdapter eventAdapter) {
+        var responseObj = new ResponseObject();
 
         return eventService.saveEvent(
-                eventAdapter.buildEvent(subSubjectTypeService, universityService, campusLinkProgramService))
+                eventAdapter.buildEvent(responseObj, eventService))
                 .getEventId();
     }
 
     /**
-     *
-     * @param eventId
-     * @return
+     * Get event by using event id
+     * @param eventId id of event
+     * @return Event
      */
     @GetMapping(value = "event", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public Event getEventById(@Param("eventId") Integer eventId) {
-        var event = eventService.findEventByEventId(eventId).orElse(Event.builder().build());
 
-        return event;
+        return eventService.findEventByEventId(eventId).orElse(Event.builder().build());
     }
 
     /**
@@ -135,19 +172,31 @@ public class EventController {
      * @return Event after updating
      */
     @PutMapping(value = "events", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-    public Event updateEventInformation(@RequestBody EventAdapter eventAdapter) {
+    public ResponseObject updateEventInformation(@RequestBody EventAdapter eventAdapter) {
         Objects.requireNonNull(eventAdapter);
+        var responseObj = new ResponseObject();
+        pool.instantiationCampusLinkPrograms(campusLinkProgramService.loadCampusLinkPrograms());
+        pool.instantiationSubSubjectTypes(subSubjectTypeService.loadAllSubSubjectTypes());
+        pool.instantiationSuppliers(universityService.loadUniversity());
 
-        return eventService
-                .saveEvent(eventAdapter.buildEvent(subSubjectTypeService, universityService, campusLinkProgramService));
+        if (eventAdapter.isChangeYear()) {
+            eventAdapter.setUpdate(false);
+            eventAdapter.setEventId(null);
+        }
+        var event = eventAdapter.buildEvent(responseObj, eventService);
+         if (event != null) eventService.saveEvent(event);
+        pool.destroy();
+
+        return responseObj.setStatus();
     }
-
+       
     @GetMapping(value = "events/recent", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public Collection<Event> getRecentEvents(){
         int year = LocalDate.now().getYear();
         int month = LocalDate.now().getMonthValue();
         LocalDate firstDate = LocalDate.of(year, month,1);
         LocalDate lastDate = getFirstDateOfNextMonth(year, month);
+
         return eventService.getAllEventsInMonth(firstDate, lastDate);
     }
 
@@ -155,6 +204,7 @@ public class EventController {
     public Collection<Event> getALlEventsInMonth(@PathVariable("year") int year, @PathVariable("month") int month){
         LocalDate firstDate = LocalDate.of(year, month,1);
         LocalDate lastDate = getFirstDateOfNextMonth(year, month);
+
         return eventService.getAllEventsInMonth(firstDate, lastDate);
     }
 
@@ -162,6 +212,7 @@ public class EventController {
     public Collection<Event> getAllEventInWeek(@PathVariable("start-date") String startDate, @PathVariable("end-date") String endDate){
         LocalDate startLocalDate = parseStringToLocalDate(startDate);
         LocalDate endLocalDate = parseStringToLocalDate(endDate);
+
         return eventService.getAllEventsInWeek(startLocalDate, endLocalDate);
     }
 
@@ -169,6 +220,7 @@ public class EventController {
     public Collection<Event> getUniversityEventsInRange(@PathVariable("university-code") Integer university,@PathVariable("start-date") String startDate, @PathVariable("end-date") String endDate){
         LocalDate startLocalDate = parseStringToLocalDate(startDate);
         LocalDate endLocalDate = parseStringToLocalDate(endDate);
+
         return eventService.getEventInRangOfUniversity(startLocalDate, endLocalDate, university);
     }
 
@@ -189,7 +241,7 @@ public class EventController {
      * @return the first date of month.
      */
     private LocalDate getFirstDateOfNextMonth(int year, int month){
-        LocalDate lastDate = null;
+        LocalDate lastDate;
         if(month != 12) {
             lastDate = LocalDate.of(year, month + 1, 1);
         }else{
@@ -221,5 +273,15 @@ public class EventController {
     @Autowired
     public void setUniversityService(UniversityService universityService) {
         this.universityService = universityService;
+    }
+
+    @Autowired
+    public void setCandidateService(CandidateService candidateService) {
+        this.candidateService = candidateService;
+    }
+
+    @Autowired
+    public void setSectionService(SectionService sectionService) {
+        this.sectionService = sectionService;
     }
 }

@@ -1,9 +1,9 @@
 package group2.candidates.adapter;
 
+import group2.candidates.builder.EventBuilder;
+import group2.candidates.common.ResponseObject;
 import group2.candidates.model.data.Event;
-import group2.candidates.service.CampusLinkProgramService;
-import group2.candidates.service.SubSubjectTypeService;
-import group2.candidates.service.UniversityService;
+import group2.candidates.service.EventService;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,8 +16,8 @@ import java.time.LocalDate;
 public class EventAdapter {
 
     private Integer eventId;
-    private String courseCode;
     private String courseName; //CAMPUS LINK
+    private String courseCode;
     private String subjectType;
     private String subSubjectType; //SUB SUBJECT TYPE OBJECT
     private String plannedExpense;
@@ -38,6 +38,8 @@ public class EventAdapter {
     private LocalDate updatedDate; //TIME UPDATE
     private String eventStatus;
     private String note;
+    private boolean update;
+    private boolean changeYear;
 
     /**
      * Serializable Json process: Json Object to EventAdapter --> Event
@@ -46,32 +48,17 @@ public class EventAdapter {
      * Call after creating EventAdapter
      * @return Event
      */
-    public Event buildEvent(SubSubjectTypeService subSubjectTypeService, UniversityService universityService, 
-                                                                CampusLinkProgramService  campusLinkProgramService) {
-        var sub = subSubjectTypeService.findSubSubjectTypeByName(subSubjectType).orElseThrow();
-        var university = universityService.findUniversityByName(supplier).orElseThrow();
-        var campusLinkProgram = campusLinkProgramService.findProgram(courseName).orElseThrow();
+    public Event buildEvent(ResponseObject responseObject, EventService eventService) {
+        var builder = new EventBuilder()
+                .event()
+                    .information(eventId, courseCode, plannedExpense, budgetCode, subjectType, formatType, plannedStartDate, plannedEndDate,
+                            actualStartDate, actualEndDate, actualLearningTime, actualExpense, trainingFeedback, trainingFeedbackContent,
+                            trainingFeedbackTeacher, trainingFeedbackOrganization, note, eventStatus)
+                .campusLinkProgram(courseName, responseObject)
+                .supplier(supplier, responseObject)
+                .subSubjectType(subSubjectType, responseObject)
+                .courseCode(responseObject, eventService, update);
 
-        return Event.builder()
-                    .eventId(eventId)
-                    .courseCode(courseCode)
-                    .campusLinkProgram(campusLinkProgram)
-                    .plannedExpense(plannedExpense)
-                    .budgetCode(budgetCode)
-                    .subjectType(subjectType)
-                    .subSubjectType(sub)
-                    .formatType(formatType)
-                    .supplier(university)
-                    .plannedStartDate(plannedStartDate)
-                    .plannedEndDate(plannedEndDate)
-                    .actualStartDate(actualStartDate)
-                    .actualEndDate(actualEndDate)
-                    .actualLearningTime(actualLearningTime)
-                    .actualExpense(actualExpense)
-                    .trainingFeedback(trainingFeedback)
-                    .trainingFeedbackTeacher(trainingFeedbackTeacher)
-                    .trainingFeedbackOrganization(trainingFeedbackOrganization)
-                    .eventStatus(eventStatus == null ? "" : eventStatus)
-                .build();
+        return builder.isValid() ? builder.build() : null;
     }
 }

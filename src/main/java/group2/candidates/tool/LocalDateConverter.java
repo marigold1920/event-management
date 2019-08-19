@@ -20,12 +20,12 @@ public class LocalDateConverter implements JsonDeserializer<LocalDate>, JsonSeri
     @Override
     public JsonElement serialize(LocalDate date, Type typeOfSrc, JsonSerializationContext context) {
 
-        return new JsonPrimitive(date.format(DateTimeFormatter.ofPattern("dd-MMM-yyyy")));
+        return new JsonPrimitive(date.format(DateTimeFormatter.ofPattern("d-MMM-yyyy")));
     }
 
     public static LocalDate serializable(JsonElement element) {
-       var formatter = DateTimeFormatter.ofPattern("d-MMM-yyyy");
-        //var formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
+//       var formatter = DateTimeFormatter.ofPattern("d-MMM-yyyy");
+        var formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
         return LocalDate.parse(element.getAsString(), formatter);
     }
 }

@@ -7,6 +7,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CandidateService {
@@ -22,6 +24,31 @@ public class CandidateService {
     public Collection<Candidate> loadCandidates(int paginationIndex) {
 
         return repository.findAll(PageRequest.of(paginationIndex - 1, 10)).getContent();
+    }
+
+    /**
+     * Find candidate by using candidate id
+     * @param candidateId id of candidate
+     * @return Optional<Candidate>
+     */
+    public Optional<Candidate> findCandidateById(Integer candidateId) {
+
+        return repository.findById(candidateId);
+    }
+
+    /**
+     * Find all candidate matche with List of emails
+     * @param emails List of email
+     * @return Collection<Candidate>
+     */
+    public Collection<Candidate> findAllByEmail(List<String> emails) {
+
+        return repository.findAllByEmail(emails);
+    }
+
+    public Candidate findCandidateByEmail(String email) {
+
+        return repository.findCandidateByEmail(email);
     }
 
     /**

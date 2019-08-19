@@ -28,16 +28,16 @@ public class Event implements Serializable {
     @OneToMany(mappedBy = "event", cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE })
     private Set<Section> candidates;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "campuslinkprogramcode", referencedColumnName = "code")
-    @Setter
     private CampusLinkProgram campusLinkProgram;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subsubjecttypeid")
-    private SubSubjectType subSubjectType;
+    @Setter private SubSubjectType subSubjectType;
 
-    @Column(name = "coursecode", unique = true)
+    @Setter @Column(name = "coursecode", unique = true)
     private String courseCode;
     @Transient private String courseName;
     @Column(name = "budgetcode")
@@ -49,7 +49,7 @@ public class Event implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "supplier", referencedColumnName = "universityid")
-    private University supplier;
+    @Setter private University supplier;
 
     @Column(name = "plannedstartdate")
     @Convert(converter = LocalDatePersistenceConverter.class)
@@ -91,8 +91,6 @@ public class Event implements Serializable {
     public void setEventStatus() {
         if (plannedStartDate == null) plannedStartDate = LocalDate.now();
         if (plannedEndDate == null) plannedEndDate = LocalDate.now();
-        actualStartDate = actualStartDate == null ? plannedStartDate : actualStartDate;
-        actualEndDate = actualEndDate == null ? plannedEndDate : actualEndDate;
         updateEventStatus();
     }
 
@@ -128,14 +126,13 @@ public class Event implements Serializable {
 
     private void updateEventStatus() {
         if (eventStatus.equals("Cancel")) return;
-        var current = LocalDate.now();
 
-        if (current.isAfter(actualEndDate) || current.equals(actualEndDate)) {
-            eventStatus = "Finish";
+        if (actualEndDate != null) {
+            eventStatus = "Done";
             return;
         }
 
-        if (current.isAfter(actualStartDate) || current.equals(actualStartDate)) {
+        if (actualStartDate != null) {
             eventStatus = "On-going";
             return;
         }

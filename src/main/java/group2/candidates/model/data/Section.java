@@ -1,10 +1,10 @@
 package group2.candidates.model.data;
 
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Objects;
 
 @Entity
 @Getter
@@ -16,20 +16,24 @@ public class Section implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @EmbeddedId @Setter private SectionPK sectionId;
+    @Id @Column(name = "sectionid")
+    @GenericGenerator(name = "generator", strategy = "increment")
+    @GeneratedValue(generator = "generator")
+    private Integer sectionId;
 
-    @ManyToOne(cascade = { CascadeType.MERGE }, fetch = FetchType.LAZY)
-    @JoinColumn(name = "eventid", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "eventid")
     private Event event;
 
     @Setter
     @ManyToOne(cascade = { CascadeType.MERGE }, fetch = FetchType.LAZY)
-    @JoinColumn(name = "candidateid", insertable = false, updatable = false)
+    @JoinColumn(name = "candidateid")
     private Candidate candidate;
 
     @Column(name = "contracttype") //ENUMERATION
     private String contractType;
     @Column(name = "candidatestatus")
+    @Setter
     private String candidateStatus;
     @Column(name = "finalgrade")
     private String finalGrade;
@@ -43,20 +47,6 @@ public class Section implements Serializable {
     @PrePersist
     public void setStatus() {
         candidateStatus = candidateStatus == null ? "Active" : candidateStatus;
-        sectionId = new SectionPK(event.getEventId(), candidate.getCandidateId());
+        contractType = contractType == null ? "No contract" : contractType;
     }
-
-     @Override
-     public boolean equals(Object obj) {
-         if (this == obj) return true;
-         if (!(obj instanceof Section)) return false;
-         var section = (Section) obj;
-
-         return this.sectionId.equals(section.getSectionId());
-     }
-
-     @Override
-     public int hashCode() {
-         return Objects.hash(sectionId);
-     }
 }

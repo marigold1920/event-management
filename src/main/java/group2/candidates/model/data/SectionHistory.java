@@ -22,10 +22,7 @@ public class SectionHistory implements Serializable {
     private Integer sectionHistoryId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumns({
-        @JoinColumn(name = "candidateid"),
-        @JoinColumn(name = "eventid")
-    })
+    @JoinColumn(name = "sectionid")
     private Section section;
 
     @ManyToOne(fetch = FetchType.LAZY)
