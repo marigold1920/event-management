@@ -3,6 +3,7 @@ package group2.candidates.controller;
 import group2.candidates.model.data.Account;
 import group2.candidates.model.data.Authority;
 import group2.candidates.service.AccountService;
+import group2.candidates.service.AuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -17,6 +18,7 @@ import java.util.List;
 public class AccountController {
     private AccountService accountService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private AuthorityService authorityService;
 
     @Autowired
     public void setAccountService(AccountService accountService) {
@@ -25,6 +27,10 @@ public class AccountController {
     @Autowired
     public void setbCrypt(BCryptPasswordEncoder passwordEncoder) {
         this.bCryptPasswordEncoder = passwordEncoder;
+    }
+    @Autowired
+    public void setAuthorityService(AuthorityService authorityService) {
+        this.authorityService = authorityService;
     }
 
     /**
@@ -84,12 +90,16 @@ public class AccountController {
     }
 
     /**
-     * @param authoritiesID the array account's authority ids.
+     * @param authorities the array account's authority ids.
      * @param username      the username.
      * @return Updated account if add success, otherwise return null.
      */
     @PatchMapping(value = "update-roles", produces = {"application/json;**charset=UTF-8**"})
-    public Account updateRoles(@RequestBody List<Authority> authoritiesID, @Param("username") String username) {
-        return accountService.updateRole(username, authoritiesID);
+    public Account updateRoles(@RequestBody Integer[] authorities, @Param("username") String username) {
+        List<Authority> authorityList = new ArrayList<>();
+        for (Integer id: authorities) {
+            authorityList.add(authorityService.getAuthorityById(id));
+        }
+        return accountService.updateRole(username, authorityList);
     }
 }
