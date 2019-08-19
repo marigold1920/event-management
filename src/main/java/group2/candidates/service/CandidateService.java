@@ -26,15 +26,29 @@ public class CandidateService {
         return repository.findAll(PageRequest.of(paginationIndex - 1, 10)).getContent();
     }
 
+    /**
+     * Find candidate by using candidate id
+     * @param candidateId id of candidate
+     * @return Optional<Candidate>
+     */
     public Optional<Candidate> findCandidateById(Integer candidateId) {
 
         return repository.findById(candidateId);
     }
 
-
+    /**
+     * Find all candidate matche with List of emails
+     * @param emails List of email
+     * @return Collection<Candidate>
+     */
     public Collection<Candidate> findAllByEmail(List<String> emails) {
 
         return repository.findAllByEmail(emails);
+    }
+
+    public Candidate findCandidateByEmail(String email) {
+
+        return repository.findCandidateByEmail(email);
     }
 
     /**

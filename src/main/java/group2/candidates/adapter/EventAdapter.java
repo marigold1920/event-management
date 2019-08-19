@@ -1,9 +1,8 @@
 package group2.candidates.adapter;
 
+import group2.candidates.builder.EventBuilder;
+import group2.candidates.common.ResponseObject;
 import group2.candidates.model.data.Event;
-import group2.candidates.service.CampusLinkProgramService;
-import group2.candidates.service.SubSubjectTypeService;
-import group2.candidates.service.UniversityService;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -46,34 +45,16 @@ public class EventAdapter {
      * Call after creating EventAdapter
      * @return Event
      */
-    public Event buildEvent(SubSubjectTypeService subSubjectTypeService, UniversityService universityService, 
-                                                                CampusLinkProgramService  campusLinkProgramService) {
-        var sub = subSubjectTypeService.findSubSubjectTypeByName(subSubjectType).orElseThrow();
-        var university = universityService.findUniversityByName(supplier).orElseThrow();
-        var campusLinkProgram = campusLinkProgramService.findProgram(courseName).orElseThrow();
+    public Event buildEvent(ResponseObject responseObject) {
+        var builder = new EventBuilder()
+                .event()
+                    .information(eventId, courseCode, plannedExpense, budgetCode, subjectType, formatType, plannedStartDate, plannedEndDate,
+                            actualStartDate, actualEndDate, actualLearningTime, actualExpense, trainingFeedback, trainingFeedbackContent,
+                            trainingFeedbackTeacher, trainingFeedbackOrganization, note, eventStatus)
+                .campusLinkProgram(courseName, responseObject)
+                .supplier(supplier, responseObject)
+                .subSubjectType(subSubjectType, responseObject);
 
-        return Event.builder()
-                    .eventId(eventId)
-                    .courseCode(courseCode)
-                    .campusLinkProgram(campusLinkProgram)
-                    .plannedExpense(plannedExpense)
-                    .budgetCode(budgetCode)
-                    .subjectType(subjectType)
-                    .subSubjectType(sub)
-                    .formatType(formatType)
-                    .supplier(university)
-                    .plannedStartDate(plannedStartDate)
-                    .plannedEndDate(plannedEndDate)
-                    .actualStartDate(actualStartDate)
-                    .actualEndDate(actualEndDate)
-                    .actualLearningTime(actualLearningTime)
-                    .actualExpense(actualExpense)
-                    .trainingFeedback(trainingFeedback)
-                    .trainingFeedbackContent(trainingFeedbackContent)
-                    .trainingFeedbackTeacher(trainingFeedbackTeacher)
-                    .trainingFeedbackOrganization(trainingFeedbackOrganization)
-                    .note(note)
-                    .eventStatus(eventStatus == null ? "" : eventStatus)
-                .build();
+        return builder.isValid() ? builder.build() : null;
     }
 }

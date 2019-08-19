@@ -35,7 +35,7 @@ public class Event implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subsubjecttypeid")
-    private SubSubjectType subSubjectType;
+    @Setter private SubSubjectType subSubjectType;
 
     @Column(name = "coursecode", unique = true)
     private String courseCode;
@@ -49,7 +49,7 @@ public class Event implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "supplier", referencedColumnName = "universityid")
-    private University supplier;
+    @Setter private University supplier;
 
     @Column(name = "plannedstartdate")
     @Convert(converter = LocalDatePersistenceConverter.class)

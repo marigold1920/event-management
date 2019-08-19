@@ -13,4 +13,7 @@ public interface CandidateRepository extends JpaRepository<Candidate, Integer> {
 
     @Query("select c from Candidate c where c.email in :emails")
     Collection<Candidate> findAllByEmail(@Param("emails") Iterable<String> emails);
+
+    @Query("select  c from Candidate  c where c.email = ?1")
+   Candidate findCandidateByEmail(String email);
 }

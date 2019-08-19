@@ -21,8 +21,6 @@ public class Candidate implements Serializable {
 
     @Id
     @Column(name = "candidateid")
-    @GenericGenerator(name = "generator", strategy = "increment")
-    @GeneratedValue(generator = "generator")
     private Integer candidateId;
 
     @Setter

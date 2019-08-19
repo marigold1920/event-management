@@ -1,14 +1,14 @@
 package group2.candidates.enumaration;
 
-public enum CandidateEnrollmentStatus {
+public enum ResponseStatus {
         SUCCESS("All candidates attended successfully!"),
         FAIL("Data might be not valid!");
 
         private final String value;
 
-        CandidateEnrollmentStatus(String value) {
+        ResponseStatus(String value) {
             this.value = value;
         }
 
-        String getValue() { return value; }
+       public  String getValue() { return value; }
 }

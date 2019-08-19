@@ -1,6 +1,6 @@
 package group2.candidates.builder;
 
-import group2.candidates.common.SectionResponseEntity;
+import group2.candidates.common.ResponseObject;
 import group2.candidates.model.data.Candidate;
 import group2.candidates.model.data.Department;
 import group2.candidates.model.data.Section;
@@ -31,16 +31,16 @@ public class SectionCandidateBuilder extends SectionBuilder {
      * @param gpa gpa
      * @return SectionCandidateBuilder
      */
-    public SectionCandidateBuilder attend(SectionResponseEntity sectionResponseEntity, PoolService pool, String account, String nationalId, String name, String dob, String gender,
+    public SectionCandidateBuilder attend(ResponseObject responseObject, PoolService pool, String account, String nationalId, String name, String dob, String gender,
                                           String email, String phone, String facebook, Integer universityGraduationDate, LocalDate fullTimeWorking, double gpa) {
         pool.getCandidate(email).ifPresentOrElse(c -> {
             if (!c.getName().equals(name)) {
-                sectionResponseEntity.addErrors("Duplicate email: " + email + ", owner: " + c.getName() + "!");
+                responseObject.addErrors("Duplicate email: " + email + ", owner: " + c.getName() + "!");
                 setValid(false);
             } else {
                 var courseCode = section.getEvent().getCourseCode();
                 if (c.isAttendEvent(courseCode)) {
-                    sectionResponseEntity.addErrors(name + " has already attended in event " + courseCode);
+                    responseObject.addErrors(name + " has already attended in event " + courseCode);
                     setValid(false);
                 } else {
                     section.setCandidate(c);
@@ -48,6 +48,7 @@ public class SectionCandidateBuilder extends SectionBuilder {
             }
         }, () -> {
             var candidate = Candidate.builder()
+                    .candidateId(Objects.hash(email, name))
                     .account(account)
                     .nationalId(nationalId)
                     .name(name)

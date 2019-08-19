@@ -1,7 +1,7 @@
 package group2.candidates.adapter;
 
 import group2.candidates.builder.SectionBuilder;
-import group2.candidates.common.SectionResponseEntity;
+import group2.candidates.common.ResponseObject;
 import group2.candidates.model.data.Event;
 import group2.candidates.model.data.Section;
 import group2.candidates.service.DepartmentService;
@@ -41,11 +41,11 @@ public class SectionAdapter {
     private String note;
     private String contractType;
 
-    public Section buildSection(Event event, DepartmentService departmentService, SectionResponseEntity sectionResponseEntity) {
+    public Section buildSection(Event event, DepartmentService departmentService, ResponseObject responseObject) {
         var department = pool.getDepartment(universityName, facultyCode, departmentService);
 
         if (department == null) {
-            sectionResponseEntity.addErrors("System was not found " + universityName + " with " + facultyCode + "!");
+            responseObject.addErrors("System was not found " + universityName + " with " + facultyCode + "!");
             return null;
         }
 
@@ -53,7 +53,7 @@ public class SectionAdapter {
                 .section()
                     .join(event, status, finalGrade, completionLevel, certificateId, note, contractType)
                 .candidate()
-                    .attend(sectionResponseEntity, pool, account, nationalId, name, dob, gender,
+                    .attend(responseObject, pool, account, nationalId, name, dob, gender,
                                         email, phone, facebook, universityGraduationDate, fullTimeWorking, gpa)
                     .department(department);
 

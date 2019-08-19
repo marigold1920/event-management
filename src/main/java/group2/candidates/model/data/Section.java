@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -21,7 +21,7 @@ public class Section implements Serializable {
     @GeneratedValue(generator = "generator")
     private Integer sectionId;
 
-    @ManyToOne(cascade = { CascadeType.MERGE }, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "eventid")
     private Event event;
 
@@ -47,5 +47,6 @@ public class Section implements Serializable {
     @PrePersist
     public void setStatus() {
         candidateStatus = candidateStatus == null ? "Active" : candidateStatus;
+        contractType = contractType == null ? "No contract" : contractType;
     }
 }
