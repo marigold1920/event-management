@@ -49,6 +49,16 @@
         </property>
     </bean>
 
+    <bean name="dataSourceInitializer" class="org.springframework.jdbc.datasource.init.DataSourceInitializer">
+        <property name="databasePopulator">
+            <bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator">
+                <property name="scripts" value="classpath:trin.sql"/>
+                <property name="ignoreFailedDrops" value="true"/>
+            </bean>
+        </property>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
     <bean name="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="packagesToScan" value="group2.candidates.model"/>
@@ -66,7 +76,7 @@
 <!--                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</prop>-->
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
                 <prop key="hibernate.show_sql">true</prop>
-            </props>
+        </props>
 
         </property>
     </bean>
