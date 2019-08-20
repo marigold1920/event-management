@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Set;
 
 @Service
 public class SectionService {
@@ -71,5 +72,10 @@ public class SectionService {
     @Autowired
     public void setRepository(SectionRepository repository) {
         this.repository = repository;
+    }
+
+    public void saveAllSections(Set<Section> candidates) {
+
+        repository.saveAll(candidates);
     }
 }

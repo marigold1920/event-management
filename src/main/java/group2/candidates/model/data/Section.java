@@ -19,8 +19,9 @@ public class Section implements Serializable {
     @Id @Column(name = "sectionid")
     @GenericGenerator(name = "generator", strategy = "increment")
     @GeneratedValue(generator = "generator")
-    private Integer sectionId;
+    @Setter private Integer sectionId;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "eventid")
     private Event event;

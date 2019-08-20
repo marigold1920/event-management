@@ -180,11 +180,26 @@ public class EventController {
         pool.instantiationSuppliers(universityService.loadUniversity());
 
         if (eventAdapter.isChangeYear()) {
-            eventAdapter.setUpdate(false);
-            eventAdapter.setEventId(null);
+            eventService.findEventByEventId(eventAdapter.getEventId()).ifPresentOrElse(
+                    e -> {
+                        e.setEventStatus("Cancel");
+                        e.setNote("Event cancelled by change planned start date to new year!");
+                        eventAdapter.setUpdate(false);
+                        eventAdapter.setEventId(null);
+                        var event = eventAdapter.buildEvent(responseObj, eventService);
+                         if (event != null) {
+                             event.setCandidates(e.getCandidates());
+                             eventService.saveEvent(e);
+                             event.getCandidates().forEach(section -> { section.setEvent(event); section.setSectionId(null); });
+                             eventService.saveEvent(event);
+                             sectionService.saveAllSections(event.getCandidates());
+                         }
+                    }, () -> responseObj.addErrors("Update failed! Data might be not valid!")
+            );
+        } else {
+            var event = eventAdapter.buildEvent(responseObj, eventService);
+            eventService.saveEvent(event);
         }
-        var event = eventAdapter.buildEvent(responseObj, eventService);
-         if (event != null) eventService.saveEvent(event);
         pool.destroy();
 
         return responseObj.setStatus();
