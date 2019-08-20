@@ -26,5 +26,5 @@ public class Faculty implements Serializable {
     @Column(name = "facultycode", nullable = false)
     private String facultyCode;
     @Column(name = "name")
-    private String name;
+    @Getter private String name;
 }

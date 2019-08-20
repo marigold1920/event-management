@@ -67,7 +67,7 @@ public class EventJsonSerializable implements JsonSerializer<Event> {
         jsonObj.addProperty("eventStatus", event.getEventStatus());
         jsonObj.addProperty("isChosen", false);
         jsonObj.addProperty("changeYear", false);
-        jsonObj.addProperty("update", false);
+        jsonObj.addProperty("update", true);
 
 		return jsonObj;
 	}
