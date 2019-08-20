@@ -28,7 +28,7 @@ public class EventAdapter {
     private LocalDate plannedEndDate;
     private LocalDate actualStartDate;
     private LocalDate actualEndDate;
-   private int actualLearningTime;
+    private int actualLearningTime;
     private String actualExpense;
     private String trainingFeedback;
     private String trainingFeedbackContent;
