@@ -26,10 +26,10 @@ public final class JsonParser {
                     .setPrettyPrinting()
                     .registerTypeAdapter(Department.class, new DepartmentJsonSerializable())
 //                    .registerTypeAdapter(EventAdapter.class, new EventAdapterDeserializable())
-                    .registerTypeAdapter(Candidate.class, new CandidateJsonSerializable())
+//                    .registerTypeAdapter(Candidate.class, new CandidateJsonSerializable())
                     .registerTypeAdapter(Event.class, new EventJsonSerializable())
                     .registerTypeAdapter(Section.class, new SectionJsonSerializable())
-                    .registerTypeAdapter(Section.class, new SectionJsonDeserializable())
+//                    .registerTypeAdapter(Section.class, new SectionJsonDeserializable())
                     .registerTypeAdapter(LocalDate.class, new LocalDateConverter())
                 .create();
     }

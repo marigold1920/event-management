@@ -1,5 +1,6 @@
 package group2.candidates.model.data;
 
+import com.google.gson.annotations.Expose;
 import group2.candidates.tool.LocalDatePersistenceConverter;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -91,6 +92,8 @@ public class Event implements Serializable {
     private void setEventStatus() {
         if (plannedStartDate == null) plannedStartDate = LocalDate.now();
         if (plannedEndDate == null) plannedEndDate = LocalDate.now();
+        if (actualStartDate == null) actualStartDate = plannedStartDate;
+        if (actualEndDate == null) actualEndDate = plannedEndDate;
         updateEventStatus();
     }
 
@@ -126,13 +129,14 @@ public class Event implements Serializable {
 
     private void updateEventStatus() {
         if (eventStatus.equals("Cancel")) return;
+        var current = LocalDate.now();
 
-        if (actualEndDate != null) {
+        if (current.isAfter(actualEndDate)) {
             eventStatus = "Done";
             return;
         }
 
-        if (actualStartDate != null) {
+        if (current.isAfter(actualStartDate) || current.equals(actualStartDate)) {
             eventStatus = "On-going";
             return;
         }

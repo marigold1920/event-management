@@ -1,5 +1,7 @@
 package group2.candidates.controller;
 
+import group2.candidates.adapter.SectionAdapter;
+import group2.candidates.common.ResponseObject;
 import group2.candidates.model.data.Section;
 import group2.candidates.service.SectionService;
 import org.springframework.beans.factory.annotation.Autowired;

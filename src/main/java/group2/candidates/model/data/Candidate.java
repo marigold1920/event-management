@@ -2,7 +2,6 @@ package group2.candidates.model.data;
 
 import group2.candidates.tool.LocalDatePersistenceConverter;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,7 +20,7 @@ public class Candidate implements Serializable {
 
     @Id
     @Column(name = "candidateid")
-    private Integer candidateId;
+    @Setter private Integer candidateId;
 
     @Setter
     @OneToMany(mappedBy = "candidate", cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE })
@@ -39,7 +38,7 @@ public class Candidate implements Serializable {
     @Column(name = "name")
      private String name;
     @Column(name = "dayOfBirth")
-    // @Convert(converter = LocalDatePersistenceConverter.class)
+//     @Convert(converter = LocalDatePersistenceConverter.class)
     private String dayOfBirth;
     @Column(name = "gender")
     private String gender;
@@ -59,6 +58,8 @@ public class Candidate implements Serializable {
     private String skill;
     @Column(name = "gpa")
     private Double gpa;
+    @Transient private String universityName;
+    @Transient private String facultyName;
 
     public boolean isAttendEvent(String courseCode) {
 

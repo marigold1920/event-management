@@ -44,8 +44,8 @@ public class EventController {
     public ResponseObject saveCandidatesOfEventFromExcelFile(@RequestBody Collection<SectionAdapter> sectionAdapters) {
         var responseObj = new ResponseObject();
         pool.instantiationCandidates(candidateService.findAllByEmail(sectionAdapters.stream()
-                  .map(SectionAdapter::getEmail)
-                  .collect(Collectors.toList())
+                .map(SectionAdapter::getEmail)
+                .collect(Collectors.toList())
         ));
         pool.instantiationEvents(eventService.findAllByCourseCode(sectionAdapters.stream()
                 .map(SectionAdapter::getCourseCode)
@@ -53,13 +53,13 @@ public class EventController {
         ));
 
         sectionAdapters.stream().collect(Collectors.groupingBy(SectionAdapter::getCourseCode, Collectors.toList()))
-                  .forEach((k, v) -> pool.getEvent(k).ifPresentOrElse(e -> {
-                      e.getCandidates().addAll(v.stream().map(ca -> ca.buildSection(e, departmentService, responseObj)).filter(Objects::nonNull).collect(Collectors.toList()));
-                      responseObj.addIdentifiedData(eventService.saveEvent(e).getCandidates().stream().map(Section::getSectionId).collect(Collectors.toList()));
-                  }, () -> responseObj.addErrors("System was not found Event with Course Code: " + k)));
-          pool.destroy();
+                .forEach((k, v) -> pool.getEvent(k).ifPresentOrElse(e -> {
+                    e.getCandidates().addAll(v.stream().map(ca -> ca.buildSection(e, departmentService, responseObj)).filter(Objects::nonNull).collect(Collectors.toList()));
+                    responseObj.addIdentifiedData(eventService.saveEvent(e).getCandidates().stream().map(Section::getSectionId).collect(Collectors.toList()));
+                }, () -> responseObj.addErrors("System was not found Event with Course Code: " + k)));
+        pool.destroy();
 
-          return responseObj.setStatus();
+        return responseObj.setStatus();
     }
 
     @PostMapping(value = "section", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
@@ -189,7 +189,6 @@ public class EventController {
                         var event = eventAdapter.buildEvent(responseObj, eventService);
                          if (event != null) {
                              event.setCandidates(e.getCandidates());
-                             eventService.saveEvent(e);
                              event.getCandidates().forEach(section -> { section.setEvent(event); section.setSectionId(null); });
                              eventService.saveEvent(event);
                              sectionService.saveAllSections(event.getCandidates());

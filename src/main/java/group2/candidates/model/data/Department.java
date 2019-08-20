@@ -25,11 +25,11 @@ public class Department implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "facultyid")
-    private Faculty faculty;
+    @Getter private Faculty faculty;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "universityid")
-    private University university;
+    @Getter private University university;
 
     @Column(name = "cooperationstartdate")
     // @Convert(converter = LocalDatePersistenceConverter.class)

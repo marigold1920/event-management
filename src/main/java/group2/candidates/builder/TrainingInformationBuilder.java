@@ -18,8 +18,9 @@ public class TrainingInformationBuilder extends SectionBuilder {
      * @param contractType type of contract
      * @return TrainingInformationBuilder
      */
-    public TrainingInformationBuilder join(Event event, String status, String finalGrade, String completionLevel, String certificateId, String note, String contractType) {
+    public TrainingInformationBuilder join(Event event, Integer sectionId, String status, String finalGrade, String completionLevel, String certificateId, String note, String contractType) {
         this.section = Section.builder()
+                    .sectionId(sectionId)
                     .candidateStatus(status)
                     .contractType(contractType)
                     .finalGrade(finalGrade)

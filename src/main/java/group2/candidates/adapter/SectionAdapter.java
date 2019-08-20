@@ -13,9 +13,11 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Data
 public class SectionAdapter {
     private PoolService pool = PoolService.getPoolService();
 
+    private Integer sectionId;
     private String nationalId;
     private String account;
     private String name;
@@ -31,13 +33,12 @@ public class SectionAdapter {
     private double gpa;
 
    @Getter private String courseCode;
+   private String candidateId;
 
     private String status;
     private String finalGrade;
     private String completionLevel;
     private String certificateId;
-    // private String updatedBy;
-    // private LocalDate updatedDate; //GENERATION
     private String note;
     private String contractType;
 
@@ -51,7 +52,7 @@ public class SectionAdapter {
 
         var builder =  new SectionBuilder()
                 .section()
-                    .join(event, status, finalGrade, completionLevel, certificateId, note, contractType)
+                    .join(event, sectionId, status, finalGrade, completionLevel, certificateId, note, contractType)
                 .candidate()
                     .attend(responseObject, pool, account, nationalId, name, dob, gender,
                                         email, phone, facebook, universityGraduationDate, fullTimeWorking, gpa)

@@ -22,7 +22,9 @@ public class CandidateJsonSerializable implements JsonSerializer<Candidate> {
         jsonObj.addProperty("email", candidate.getEmail());
         jsonObj.addProperty("nationalId", candidate.getNationalId());
         jsonObj.addProperty("name", candidate.getName());
-        jsonObj.addProperty("dayOfBirth", candidate.getDayOfBirth());
+        var dob = candidate.getDayOfBirth();
+        if (dob != null)
+                jsonObj.addProperty("dayOfBirth", dob.toString());
         jsonObj.addProperty("gender", candidate.getGender());
         jsonObj.addProperty("phone", candidate.getPhone());
         jsonObj.addProperty("graduationDate", candidate.getGraduationDate());
@@ -32,7 +34,6 @@ public class CandidateJsonSerializable implements JsonSerializer<Candidate> {
         }
         jsonObj.addProperty("skill", candidate.getSkill());
         jsonObj.addProperty("gpa", candidate.getGpa());
-        jsonObj.addProperty("isChosen", false);
 
         return jsonObj;
 	}
