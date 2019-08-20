@@ -54,8 +54,8 @@ public class EventJsonSerializable implements JsonSerializer<Event> {
         if (to  != null) {
                 jsonObj.addProperty("actualEndDate", to.format(DateTimeFormatter.ofPattern("d-MMM-yyyy")));
         }
-        jsonObj.addProperty("actualStartDate", event.getActualStartDate().format(DateTimeFormatter.ofPattern("d-MMM-yyyy")));
-        jsonObj.addProperty("actualEndDate", event.getActualEndDate().format(DateTimeFormatter.ofPattern("d-MMM-yyyy")));
+//        jsonObj.addProperty("actualStartDate", event.getActualStartDate().format(DateTimeFormatter.ofPattern("d-MMM-yyyy")));
+//        jsonObj.addProperty("actualEndDate", event.getActualEndDate().format(DateTimeFormatter.ofPattern("d-MMM-yyyy")));
         jsonObj.addProperty("actualLearningTime", event.getActualLearningTime());
         jsonObj.addProperty("actualNumberOfTrainees", event.getActualNumberOfTrainees());
         jsonObj.addProperty("actualNumberOfEnrolled", event.getActualNumberOfEnrolled());
