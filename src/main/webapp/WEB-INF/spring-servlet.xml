@@ -54,6 +54,7 @@
             <bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator">
                 <property name="scripts" value="classpath:trin.sql"/>
                 <property name="ignoreFailedDrops" value="true"/>
+                   <property name="sqlScriptEncoding" value="utf-8"/>
             </bean>
         </property>
         <property name="dataSource" ref="dataSource"/>
