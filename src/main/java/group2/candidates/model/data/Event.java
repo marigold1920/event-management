@@ -26,7 +26,7 @@ public class Event implements Serializable {
     private Integer eventId;
 
     @OneToMany(mappedBy = "event", cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE })
-    private Set<Section> candidates;
+    @Setter private Set<Section> candidates;
 
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
@@ -83,19 +83,19 @@ public class Event implements Serializable {
     @Column(name = "trainingfeedbackorganization")
     private String trainingFeedbackOrganization;
     @Column(name = "note")
-    private String note;
+    @Setter private String note;
     @Column(name = "eventstatus")
-    private String eventStatus;
+    @Setter private String eventStatus;
 
     @PrePersist
-    public void setEventStatus() {
+    private void setEventStatus() {
         if (plannedStartDate == null) plannedStartDate = LocalDate.now();
         if (plannedEndDate == null) plannedEndDate = LocalDate.now();
         updateEventStatus();
     }
 
     @PreUpdate
-    public void updateCourseCode() {
+    private void updateCourseCode() {
         var currentCountOfEvent = courseCode.substring(courseCode.lastIndexOf("_") + 1);
         var year  = plannedStartDate.getYear() % 100;
 
