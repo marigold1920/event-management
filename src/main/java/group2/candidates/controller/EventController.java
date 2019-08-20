@@ -4,8 +4,10 @@ import group2.candidates.adapter.EventAdapter;
 import group2.candidates.adapter.SectionAdapter;
 import group2.candidates.common.ResponseObject;
 import group2.candidates.model.data.Event;
+import group2.candidates.model.data.EventHistory;
 import group2.candidates.model.data.Section;
 import group2.candidates.service.*;
+import group2.candidates.tool.JsonParser;
 import group2.candidates.tool.PoolService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -13,10 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -106,12 +105,18 @@ public class EventController {
      * @return Integer after saving, event must be returned eventId
      */
     @PostMapping(value = "event", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-    public Integer saveEventFromManual(@RequestBody EventAdapter eventAdapter) {
+    public ResponseObject saveEventFromManual(@RequestBody EventAdapter eventAdapter) {
         var responseObj = new ResponseObject();
+        pool.instantiationCampusLinkPrograms(campusLinkProgramService.loadCampusLinkPrograms());
+        pool.instantiationSubSubjectTypes(subSubjectTypeService.loadAllSubSubjectTypes());
+        pool.instantiationSuppliers(universityService.loadUniversity());
 
-        return eventService.saveEvent(
+        responseObj.addIdentifiedData(List.of(eventService.saveEvent(
                 eventAdapter.buildEvent(responseObj, eventService))
-                .getEventId();
+                .getEventId()));
+        pool.destroy();
+
+        return responseObj.setStatus();
     }
 
     /**
@@ -178,9 +183,10 @@ public class EventController {
         pool.instantiationCampusLinkPrograms(campusLinkProgramService.loadCampusLinkPrograms());
         pool.instantiationSubSubjectTypes(subSubjectTypeService.loadAllSubSubjectTypes());
         pool.instantiationSuppliers(universityService.loadUniversity());
+        var oldEvent = eventService.findEventByEventId(eventAdapter.getEventId());
 
         if (eventAdapter.isChangeYear()) {
-            eventService.findEventByEventId(eventAdapter.getEventId()).ifPresentOrElse(
+            oldEvent.ifPresentOrElse(
                     e -> {
                         e.setEventStatus("Cancel");
                         e.setNote("Event cancelled by change planned start date to new year!");
@@ -190,14 +196,26 @@ public class EventController {
                          if (event != null) {
                              event.setCandidates(e.getCandidates());
                              event.getCandidates().forEach(section -> { section.setEvent(event); section.setSectionId(null); });
+                             eventService.saveEvent(e);
                              eventService.saveEvent(event);
                              sectionService.saveAllSections(event.getCandidates());
                          }
                     }, () -> responseObj.addErrors("Update failed! Data might be not valid!")
             );
         } else {
-            var event = eventAdapter.buildEvent(responseObj, eventService);
-            eventService.saveEvent(event);
+                oldEvent.ifPresentOrElse(e -> {
+                    var event = eventAdapter.buildEvent(responseObj, eventService);
+                    if (event != null) {
+                        var gs = JsonParser.create();
+                        var history = EventHistory.builder()
+                                .oldEvent(event)
+                                .updatedDate(LocalDate.now())
+                                .dataBackUp(JsonParser.eventToJson(e, gs))
+                                .build();
+                        event.addHistory(history);
+                        eventService.saveEvent(event);
+                    }
+                }, () -> responseObj.addErrors("Update failed!  Data might be invalid"));
         }
         pool.destroy();
 

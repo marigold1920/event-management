@@ -1,7 +1,9 @@
 package group2.candidates.model.data;
 
 import group2.candidates.tool.LocalDatePersistenceConverter;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -9,7 +11,9 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name = "eventhistory")
 public class EventHistory implements Serializable {
 
@@ -21,15 +25,17 @@ public class EventHistory implements Serializable {
     @Column(name = "eventhistoryid")
     private Integer eventHistoryId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "updatedby", referencedColumnName = "username")
-    private Account updatedBy;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "updatedby", referencedColumnName = "username")
+//    private Account updatedBy;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "eventid")
-    private Event event;
+    private Event oldEvent;
 
     @Column(name = "updateddate")
     @Convert(converter = LocalDatePersistenceConverter.class)
     private LocalDate updatedDate;
+    @Column(name = "databackup")
+    private String dataBackUp;
 }
