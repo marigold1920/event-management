@@ -12,6 +12,7 @@ public class ResponseObject {
     private String status;
     private Set<String> errors = new HashSet<>();
     private Collection<Integer> identifiedData = new ArrayList<>();
+    private Object identifiedObject;
 
     public void addErrors(String message) {
         errors.add(message);
@@ -29,5 +30,9 @@ public class ResponseObject {
 
     public void addIdentifiedData(Collection<Integer> sectionIds) {
         identifiedData.addAll(sectionIds);
+    }
+
+    public void  addIdentifiedObject(Object identifiedObject) {
+        this.identifiedObject = identifiedObject;
     }
 }

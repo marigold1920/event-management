@@ -75,7 +75,7 @@ public class EventController {
                     var section = sectionAdapter.buildSection(e, departmentService, responseObj);
                     if (section != null) {
                         e.getCandidates().add(section);
-                        eventService.saveEvent(e);
+                        responseObj.addIdentifiedObject(eventService.saveEvent(e));
                     }
                 }, () -> responseObj.addErrors("System was not found Event with Course Code: " + sectionAdapter.getCourseCode()));
         pool.destroy();
@@ -118,9 +118,8 @@ public class EventController {
         pool.instantiationSubSubjectTypes(subSubjectTypeService.loadAllSubSubjectTypes());
         pool.instantiationSuppliers(universityService.loadUniversity());
 
-        responseObj.addIdentifiedData(List.of(eventService.saveEvent(
-                eventAdapter.buildEvent(responseObj, eventService))
-                .getEventId()));
+        responseObj.addIdentifiedObject(eventService.saveEvent(
+                eventAdapter.buildEvent(responseObj, eventService)));
         pool.destroy();
 
         return responseObj.setStatus();
@@ -148,20 +147,6 @@ public class EventController {
             return new ArrayList<>();
 
         return eventService.loadEvents(paginationIndex);
-    }
-
-    /**
-     * Search events base on Course Code of event, page size: 10
-     * Formula: contains, ignore case
-     * @param keySearch key for searching
-     * @param paginationIndex page number
-     * @return Collection<Event>
-     */
-    @GetMapping(value = "searchResults/{paginationIndex}", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-    public Collection<Event> searchEvent(@Param("keySearch") String keySearch, @PathVariable int paginationIndex) {
-        if (paginationIndex < 1)  return new ArrayList<>();
-
-        return eventService.searchEventByName(keySearch, paginationIndex);
     }
 
     /**
@@ -200,10 +185,12 @@ public class EventController {
                         e.setNote("Event cancelled by change planned start date to new year!");
                         eventAdapter.setUpdate(false);
                         eventAdapter.setEventId(null);
+                        eventAdapter.setActualStartDate(null);
+                        eventAdapter.setActualEndDate(null);
                         var event = eventAdapter.buildEvent(responseObj, eventService);
                          if (event != null) {
                              event.setCandidates(e.getCandidates());
-                             eventService.saveEvent(e);
+                             responseObj.addIdentifiedObject(eventService.saveEvent(e));
                              event.getCandidates().forEach(section -> { section.setEvent(event); section.setSectionId(null); });
                              eventService.saveEvent(event);
                              sectionService.saveAllSections(event.getCandidates());
@@ -222,7 +209,7 @@ public class EventController {
                                 .updatedBy(username)
                                 .build();
                         event.addHistory(history);
-                        eventService.saveEvent(event);
+                        responseObj.addIdentifiedObject(eventService.saveEvent(event));
                     }
                 }, () -> responseObj.addErrors("Update failed!  Data might be invalid"));
         }

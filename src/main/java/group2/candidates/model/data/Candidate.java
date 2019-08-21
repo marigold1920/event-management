@@ -23,7 +23,7 @@ public class Candidate implements Serializable {
     @Setter private Integer candidateId;
 
     @Setter
-    @OneToMany(mappedBy = "candidate", cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE })
+    @OneToMany(mappedBy = "candidate", cascade = { CascadeType.MERGE })
     private Set<Section> events;
 
     @Setter
