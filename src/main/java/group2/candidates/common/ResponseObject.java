@@ -4,11 +4,13 @@ import group2.candidates.enumaration.ResponseStatus;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ResponseObject {
 
     private String status;
-    private Collection<String> errors = new ArrayList<>();
+    private Set<String> errors = new HashSet<>();
     private Collection<Integer> identifiedData = new ArrayList<>();
 
     public void addErrors(String message) {
