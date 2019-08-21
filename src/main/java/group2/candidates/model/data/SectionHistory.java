@@ -2,6 +2,7 @@ package group2.candidates.model.data;
 
 import group2.candidates.tool.LocalDatePersistenceConverter;
 import lombok.Data;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -25,11 +26,26 @@ public class SectionHistory implements Serializable {
     @JoinColumn(name = "sectionid")
     private Section section;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "updatedby", referencedColumnName = "username")
-    private Account updatedBy;
+
+    @Column(name = "updatedby")
+    private String updatedBy;
 
     @Column(name = "updateddate")
     @Convert(converter = LocalDatePersistenceConverter.class)
     private LocalDate updatedDate;
+
+    @Column(name = "contracttype")
+    private String contractType;
+
+    @Column(name = "candidatestatus")
+    @Setter
+    private String candidateStatus;
+    @Column(name = "finalgrade")
+    private String finalGrade;
+    @Column(name = "completionlevel")
+    private String completionLevel;
+    @Column(name = "certificatedid")
+    private String certificatedId;
+    @Column(name = "note")
+    private String note;
 }
