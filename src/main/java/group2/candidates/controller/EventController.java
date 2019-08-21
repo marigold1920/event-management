@@ -256,6 +256,12 @@ public class EventController {
         return eventService.getEventInRangOfUniversity(startLocalDate, endLocalDate, university);
     }
 
+    @GetMapping(value = "courses-code", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    public Collection<String> getAllCourseCode(){
+        return eventService.loadAllCourseCode();
+    }
+
+
 
     /**
      * The function is used to parse a String date to LocalDate

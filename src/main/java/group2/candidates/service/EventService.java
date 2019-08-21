@@ -159,4 +159,12 @@ public class EventService {
         }
         return resultList;
     }
+
+    /**
+     *  Function is used to load all course code in system.
+     * @return all course code in system.
+     */
+    public Collection<String> loadAllCourseCode(){
+        return repository.getAllCourseCode();
+    }
 }
