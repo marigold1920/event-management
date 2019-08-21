@@ -46,7 +46,7 @@ public class CandidateService {
         return repository.findAllByEmail(emails);
     }
 
-    public Candidate findCandidateByEmail(String email) {
+    public Optional<Candidate> findCandidateByEmail(String email) {
 
         return repository.findCandidateByEmail(email);
     }

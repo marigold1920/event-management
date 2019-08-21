@@ -44,14 +44,6 @@ public final class PoolService {
     }
 
     /**
-     * Get candidate from system matched with provided email
-     * @param candidate candidate matched with provided email
-     */
-    public void instantiationCandidate(Candidate candidate) {
-        candidates.put(candidate.getEmail(), candidate);
-    }
-
-    /**
      * Get all events from system matched with provided course codes
      * Formula: use when add new events from excel file, useful when perform with
      * big data
@@ -122,15 +114,15 @@ public final class PoolService {
      * Data  will store until function in controller save all data
      * to system
      * @param universityName university name  for find university from University model
-     * @param facultyCode faculty code for find faculty from Faculty model
+     * @param facultyName faculty code for find faculty from Faculty model
      * @param departmentService get access to databasse
      * @return Department
      */
-    public Department getDepartment(String  universityName, String facultyCode, DepartmentService departmentService) {
-        var key = universityName + facultyCode;
+    public Department getDepartment(String  universityName, String facultyName, DepartmentService departmentService) {
+        var key = universityName + facultyName;
         
         if (!departments.containsKey(key)) {
-            departmentService.findDepartmentByNameAndFacultyCode(universityName, facultyCode)
+            departmentService.findDepartmentByNameAndFacultyName(universityName, facultyName)
                     .ifPresentOrElse(department -> departments.put(key, department), () -> departments.put(key, null));
         }
 

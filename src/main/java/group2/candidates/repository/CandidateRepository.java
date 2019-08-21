@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
 import java.util.Collection;
+import java.util.Optional;
 
 @Transactional
 public interface CandidateRepository extends JpaRepository<Candidate, Integer> {
@@ -15,5 +16,5 @@ public interface CandidateRepository extends JpaRepository<Candidate, Integer> {
     Collection<Candidate> findAllByEmail(@Param("emails") Iterable<String> emails);
 
     @Query("select  c from Candidate  c where c.email = ?1")
-   Candidate findCandidateByEmail(String email);
+   Optional<Candidate> findCandidateByEmail(String email);
 }

@@ -22,7 +22,7 @@ public class SectionAdapter {
     private String account;
     private String name;
     private String universityName;
-    private String facultyCode;
+    private String facultyName;
     private String dob;
     private String gender;
     @Getter private String email;
@@ -43,10 +43,10 @@ public class SectionAdapter {
     private String contractType;
 
     public Section buildSection(Event event, DepartmentService departmentService, ResponseObject responseObject) {
-        var department = pool.getDepartment(universityName, facultyCode, departmentService);
+        var department = pool.getDepartment(universityName, facultyName, departmentService);
 
         if (department == null) {
-            responseObject.addErrors("System was not found " + universityName + " with " + facultyCode + "!");
+            responseObject.addErrors("System was not found " + universityName + " with " + facultyName + "!");
             return null;
         }
 

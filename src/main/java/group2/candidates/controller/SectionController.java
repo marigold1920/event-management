@@ -1,7 +1,5 @@
 package group2.candidates.controller;
 
-import group2.candidates.adapter.SectionAdapter;
-import group2.candidates.common.ResponseObject;
 import group2.candidates.model.data.Section;
 import group2.candidates.model.data.SectionHistory;
 import group2.candidates.service.AccountService;
@@ -54,8 +52,6 @@ public class SectionController {
 
         return sectionService.deleteSection(sectionId);
     }
-
-
 
     @Autowired
     public void setSectionService(SectionService sectionService) {

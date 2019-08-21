@@ -12,6 +12,7 @@ import group2.candidates.tool.PoolService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -64,12 +65,15 @@ public class EventController {
     @PostMapping(value = "section", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public ResponseObject saveCandidateOfEventFromManual(@RequestBody SectionAdapter sectionAdapter) {
         var responseObj = new ResponseObject();
-        pool.instantiationCandidate(candidateService.findCandidateByEmail(sectionAdapter.getEmail()));
+        candidateService.findCandidateByEmail(sectionAdapter.getEmail()).ifPresentOrElse(c -> pool.instantiationCandidates(List.of(c)), () -> pool.instantiationCandidates(Collections.emptyList()));
 
         eventService.findEventByCourseCode(sectionAdapter.getCourseCode())
                 .ifPresentOrElse(e -> {
                     var section = sectionAdapter.buildSection(e, departmentService, responseObj);
-                    if (section != null) sectionService.saveSection(section);
+                    if (section != null) {
+                        e.getCandidates().add(section);
+                        eventService.saveEvent(e);
+                    }
                 }, () -> responseObj.addErrors("System was not found Event with Course Code: " + sectionAdapter.getCourseCode()));
         pool.destroy();
 
@@ -180,6 +184,7 @@ public class EventController {
     public ResponseObject updateEventInformation(@RequestBody EventAdapter eventAdapter) {
         Objects.requireNonNull(eventAdapter);
         var responseObj = new ResponseObject();
+        var username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         pool.instantiationCampusLinkPrograms(campusLinkProgramService.loadCampusLinkPrograms());
         pool.instantiationSubSubjectTypes(subSubjectTypeService.loadAllSubSubjectTypes());
         pool.instantiationSuppliers(universityService.loadUniversity());
@@ -211,6 +216,7 @@ public class EventController {
                                 .oldEvent(event)
                                 .updatedDate(LocalDate.now())
                                 .dataBackUp(JsonParser.eventToJson(e, gs))
+                                .updatedBy(username)
                                 .build();
                         event.addHistory(history);
                         eventService.saveEvent(event);

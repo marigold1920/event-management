@@ -25,9 +25,8 @@ public class EventHistory implements Serializable {
     @Column(name = "eventhistoryid")
     private Integer eventHistoryId;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "updatedby", referencedColumnName = "username")
-//    private Account updatedBy;
+    @Column(name = "updatedby")
+    private String updatedBy;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "eventid")
