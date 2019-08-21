@@ -45,4 +45,7 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
 
     @Query("select count(e) from Event e where e.courseCode like concat('%', :year, '_%')")
     int countEventOfYear(@Param("year") int year);
+
+    @Query("SELECT e.courseCode FROM Event e")
+    Collection<String> getAllCourseCode();
 }
