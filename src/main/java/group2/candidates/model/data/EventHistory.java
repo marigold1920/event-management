@@ -36,6 +36,6 @@ public class EventHistory implements Serializable {
     @Column(name = "updateddate")
     @Convert(converter = LocalDatePersistenceConverter.class)
     private LocalDate updatedDate;
-    @Column(name = "databackup")
+    @Column(name = "databackup", length = Integer.MAX_VALUE)
     private String dataBackUp;
 }

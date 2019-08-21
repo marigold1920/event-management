@@ -93,10 +93,7 @@ public class Event implements Serializable {
 
     @PrePersist
     private void setEventStatus() {
-        if (plannedStartDate == null) plannedStartDate = LocalDate.now();
-        if (plannedEndDate == null) plannedEndDate = LocalDate.now();
-        if (actualStartDate == null) actualStartDate = plannedStartDate;
-        if (actualEndDate == null) actualEndDate = plannedEndDate;
+        setTime();
         updateEventStatus();
     }
 
@@ -107,6 +104,7 @@ public class Event implements Serializable {
 
         courseCode = String.join("_", supplier.getUniversityCode(), campusLinkProgram.getCode(),
                 subSubjectType.getSubSubjectTypeName(), supplier.getSite() + year, currentCountOfEvent);
+        setTime();
         updateEventStatus();
     }
 
@@ -128,6 +126,13 @@ public class Event implements Serializable {
                 .mapToInt(s -> 1)
                 .sum();
         updateEventStatus();
+    }
+
+    private void setTime() {
+        if (plannedStartDate == null) plannedStartDate = LocalDate.now();
+        if (plannedEndDate == null) plannedEndDate = LocalDate.now();
+        if (actualStartDate == null) actualStartDate = plannedStartDate;
+        if (actualEndDate == null) actualEndDate = plannedEndDate;
     }
 
     private void updateEventStatus() {

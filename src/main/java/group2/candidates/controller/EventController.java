@@ -195,8 +195,8 @@ public class EventController {
                         var event = eventAdapter.buildEvent(responseObj, eventService);
                          if (event != null) {
                              event.setCandidates(e.getCandidates());
-                             event.getCandidates().forEach(section -> { section.setEvent(event); section.setSectionId(null); });
                              eventService.saveEvent(e);
+                             event.getCandidates().forEach(section -> { section.setEvent(event); section.setSectionId(null); });
                              eventService.saveEvent(event);
                              sectionService.saveAllSections(event.getCandidates());
                          }
