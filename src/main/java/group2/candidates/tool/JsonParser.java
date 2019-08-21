@@ -2,8 +2,6 @@ package group2.candidates.tool;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import group2.candidates.adapter.EventAdapter;
-import group2.candidates.model.data.Candidate;
 import group2.candidates.model.data.Department;
 import group2.candidates.model.data.Event;
 import group2.candidates.model.data.Section;
@@ -25,12 +23,14 @@ public final class JsonParser {
         return new GsonBuilder()
                     .setPrettyPrinting()
                     .registerTypeAdapter(Department.class, new DepartmentJsonSerializable())
-//                    .registerTypeAdapter(EventAdapter.class, new EventAdapterDeserializable())
-//                    .registerTypeAdapter(Candidate.class, new CandidateJsonSerializable())
                     .registerTypeAdapter(Event.class, new EventJsonSerializable())
                     .registerTypeAdapter(Section.class, new SectionJsonSerializable())
-//                    .registerTypeAdapter(Section.class, new SectionJsonDeserializable())
                     .registerTypeAdapter(LocalDate.class, new LocalDateConverter())
                 .create();
+    }
+
+    public static String eventToJson(Event event, Gson gs) {
+
+        return gs.toJson(event, Event.class);
     }
 }

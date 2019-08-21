@@ -1,6 +1,5 @@
 package group2.candidates.model.data;
 
-import com.google.gson.annotations.Expose;
 import group2.candidates.tool.LocalDatePersistenceConverter;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -8,6 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -28,6 +28,9 @@ public class Event implements Serializable {
 
     @OneToMany(mappedBy = "event", cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE })
     @Setter private Set<Section> candidates;
+
+    @OneToMany(mappedBy = "oldEvent", cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE })
+    private Set<EventHistory> histories;
 
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
@@ -90,10 +93,7 @@ public class Event implements Serializable {
 
     @PrePersist
     private void setEventStatus() {
-        if (plannedStartDate == null) plannedStartDate = LocalDate.now();
-        if (plannedEndDate == null) plannedEndDate = LocalDate.now();
-        if (actualStartDate == null) actualStartDate = plannedStartDate;
-        if (actualEndDate == null) actualEndDate = plannedEndDate;
+        setTime();
         updateEventStatus();
     }
 
@@ -104,6 +104,7 @@ public class Event implements Serializable {
 
         courseCode = String.join("_", supplier.getUniversityCode(), campusLinkProgram.getCode(),
                 subSubjectType.getSubSubjectTypeName(), supplier.getSite() + year, currentCountOfEvent);
+        setTime();
         updateEventStatus();
     }
 
@@ -127,6 +128,13 @@ public class Event implements Serializable {
         updateEventStatus();
     }
 
+    private void setTime() {
+        if (plannedStartDate == null) plannedStartDate = LocalDate.now();
+        if (plannedEndDate == null) plannedEndDate = LocalDate.now();
+        if (actualStartDate == null) actualStartDate = plannedStartDate;
+        if (actualEndDate == null) actualEndDate = plannedEndDate;
+    }
+
     private void updateEventStatus() {
         if (eventStatus.equals("Cancel")) return;
         var current = LocalDate.now();
@@ -141,5 +149,10 @@ public class Event implements Serializable {
             return;
         }
         eventStatus = "Planning";
+    }
+
+    public void addHistory(EventHistory history) {
+        if (histories == null) histories = new HashSet<>();
+        histories.add(history);
     }
 }

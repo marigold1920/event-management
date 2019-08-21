@@ -1,8 +1,8 @@
 package group2.candidates.enumaration;
 
 public enum ResponseStatus {
-        SUCCESS("All candidates attended successfully!"),
-        FAIL("Data might be not valid!");
+        SUCCESS("200"),
+        FAIL("400");
 
         private final String value;
 
