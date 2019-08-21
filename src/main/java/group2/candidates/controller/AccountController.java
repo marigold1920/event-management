@@ -79,7 +79,13 @@ public class AccountController {
      */
     @PatchMapping(produces = {"application/json;**charset=UTF-8**"})
     public Account updateAccount(@RequestBody Account account) {
+        account.setPassword(bCryptPasswordEncoder.encode(account.getPassword()));
         return accountService.updateAccount(account);
+    }
+
+    @DeleteMapping(value = "{username}",produces = {"application/json;**charset=UTF-8**"})
+    public boolean deleteAccount(@PathVariable("username") String username){
+        return accountService.deleteAccountByUsername(username);
     }
 
     /**
