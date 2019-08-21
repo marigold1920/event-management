@@ -27,7 +27,7 @@ public class SectionAdapterJsonDeserializable implements JsonDeserializer<Sectio
                     .phone((element = jsonObj.get(isExcel ? "Phone" : "phone")) == null ? null : element.getAsString())
                     .facebook((element = jsonObj.get(isExcel ? "Facebook" : "facebook")) == null ? null : element.getAsString())
                     .universityGraduationDate((element = jsonObj.get(isExcel ? "University graduation date" : "universityGraduationDate")) == null ? null : element.getAsInt())
-                    .fullTimeWorking((element = jsonObj.get(isExcel ? "Full-time working available date" : "fullTimeWorking")) == null ? null : LocalDateConverter.serializable(element))
+//                    .fullTimeWorking((element = jsonObj.get(isExcel ? "Full-time working available date" : "fullTimeWorking")) == null ? null : LocalDateConverter.serializable(element))
                     .gpa((element = jsonObj.get(isExcel ? "GPA" : "gpa")) == null ? 0.0 : element.getAsDouble())
                     .courseCode((element = jsonObj.get(isExcel ? "Course code" : "courseCode")) == null ? null : element.getAsString())
                     .status((element = jsonObj.get(isExcel ? "Status" : "status")) == null ? null : element.getAsString())

@@ -1,6 +1,5 @@
 package group2.candidates.model.data;
 
-import com.google.gson.annotations.Expose;
 import group2.candidates.tool.LocalDatePersistenceConverter;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -8,6 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -28,6 +28,9 @@ public class Event implements Serializable {
 
     @OneToMany(mappedBy = "event", cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE })
     @Setter private Set<Section> candidates;
+
+    @OneToMany(mappedBy = "oldEvent", cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE })
+    private Set<EventHistory> histories;
 
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
@@ -141,5 +144,10 @@ public class Event implements Serializable {
             return;
         }
         eventStatus = "Planning";
+    }
+
+    public void addHistory(EventHistory history) {
+        if (histories == null) histories = new HashSet<>();
+        histories.add(history);
     }
 }

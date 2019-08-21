@@ -34,8 +34,6 @@ public class EventAdapter {
     private String trainingFeedbackContent;
     private String trainingFeedbackTeacher;
     private String trainingFeedbackOrganization;
-    private String updatedBy; //Admin Account  ID
-    private LocalDate updatedDate; //TIME UPDATE
     private String eventStatus;
     private String note;
     private boolean update;
