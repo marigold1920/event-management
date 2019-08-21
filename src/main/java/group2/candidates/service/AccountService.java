@@ -28,6 +28,14 @@ public class AccountService {
         return accountRepository.findAll();
     }
 
+    public boolean deleteAccountByUsername(String username){
+        if(accountRepository.findById(username).isPresent()){
+            accountRepository.deleteById(username);
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     /**
      * Add new account to system.
