@@ -45,8 +45,7 @@ public final class PoolService {
 
     /**
      * Get all events from system matched with provided course codes
-     * Formula: use when add new events from excel file, useful when perform with
-     * big data
+     * Formula: use when add new events from excel file, useful when perform with big data
      * @param list Collection of events matched with provided course code
      */
     public void instantiationEvents(Collection<Event> list) {
@@ -56,8 +55,7 @@ public final class PoolService {
 
     /**
      * Get all universities from system matched with provided university names
-     * Formula: use when add new events from excel file, useful when perform with
-     * big data
+     * Formula: use when add new events from excel file, useful when perform with big data
      * @param list Collection of universities matched with provided course code
      */
     public void instantiationSuppliers(Collection<University> list) {
@@ -67,8 +65,7 @@ public final class PoolService {
 
     /**
      * Get all SubSubjectTypes from system matched with provided sub subject type names
-     * Formula: use when add new events from excel file, useful when perform with
-     * big data
+     * Formula: use when add new events from excel file, useful when perform with big data
      * @param list Collection of SubSubjectTypes matched with provided sub subject type names
      */
     public void instantiationSubSubjectTypes(Collection<SubSubjectType> list) {

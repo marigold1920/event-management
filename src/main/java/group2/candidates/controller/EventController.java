@@ -65,7 +65,9 @@ public class EventController {
     @PostMapping(value = "section", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public ResponseObject saveCandidateOfEventFromManual(@RequestBody SectionAdapter sectionAdapter) {
         var responseObj = new ResponseObject();
-        candidateService.findCandidateByEmail(sectionAdapter.getEmail()).ifPresentOrElse(c -> pool.instantiationCandidates(List.of(c)), () -> pool.instantiationCandidates(Collections.emptyList()));
+        candidateService.findCandidateByEmail(sectionAdapter.getEmail())
+                .ifPresentOrElse(c -> pool.instantiationCandidates(List.of(c)),
+                                                        () -> pool.instantiationCandidates(Collections.emptyList()));
 
         eventService.findEventByCourseCode(sectionAdapter.getCourseCode())
                 .ifPresentOrElse(e -> {
