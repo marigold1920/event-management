@@ -1,6 +1,8 @@
 package group2.candidates.tool;
 
 import java.lang.reflect.Type;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -24,13 +26,13 @@ public class CandidateJsonSerializable implements JsonSerializer<Candidate> {
         jsonObj.addProperty("name", candidate.getName());
         var dob = candidate.getDayOfBirth();
         if (dob != null)
-                jsonObj.addProperty("dayOfBirth", dob.toString());
+                jsonObj.addProperty("dayOfBirth", dob);
         jsonObj.addProperty("gender", candidate.getGender());
         jsonObj.addProperty("phone", candidate.getPhone());
         jsonObj.addProperty("graduationDate", candidate.getGraduationDate());
         var fullTimeWorking = candidate.getFullTimeWorking();
         if (fullTimeWorking != null) {
-            jsonObj.addProperty("fullTimeWorking", fullTimeWorking.toString());
+            jsonObj.addProperty("fullTimeWorking", fullTimeWorking.format(DateTimeFormatter.ofPattern("d-MMM-yyyy")));
         }
         jsonObj.addProperty("skill", candidate.getSkill());
         jsonObj.addProperty("gpa", candidate.getGpa());

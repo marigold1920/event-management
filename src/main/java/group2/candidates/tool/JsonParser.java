@@ -2,6 +2,7 @@ package group2.candidates.tool;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import group2.candidates.model.data.Candidate;
 import group2.candidates.model.data.Department;
 import group2.candidates.model.data.Event;
 import group2.candidates.model.data.Section;
@@ -26,6 +27,7 @@ public final class JsonParser {
                     .registerTypeAdapter(Event.class, new EventJsonSerializable())
                     .registerTypeAdapter(Section.class, new SectionJsonSerializable())
                     .registerTypeAdapter(LocalDate.class, new LocalDateConverter())
+                    .registerTypeAdapter(Candidate.class, new CandidateJsonSerializable())
                 .create();
     }
 

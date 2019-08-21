@@ -39,6 +39,7 @@ public final class PoolService {
      * @param list Collection of candidates matched with provided email
      */
     public void instantiationCandidates(Collection<Candidate> list) {
+        candidates.clear();
         candidates = list.stream()
                 .collect(Collectors.toMap(Candidate::getEmail, Function.identity()));
     }

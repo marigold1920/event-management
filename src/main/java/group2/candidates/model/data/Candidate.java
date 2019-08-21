@@ -2,6 +2,7 @@ package group2.candidates.model.data;
 
 import group2.candidates.tool.LocalDatePersistenceConverter;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,10 +21,12 @@ public class Candidate implements Serializable {
 
     @Id
     @Column(name = "candidateid")
+    @GenericGenerator(name = "generator", strategy = "increment")
+    @GeneratedValue(generator = "generator")
     @Setter private Integer candidateId;
 
     @Setter
-    @OneToMany(mappedBy = "candidate", cascade = { CascadeType.MERGE })
+    @OneToMany(mappedBy = "candidate", cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE })
     private Set<Section> events;
 
     @Setter

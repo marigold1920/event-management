@@ -33,7 +33,7 @@ public class SectionJsonSerializable implements JsonSerializer<Section> {
            jsonObj.addProperty("name", candidate.getName());
            var dob = candidate.getDayOfBirth();
            if (dob != null)
-               jsonObj.addProperty("dayOfBirth", dob.toString());
+               jsonObj.addProperty("dayOfBirth", dob);
                jsonObj.addProperty("gender", candidate.getGender());
                jsonObj.addProperty("phone", candidate.getPhone());
                jsonObj.addProperty("facebook", candidate.getFacebook());
