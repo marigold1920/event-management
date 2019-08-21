@@ -4,6 +4,7 @@ import group2.candidates.model.data.Event;
 import group2.candidates.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -78,7 +79,7 @@ public class EventService {
     public List<Event> loadEvents(int paginationIndex) {
 
         return repository
-                .findAll(PageRequest.of(paginationIndex - 1, 10))
+                .findAll(PageRequest.of(paginationIndex - 1, 10, Sort.Direction.DESC, "actualStartDate"))
                 .getContent();
     }
 

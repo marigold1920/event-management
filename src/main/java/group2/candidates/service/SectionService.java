@@ -4,6 +4,7 @@ import group2.candidates.model.data.Section;
 import group2.candidates.repository.SectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -21,7 +22,7 @@ public class SectionService {
      */
     public Collection<Section> loadSections(int paginationIndex) {
 
-        return repository.findAll(PageRequest.of(paginationIndex - 1, 10)).getContent();
+        return repository.findAll(PageRequest.of(paginationIndex - 1, 10, Sort.Direction.DESC, "sectionId")).getContent();
     }
 
     /**
