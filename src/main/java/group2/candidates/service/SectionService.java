@@ -17,13 +17,25 @@ public class SectionService {
     private SectionRepository repository;
 
     /**
-     * Load all Sections of an Event by event id
+     * Load all Sections
      * @param paginationIndex page number
-     * @return Stream<Section>
+     * @return Collection<Section>
      */
     public Collection<Section> loadSections(int paginationIndex) {
 
         return repository.findAll(PageRequest.of(paginationIndex - 1, 10, Sort.Direction.DESC, "sectionId")).getContent();
+    }
+
+    /**
+     * Load all Sections of an Event by event id
+     * @param paginationIndex page number
+     * @param eventId event of id
+     * @return Collection<Section>
+     */
+    public Collection<Section> loadSectionsOfEvents(Integer eventId, int paginationIndex) {
+
+        return repository.loadSectionsOfEvent(eventId,
+                PageRequest.of(paginationIndex - 1, 10, Sort.Direction.DESC, "sectionId")).getContent();
     }
 
     /**
