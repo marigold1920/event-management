@@ -25,6 +25,12 @@ public class SectionController {
         return sectionService.loadSections(paginationIndex);
     }
 
+    @GetMapping(value = "candidates/{paginationIndex}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    public Collection<Section> loadSectionsOfEvents(@PathVariable int paginationIndex, @Param("eventId") Integer eventId) {
+
+        return sectionService.loadSectionsOfEvents(eventId, paginationIndex);
+    }
+
     @PutMapping(value = "sections", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public Section updateTrainingInformationOfCandidate(@RequestBody Section section) {
         String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
