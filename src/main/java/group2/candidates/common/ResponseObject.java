@@ -2,8 +2,6 @@ package group2.candidates.common;
 
 import group2.candidates.enumaration.ResponseStatus;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,7 +9,6 @@ public class ResponseObject {
 
     private String status;
     private Set<String> errors = new HashSet<>();
-    private Collection<Integer> identifiedData = new ArrayList<>();
     private Object identifiedObject;
 
     public void addErrors(String message) {
@@ -26,10 +23,6 @@ public class ResponseObject {
         }
 
         return this;
-    }
-
-    public void addIdentifiedData(Collection<Integer> sectionIds) {
-        identifiedData.addAll(sectionIds);
     }
 
     public void  addIdentifiedObject(Object identifiedObject) {

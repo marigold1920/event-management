@@ -33,7 +33,6 @@ public class SectionAdapter {
     private double gpa;
 
    @Getter private String courseCode;
-   private String candidateId;
 
     private String status;
     private String finalGrade;

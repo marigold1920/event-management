@@ -7,6 +7,8 @@ import group2.candidates.tool.PoolService;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 public class EventBuilder {
 
     Event event;
@@ -65,6 +67,8 @@ public class EventBuilder {
      */
     public EventBuilder courseCode(ResponseObject responseObject, EventService eventService, boolean update) {
         if (update) return this;
+        if (Objects.isNull(event.getSupplier()) || Objects.isNull(event.getCampusLinkProgram()) || Objects.isNull(event.getSubSubjectType()))
+            return this;
 
         var year  = event.getPlannedStartDate().getYear() % 100;
         var courseCode = String.join("_", event.getSupplier().getUniversityCode(), event.getCampusLinkProgram().getCode(),

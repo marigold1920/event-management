@@ -55,9 +55,11 @@ public class CandidateService {
      * Save candidates model to database
      * Use for Insert or Update
      * @param candidate candidates for storing into database
+     * @return Candidate
      */
-    public void saveCandidate(Candidate candidate) {
-        repository.saveAndFlush(candidate);
+    public Candidate saveCandidate(Candidate candidate) {
+
+        return repository.saveAndFlush(candidate);
     }
 
     /**

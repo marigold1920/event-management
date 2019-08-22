@@ -43,10 +43,6 @@ public class EventController {
     @PostMapping(value = "sections", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public ResponseObject saveCandidatesOfEventFromExcelFile(@RequestBody Collection<SectionAdapter> sectionAdapters) {
         var responseObj = new ResponseObject();
-        pool.instantiationCandidates(candidateService.findAllByEmail(sectionAdapters.stream()
-                .map(SectionAdapter::getEmail)
-                .collect(Collectors.toList())
-        ));
         pool.instantiationEvents(eventService.findAllByCourseCode(sectionAdapters.stream()
                 .map(SectionAdapter::getCourseCode)
                 .collect(Collectors.toList())
@@ -54,8 +50,12 @@ public class EventController {
 
         sectionAdapters.stream().collect(Collectors.groupingBy(SectionAdapter::getCourseCode, Collectors.toList()))
                 .forEach((k, v) -> pool.getEvent(k).ifPresentOrElse(e -> {
+                    pool.instantiationCandidates(candidateService.findAllByEmail(v.stream()
+                            .map(SectionAdapter::getEmail)
+                            .collect(Collectors.toList())
+                    ));
                     e.getCandidates().addAll(v.stream().map(ca -> ca.buildSection(e, departmentService, responseObj)).filter(Objects::nonNull).collect(Collectors.toList()));
-                    responseObj.addIdentifiedData(eventService.saveEvent(e).getCandidates().stream().map(Section::getSectionId).collect(Collectors.toList()));
+                    eventService.saveEvent(e);
                 }, () -> responseObj.addErrors("System was not found Event with Course Code: " + k)));
         pool.destroy();
 
@@ -95,12 +95,10 @@ public class EventController {
         pool.instantiationSubSubjectTypes(subSubjectTypeService.loadAllSubSubjectTypes());
         pool.instantiationSuppliers(universityService.loadUniversity());
 
-        responseObj.addIdentifiedData(eventAdapters.stream()
+        eventAdapters.stream()
                 .map(e -> e.buildEvent(responseObj, eventService))
                 .filter(Objects::nonNull)
-                .map(eventService::saveEvent)
-                .map(Event::getEventId)
-                .collect(Collectors.toList()));
+                .forEach(eventService::saveEvent);
         pool.destroy();
 
         return responseObj.setStatus();
@@ -118,8 +116,9 @@ public class EventController {
         pool.instantiationSubSubjectTypes(subSubjectTypeService.loadAllSubSubjectTypes());
         pool.instantiationSuppliers(universityService.loadUniversity());
 
-        responseObj.addIdentifiedObject(eventService.saveEvent(
-                eventAdapter.buildEvent(responseObj, eventService)));
+        var event = eventAdapter.buildEvent(responseObj, eventService);
+
+        if (event != null) responseObj.addIdentifiedObject(eventService.saveEvent(event));
         pool.destroy();
 
         return responseObj.setStatus();
@@ -256,8 +255,6 @@ public class EventController {
     public Collection<String> getAllCourseCode(){
         return eventService.loadAllCourseCode();
     }
-
-
 
     /**
      * The function is used to parse a String date to LocalDate

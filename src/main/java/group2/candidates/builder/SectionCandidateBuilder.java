@@ -7,6 +7,7 @@ import group2.candidates.model.data.Section;
 import group2.candidates.tool.PoolService;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Objects;
 
 public class SectionCandidateBuilder extends SectionBuilder {
@@ -48,7 +49,6 @@ public class SectionCandidateBuilder extends SectionBuilder {
             }
         }, () -> {
             var candidate = Candidate.builder()
-                    .candidateId(Objects.hash(email, name))
                     .account(account)
                     .nationalId(nationalId)
                     .name(name)

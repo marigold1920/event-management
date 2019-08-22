@@ -28,7 +28,6 @@ public class SectionHistory implements Serializable {
     @JoinColumn(name = "sectionid")
     private Section section;
 
-
     @Column(name = "updatedby")
     private String updatedBy;
 

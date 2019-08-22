@@ -1,5 +1,6 @@
 package group2.candidates.service;
 
+import group2.candidates.common.ResponseObject;
 import group2.candidates.model.data.Section;
 import group2.candidates.repository.SectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,13 +62,20 @@ public class SectionService {
         return repository.findAll();
     }
 
-    public Section deleteSection(Integer sectionId) {
-        var section = repository.findById(sectionId).orElseThrow(IllegalArgumentException::new);
-        var status = section.getEvent().getEventStatus();
-        if (status.equals("Cancel") || status.equals("Done")) throw new IllegalArgumentException();
-        section.setCandidateStatus(status.equals("Planning") ? "Cancel" : "Drop-out");
+    public ResponseObject deleteSection(Integer sectionId) {
+        var responseObj = new ResponseObject();
 
-        return saveSection(section);
+        repository.findById(sectionId).ifPresentOrElse(section -> {
+                var status = section.getEvent().getEventStatus();
+                if (status.equals("Cancel") || status.equals("Done")) {
+                    responseObj.addErrors("Event with status " + status + " can not modified data!" );
+                } else {
+                    section.setCandidateStatus(status.equals("Planning") ? "Cancel" : "Drop-out");
+                    repository.saveAndFlush(section);
+                }
+            }, () -> responseObj.addErrors("Data might be not valid!"));
+
+        return responseObj.setStatus();
     }
 
     public Collection<Section> getSectionByContractType(String contractType){
