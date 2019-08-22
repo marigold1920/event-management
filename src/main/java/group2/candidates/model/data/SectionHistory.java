@@ -1,5 +1,6 @@
 package group2.candidates.model.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import group2.candidates.tool.LocalDatePersistenceConverter;
 import lombok.Data;
 import lombok.Setter;
@@ -22,7 +23,8 @@ public class SectionHistory implements Serializable {
     @Column(name = "sectionhistoryid")
     private Integer sectionHistoryId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "sectionid")
     private Section section;
 

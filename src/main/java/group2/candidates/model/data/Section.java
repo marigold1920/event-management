@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -43,6 +43,9 @@ public class Section implements Serializable {
     private String certificatedId;
     @Column(name = "note")
     private String note;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "section")
+    SectionHistory sectionHistory;
 
     @PrePersist
     public void setStatus() {

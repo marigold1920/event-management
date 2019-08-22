@@ -7,6 +7,8 @@ import group2.candidates.repository.SectionHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+
 @Service
 public class SectionHistoryService {
     private SectionHistoryRepository sectionHistoryRepository;
@@ -16,6 +18,12 @@ public class SectionHistoryService {
         sectionHistoryRepository.saveAndFlush(sectionHistory);
     }
 
+    public void deleteSectionHistory(Integer sectionId){
+        if(sectionHistoryRepository.findById(sectionId).isPresent()){
+            sectionHistoryRepository.deleteById(sectionId);
+            System.out.println("Success");
+        }
+    }
 
     @Autowired
     public void setSectionHistoryRepository(SectionHistoryRepository sectionHistoryRepository) {
