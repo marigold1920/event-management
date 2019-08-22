@@ -25,6 +25,10 @@ public class SectionHistoryService {
         }
     }
 
+    public void deleteAllSectionHistory(){
+        sectionHistoryRepository.deleteAll();
+    }
+
     @Autowired
     public void setSectionHistoryRepository(SectionHistoryRepository sectionHistoryRepository) {
         this.sectionHistoryRepository = sectionHistoryRepository;

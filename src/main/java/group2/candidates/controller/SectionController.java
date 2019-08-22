@@ -52,6 +52,11 @@ public class SectionController {
         return sectionService.deleteSection(sectionId);
     }
 
+    @DeleteMapping(value = "sections-history")
+    public void deleteAllsectionHistory(){
+        sectionHistoryService.deleteAllSectionHistory();
+    }
+
     @Autowired
     public void setSectionService(SectionService sectionService) {
         this.sectionService = sectionService;
