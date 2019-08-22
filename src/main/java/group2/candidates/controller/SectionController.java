@@ -46,7 +46,9 @@ public class SectionController {
         sectionHistory.setCompletionLevel(oldSection.getCompletionLevel());
         sectionHistory.setNote(oldSection.getNote());
         sectionHistory.setFinalGrade(oldSection.getFinalGrade());
-        sectionHistoryService.deleteSectionHistory(oldSection.getSectionHistory().getSectionHistoryId());
+        if(oldSection.getSectionHistory() != null) {
+            sectionHistoryService.deleteSectionHistory(oldSection.getSectionHistory().getSectionHistoryId());
+        }
         sectionHistoryService.saveSectionHistory(sectionHistory);
 
         return sectionService.updateSection(section);
