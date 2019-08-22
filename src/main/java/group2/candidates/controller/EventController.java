@@ -75,7 +75,8 @@ public class EventController {
                     var section = sectionAdapter.buildSection(e, departmentService, responseObj);
                     if (section != null) {
                         e.getCandidates().add(section);
-                        responseObj.addIdentifiedObject(eventService.saveEvent(e));
+                        eventService.saveEvent(e);
+                        responseObj.addIdentifiedObject(section);
                     }
                 }, () -> responseObj.addErrors("System was not found Event with Course Code: " + sectionAdapter.getCourseCode()));
         pool.destroy();

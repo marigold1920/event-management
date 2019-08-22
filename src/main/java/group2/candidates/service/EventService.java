@@ -79,7 +79,7 @@ public class EventService {
     public List<Event> loadEvents(int paginationIndex) {
 
         return repository
-                .findAll(PageRequest.of(paginationIndex - 1, 10, Sort.Direction.DESC, "actualStartDate"))
+                .findAll(PageRequest.of(paginationIndex - 1, 10, Sort.Direction.DESC, "eventId"))
                 .getContent();
     }
 
