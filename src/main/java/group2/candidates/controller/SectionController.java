@@ -1,5 +1,6 @@
 package group2.candidates.controller;
 
+import group2.candidates.common.ResponseObject;
 import group2.candidates.model.data.Section;
 import group2.candidates.model.data.SectionHistory;
 import group2.candidates.service.*;
@@ -17,8 +18,6 @@ public class SectionController {
 
     private SectionService sectionService;
     private SectionHistoryService sectionHistoryService;
-    private EventService eventService;
-    private CandidateService candidateService;
 
     @GetMapping(value = "sections/{paginationIndex}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     public Collection<Section> loadSections(@PathVariable int paginationIndex) {
@@ -46,8 +45,8 @@ public class SectionController {
         return sectionService.updateSection(section);
     }
 
-    @PutMapping(value = "section", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-    public Section deleteSection(@Param("sectionId") Integer sectionId) {
+    @PutMapping(value = "section", consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+    public ResponseObject deleteSection(@Param("sectionId") Integer sectionId) {
 
         return sectionService.deleteSection(sectionId);
     }
@@ -60,15 +59,5 @@ public class SectionController {
     @Autowired
     public void setSectionHistoryService(SectionHistoryService sectionHistoryService) {
         this.sectionHistoryService = sectionHistoryService;
-    }
-
-    @Autowired
-    public void setCandidateService(CandidateService candidateService) {
-        this.candidateService = candidateService;
-    }
-
-    @Autowired
-    public void setEventService(EventService eventService) {
-        this.eventService = eventService;
     }
 }
