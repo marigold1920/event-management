@@ -44,7 +44,7 @@ public class Section implements Serializable {
     @Column(name = "note")
     private String note;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "section")
+    @OneToOne(fetch = FetchType.LAZY)
     SectionHistory sectionHistory;
 
     @PrePersist
