@@ -253,7 +253,7 @@ public class EventController {
     }
 
     @GetMapping(value = "courses-code", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-    public Collection<String> getAllCourseCode(){
+    public Map<Integer, String> getAllCourseCode(){
         return eventService.loadAllCourseCode();
     }
 

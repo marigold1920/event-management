@@ -162,10 +162,15 @@ public class EventService {
     }
 
     /**
-     *  Function is used to load all course code in system.
-     * @return all course code in system.
+     * get Map<EventID, CourseCode>
+     * @return the Map<EventID, CourseCode>
      */
-    public Collection<String> loadAllCourseCode(){
-        return repository.getAllCourseCode();
+    public Map<Integer, String> loadAllCourseCode(){
+        Collection<Event> events = repository.findAll();
+        Map<Integer, String> result = new HashMap<>();
+        for (Event event: events) {
+            result.put(event.getEventId(), event.getCourseCode());
+        }
+        return result;
     }
 }
