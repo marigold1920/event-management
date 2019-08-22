@@ -116,8 +116,9 @@ public class EventController {
         pool.instantiationSubSubjectTypes(subSubjectTypeService.loadAllSubSubjectTypes());
         pool.instantiationSuppliers(universityService.loadUniversity());
 
-        responseObj.addIdentifiedObject(eventService.saveEvent(
-                eventAdapter.buildEvent(responseObj, eventService)));
+        var event = eventAdapter.buildEvent(responseObj, eventService);
+
+        if (event != null) responseObj.addIdentifiedObject(eventService.saveEvent(event));
         pool.destroy();
 
         return responseObj.setStatus();
@@ -254,8 +255,6 @@ public class EventController {
     public Collection<String> getAllCourseCode(){
         return eventService.loadAllCourseCode();
     }
-
-
 
     /**
      * The function is used to parse a String date to LocalDate
