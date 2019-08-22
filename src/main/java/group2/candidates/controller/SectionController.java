@@ -46,6 +46,7 @@ public class SectionController {
         sectionHistory.setCompletionLevel(oldSection.getCompletionLevel());
         sectionHistory.setNote(oldSection.getNote());
         sectionHistory.setFinalGrade(oldSection.getFinalGrade());
+        sectionHistoryService.deleteSectionHistory(oldSection.getSectionHistory().getSectionHistoryId());
         sectionHistoryService.saveSectionHistory(sectionHistory);
 
         return sectionService.updateSection(section);
@@ -55,6 +56,11 @@ public class SectionController {
     public ResponseObject deleteSection(@Param("sectionId") Integer sectionId) {
 
         return sectionService.deleteSection(sectionId);
+    }
+
+    @DeleteMapping(value = "sections-history")
+    public void deleteAllsectionHistory(){
+        sectionHistoryService.deleteAllSectionHistory();
     }
 
     @Autowired

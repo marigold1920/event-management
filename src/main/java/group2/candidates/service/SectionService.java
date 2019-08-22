@@ -90,6 +90,11 @@ public class SectionService {
         return responseObj.setStatus();
     }
 
+    public Collection<Section> getSectionByContractType(String contractType){
+        return repository.getSectionByContractType(contractType);
+    }
+
+
     @Autowired
     public void setRepository(SectionRepository repository) {
         this.repository = repository;

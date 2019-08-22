@@ -189,9 +189,9 @@ public class EventController {
                         var event = eventAdapter.buildEvent(responseObj, eventService);
                          if (event != null) {
                              event.setCandidates(e.getCandidates());
-                             responseObj.addIdentifiedObject(eventService.saveEvent(e));
+                             eventService.saveEvent(e);
                              event.getCandidates().forEach(section -> { section.setEvent(event); section.setSectionId(null); });
-                             eventService.saveEvent(event);
+                             responseObj.addIdentifiedObject(eventService.saveEvent(event));
                              sectionService.saveAllSections(event.getCandidates());
                          }
                     }, () -> responseObj.addErrors("Update failed! Data might be not valid!")

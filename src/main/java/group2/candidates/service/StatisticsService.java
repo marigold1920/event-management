@@ -1,9 +1,6 @@
 package group2.candidates.service;
 
-import group2.candidates.model.data.CampusLinkProgram;
-import group2.candidates.model.data.Event;
-import group2.candidates.model.data.Section;
-import group2.candidates.model.data.SubSubjectType;
+import group2.candidates.model.data.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -114,5 +111,20 @@ public class StatisticsService {
         }
 
         return result;
+    }
+
+    public Collection<Section> statisticContracType(String oldContractType, String currentContractType) {
+
+        Collection<Section> sections = sectionService.getSectionByContractType(currentContractType);
+        Collection<Section> sectionsResult = null;
+        for (Section section: sections) {
+            if(section.getSectionHistory().getContractType().equals(oldContractType)){
+                if(sectionsResult == null){
+                    sectionsResult = new ArrayList<>();
+                }
+                sectionsResult.add(section);
+            }
+        }
+        return sectionsResult;
     }
 }
